@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap');
+    
+    * {
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    }
+    .font-mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .diagonal-stripe-frost {
+      position: absolute;
+      width: 280px;
+      height: 280%;
+      top: -85%;
+      left: 38%;
+      transform: rotate(38deg);
+      background: linear-gradient(135deg, #caddee 0%, #bfc9e2 45%, #abcae6 100%);
+      opacity: 0.92;
+      pointer-events: none;
+      box-shadow: 0 0 70px rgba(171, 202, 230, 0.45);
+    }
+
+    .athlete-cutout-shadow {
+      filter: drop-shadow(0 20px 35px rgba(15, 23, 42, 0.22));
+    }
+
+    .headline-tight {
+      letter-spacing: -0.04em;
+      line-height: 0.88;
+    }
+  </style>
+</head>
+<body class="bg-[#0F172A] text-[#0F172A] antialiased p-4 flex items-center justify-center min-h-screen">
+
+  <div class="w-full max-w-6xl relative rounded-3xl overflow-hidden border border-[#CBD5E1] bg-[#F8FAFC] shadow-2xl min-h-[660px] flex flex-col justify-between p-8 sm:p-12 select-none">
+    
+    <!-- LAYER 1 (z-10): FROST ICE & LAVENDER DIAGONAL STRIPE -->
+    <div class="diagonal-stripe-frost z-10"></div>
+
+    <!-- LAYER 2 (z-20): SOLO MUSCULAR MALE ATHLETE (WITH WHITE ELEMENTS & APPAREL) -->
+    <div class="absolute inset-y-0 right-6 sm:right-16 lg:right-28 z-20 flex items-end justify-center pointer-events-none pb-0">
+      <img 
+        src="/fitness_PNG170.png" 
+        alt="Fit muscular male athlete with white drawstrings and athletic gear"
+        class="h-[96%] max-h-[640px] object-contain transform translate-y-3 athlete-cutout-shadow pointer-events-none"
+      />
+    </div>
+
+    <!-- LAYER 3 (z-30): TOP BAR & STATUS BADGES (FROSTED WHITE ELEMENTS) -->
+    <div class="relative z-30 flex flex-wrap items-center justify-between gap-4 text-xs font-mono font-bold tracking-wider">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/95 backdrop-blur-md border border-[#E2E8F0] shadow-xs text-[#0F172A]">
+        <span>⚡ IPF &amp; IWF CALIBRATED HUMAN PERFORMANCE</span>
+      </div>
+      <div class="hidden sm:flex items-center gap-2 text-xs text-[#475569] font-mono font-semibold bg-white/85 backdrop-blur-md px-4 py-1.5 rounded-full border border-[#E2E8F0] shadow-xs">
+        <span class="text-[#0F172A] font-bold">BANGALORE</span>
+        <span>/</span>
+        <span>12.9716° N, 77.5946° E</span>
+      </div>
+    </div>
+
+    <!-- LAYER 4 (z-30): FULL 3-LINE HEADLINE, SUBTEXT & BUTTONS -->
+    <div class="relative z-30 max-w-xl my-auto pt-8 pb-6">
+      
+      <h1 class="font-black text-6xl sm:text-7xl lg:text-[6.2rem] tracking-tight headline-tight text-[#0F172A]">
+        Stronger.<br />
+        Healthier.<br />
+        <span class="text-[#334155]">You.</span>
+      </h1>
+
+      <div class="mt-7 p-4 rounded-2xl bg-white/90 backdrop-blur-md border border-white/80 shadow-xs max-w-md">
+        <p class="text-xs sm:text-sm text-[#334155] font-medium leading-relaxed">
+          An uncompromising strength and human performance sanctuary engineered with sports science periodization and calibrated coaching.
+        </p>
+      </div>
+
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 mt-7">
+        <button class="px-8 py-3.5 bg-[#0F172A] text-white text-xs sm:text-sm font-bold tracking-wide uppercase rounded-full shadow-lg hover:bg-black transition-all inline-flex items-center justify-center gap-3 cursor-pointer">
+          <span>Start Your Journey</span>
+          <span>&rarr;</span>
+        </button>
+        <button class="px-7 py-3.5 bg-white/95 backdrop-blur-md border border-[#CBD5E1] text-[#0F172A] text-xs sm:text-sm font-bold tracking-wide uppercase rounded-full shadow-xs hover:bg-white transition-all inline-flex items-center justify-center gap-2 cursor-pointer">
+          <span>Explore Protocols</span>
+          <span>&rarr;</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- LAYER 5 (z-30): BOTTOM FROSTED WHITE TELEMETRY CARDS -->
+    <div class="relative z-30 flex flex-wrap items-center gap-3 pt-3">
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/90 backdrop-blur-md border border-white/80 shadow-2xs text-xs font-mono text-[#475569]">
+        <span class="font-bold text-[#0F172A]">01</span>
+        <span>STRENGTH PERIODIZATION</span>
+      </div>
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/90 backdrop-blur-md border border-white/80 shadow-2xs text-xs font-mono text-[#475569]">
+        <span class="font-bold text-[#0F172A]">02</span>
+        <span>IPF/IWF PLATFORMS</span>
+      </div>
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/90 backdrop-blur-md border border-white/80 shadow-2xs text-xs font-mono text-[#475569]">
+        <span class="font-bold text-[#0F172A]">03</span>
+        <span>SPORTS SCIENCE RECOVERY</span>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>

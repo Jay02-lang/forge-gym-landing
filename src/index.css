@@ -1,0 +1,299 @@
+@import "tailwindcss";
+
+@theme {
+  --color-frost-bg: #F8FAFC;
+  --color-frost-surface: #F1F5F9;
+  --color-frost-card: #FFFFFF;
+  --color-frost-border: #E2E8F0;
+  
+  --color-frost-lavender: #BFC9E2;
+  --color-frost-ice: #CADDEE;
+  --color-frost-blue: #ABCAE6;
+  
+  --color-slate-dark: #0F172A;
+  --color-slate-body: #334155;
+  --color-slate-muted: #64748B;
+  --color-slate-accent: #1E293B;
+
+  --font-display: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-mono: 'Teko', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: #F8FAFC;
+  color: #0F172A;
+  overflow-x: hidden;
+}
+
+/* Option 3 Frost Palette Gradients */
+.bg-frost-palette {
+  background: linear-gradient(135deg, #bfc9e2 0%, #d5dcf2 25%, #caddee 60%, #abcae6 100%);
+}
+
+/* Reverted Crisp Frost Blue Slate Background (#F8FAFC) */
+.frost-page-bg {
+  background-color: #F8FAFC;
+  background-image: 
+    linear-gradient(to bottom, #F8FAFC 0%, #F1F5F9 50%, #E2E8F0 100%);
+  background-size: 100% 100%;
+}
+
+/* Light Frost Cards with Dark Font Contrast */
+.frost-card {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(226, 232, 240, 0.95);
+  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04), 0 2px 6px -1px rgba(15, 23, 42, 0.02);
+  color: #0F172A;
+}
+
+.frost-card-hover {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.frost-card-hover:hover {
+  background: #FFFFFF;
+  border-color: #CBD5E1;
+  box-shadow: 0 14px 35px -4px rgba(15, 23, 42, 0.08), 0 4px 10px -2px rgba(15, 23, 42, 0.04);
+  transform: translateY(-2px);
+}
+
+/* FILM COVERING OVER ALL IMAGES — stripped, hero blur handled by hero-blur-panel */
+.film-overlay-light {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.film-grain {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.06'/%3E%3C/svg%3E");
+}
+
+/* Sports Hero Diagonal Frost Stripe & Cutout Shadow */
+.diagonal-stripe-frost {
+  position: absolute;
+  width: 280px;
+  height: 280%;
+  top: -85%;
+  left: 38%;
+  transform: rotate(38deg);
+  background: linear-gradient(135deg, #caddee 0%, #bfc9e2 45%, #abcae6 100%);
+  opacity: 0.92;
+  pointer-events: none;
+  box-shadow: 0 0 70px rgba(171, 202, 230, 0.45);
+}
+
+.diagonal-stripe-frost-flipped {
+  position: absolute;
+  width: 280px;
+  height: 280%;
+  top: -85%;
+  left: 18%;
+  transform: rotate(-38deg);
+  background: linear-gradient(135deg, #caddee 0%, #bfc9e2 45%, #abcae6 100%);
+  opacity: 0.92;
+  pointer-events: none;
+  box-shadow: 0 0 70px rgba(171, 202, 230, 0.45);
+}
+
+.athlete-cutout-shadow {
+  filter: drop-shadow(0 20px 35px rgba(15, 23, 42, 0.22));
+}
+
+/* Hero left blur panel — frosted left half, right half stays completely clear */
+.hero-blur-panel {
+  position: absolute;
+  top: 0; bottom: 0; left: 0;
+  width: 52%;
+  backdrop-filter: blur(16px) brightness(1.8);
+  -webkit-backdrop-filter: blur(16px) brightness(1.8);
+  background: rgba(248, 250, 252, 0.35);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── SPLIT HEADLINE ─────────────────────────────────────────────────────────
+   Both text copies sized to 100% of the hero card width.
+   Each is inside an overflow:hidden container clipped to its half.
+   Split = 52% left / 48% right. No clip-path on text — no letter artifacts.
+
+   Left h1:  width = 100/52 * 100% = 192.3% of its container
+   Right h1: left  = -(52/48)*100% = -108.33% of its container
+             width = 100/48 * 100% = 208.33% of its container
+────────────────────────────────────────────────────────────────────────── */
+.hl-stage {
+  position: relative;
+  word-break: break-word;
+}
+.hl-spacer {
+  visibility: hidden;
+  pointer-events: none;
+  display: block;
+  white-space: nowrap;
+}
+.hl-region-left {
+  position: absolute;
+  top: 0; left: 0;
+  width: 52%;
+  height: 100%;
+  overflow: hidden;
+}
+.hl-region-left .hl-inner {
+  position: absolute;
+  top: 0; left: 0;
+  width: 192.3%;
+  white-space: nowrap;
+  /* Image punched through letterforms */
+  background-size: cover;
+  background-position: center 30%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: brightness(1.5) saturate(1.1) contrast(1.15);
+}
+.hl-region-right {
+  position: absolute;
+  top: 0; left: 52%; right: 0;
+  height: 100%;
+  overflow: hidden;
+}
+.hl-region-right .hl-inner {
+  position: absolute;
+  top: 0;
+  left: -108.33%;
+  width: 208.33%;
+  white-space: nowrap;
+  color: #ffffff;
+}
+
+/* Mobile viewport adjustments for split headline */
+@media (max-width: 640px) {
+  .hero-blur-panel {
+    width: 60%;
+  }
+  .hl-region-left {
+    width: 60%;
+  }
+  .hl-region-left .hl-inner {
+    width: 166.67%;
+  }
+  .hl-region-right {
+    left: 60%;
+  }
+  .hl-region-right .hl-inner {
+    left: -150%;
+    width: 250%;
+  }
+}
+
+/* Seamless silhouette blend for centered hero athletes */
+.seamless-blend {
+  -webkit-mask-image: radial-gradient(ellipse 75% 80% at 50% 40%, black 55%, transparent 95%),
+                      linear-gradient(to top, transparent 0%, black 20%);
+  -webkit-mask-composite: source-in;
+  mask-image: radial-gradient(ellipse 75% 80% at 50% 40%, black 55%, transparent 95%),
+              linear-gradient(to top, transparent 0%, black 20%);
+  mask-composite: intersect;
+}
+
+/* High-Contrast Pill & Universal Buttons (User Directive: Black default, hover up, clicked white with black text) */
+.dark-pill-btn,
+.action-btn,
+.pill-btn-black {
+  background-color: #0F172A;
+  color: #FFFFFF;
+  border: 1px solid #0F172A;
+  border-radius: 9999px;
+  font-weight: 800;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.2);
+}
+
+.dark-pill-btn:hover,
+.action-btn:hover,
+.pill-btn-black:hover {
+  background-color: #000000;
+  color: #FFFFFF;
+  box-shadow: 0 10px 25px -4px rgba(15, 23, 42, 0.35);
+  transform: translateY(-3px);
+}
+
+.dark-pill-btn:active,
+.action-btn:active,
+.pill-btn-black:active,
+.btn-clicked-white {
+  background-color: #FFFFFF !important;
+  color: #0F172A !important;
+  border: 1px solid #0F172A !important;
+  transform: translateY(0px) scale(0.98);
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.15) !important;
+}
+
+.light-pill-btn {
+  background-color: #0F172A;
+  color: #FFFFFF;
+  border: 1px solid #0F172A;
+  border-radius: 9999px;
+  font-weight: 800;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.2);
+}
+.light-pill-btn:hover {
+  background-color: #000000;
+  color: #FFFFFF;
+  border-color: #000000;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px -4px rgba(15, 23, 42, 0.35);
+}
+.light-pill-btn:active {
+  background-color: #FFFFFF !important;
+  color: #0F172A !important;
+  border: 1px solid #0F172A !important;
+  transform: translateY(0px) scale(0.98);
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.15) !important;
+}
+
+/* Comparison Slider */
+.comparison-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 32px;
+  height: 32px;
+  background-color: #0F172A;
+  cursor: ew-resize;
+  border: 2px solid #FFFFFF;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.3);
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+}
+
+/* Clean Slate Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #F1F5F9;
+}
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
+    animation-duration: 0.001ms !important;
+  }
+}
