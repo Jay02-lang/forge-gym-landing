@@ -155,9 +155,9 @@ export default function TrainersPage({ onOpenBooking }) {
               <span>FACULTY &amp; ARCHITECTURE • IPF &amp; IWF CERTIFIED</span>
             </div>
             <div className="hidden sm:flex items-center gap-2 text-xs text-slate-600 font-mono font-semibold bg-white/85 backdrop-blur-md px-4 py-1.5 rounded-full border border-[#E2E8F0] shadow-xs">
-              <span className="text-slate-950 font-bold">INDIRANAGAR, BANGALORE</span>
+              <span className="text-slate-950 font-bold">NAGPUR, MAHARASHTRA</span>
               <span>/</span>
-              <span>12.9716° N, 77.5946° E</span>
+              <span>21.1458° N, 79.0882° E</span>
             </div>
           </div>
 

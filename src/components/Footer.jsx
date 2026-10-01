@@ -66,7 +66,7 @@ export default function Footer({ onNavigate, onOpenBooking }) {
                 IRONFORGE.
               </span>
               <span className="text-[11px] tracking-widest text-slate-600 uppercase font-mono font-bold mt-1 block">
-                HUMAN PERFORMANCE SANCTUARY // BENGALURU
+                HUMAN PERFORMANCE SANCTUARY // NAGPUR, MAHARASHTRA
               </span>
             </div>
           </div>
@@ -107,14 +107,14 @@ export default function Footer({ onNavigate, onOpenBooking }) {
               <div className="flex items-start gap-3">
                 <MapPin className="w-4 h-4 text-[#0F172A] shrink-0 mt-0.5" />
                 <div className="text-xs">
-                  <div className="text-[#0F172A] font-bold">100-Ft Road, HAL 2nd Stage</div>
-                  <div className="text-slate-600">Indiranagar, Bangalore 560038</div>
+                  <div className="text-[#0F172A] font-bold">Civil Lines / Wardha Road</div>
+                  <div className="text-slate-600">Nagpur, Maharashtra 440001</div>
                 </div>
               </div>
 
               <div className="flex items-center gap-2 text-[11px] text-slate-600 font-mono pt-1.5 border-t border-[#CBD5E1]/60">
                 <Compass className="w-3.5 h-3.5 text-slate-700" />
-                <span>COORDINATES: 12.9716° N, 77.5946° E</span>
+                <span>COORDINATES: 21.1458° N, 79.0882° E</span>
               </div>
             </div>
           </div>

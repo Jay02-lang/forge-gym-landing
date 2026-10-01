@@ -113,9 +113,9 @@ export default function HomePage({ onNavigate, onOpenBooking, selectedFaculty, o
               <span>⚡ IPF &amp; IWF CALIBRATED HUMAN PERFORMANCE</span>
             </div>
             <div className="hidden sm:flex items-center gap-2 text-xs text-slate-600 font-mono font-semibold bg-white/85 backdrop-blur-md px-4 py-1.5 rounded-full border border-[#E2E8F0] shadow-xs">
-              <span className="text-slate-950 font-bold">BANGALORE</span>
+              <span className="text-slate-950 font-bold">NAGPUR, MAHARASHTRA</span>
               <span>/</span>
-              <span>12.9716° N, 77.5946° E</span>
+              <span>21.1458° N, 79.0882° E</span>
             </div>
           </div>
 
@@ -509,29 +509,68 @@ export default function HomePage({ onNavigate, onOpenBooking, selectedFaculty, o
                 img: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=800&auto=format&fit=crop',
               },
             ].map((item, i) => (
-              <div key={i} className="frost-card frost-card-hover rounded-3xl overflow-hidden shadow-sm flex flex-col">
-                {/* Equipment image */}
-                <div className="relative h-48 overflow-hidden bg-slate-100">
+              <div key={i} className="rounded-2xl sm:rounded-3xl overflow-hidden shadow-sm">
+                
+                {/* MOBILE ONLY (sm:hidden): Image in background + hero frost lavender film + info over card */}
+                <div className="relative sm:hidden min-h-[175px] p-4 flex flex-col justify-between bg-slate-900 border border-[#BFC9E2]/60 rounded-2xl overflow-hidden group shadow-sm">
+                  {/* Equipment Background Image */}
                   <img
                     src={item.img}
                     alt={item.name}
-                    className="w-full h-full object-cover filter brightness-90 contrast-105 transition-transform duration-500 hover:scale-105"
+                    className="absolute inset-0 w-full h-full object-cover filter brightness-[0.8] contrast-105"
                   />
-                  {/* Category tag overlay */}
-                  <span className="absolute top-3 left-3 text-[8px] font-mono font-bold tracking-[0.18em] uppercase bg-white/90 text-slate-800 px-2.5 py-1 rounded-full border border-white/80">
-                    {item.tag}
-                  </span>
-                </div>
-                {/* Card body */}
-                <div className="p-6 space-y-3 flex flex-col flex-1">
-                  <div className="flex items-start justify-between gap-2">
-                    <h3 className="font-display font-black text-lg text-slate-950 leading-tight">{item.name}</h3>
-                    <span className="shrink-0 text-[8px] font-mono font-bold tracking-widest uppercase text-slate-950 bg-slate-100 border border-slate-200 px-2 py-1 rounded-full text-center leading-tight">
+                  {/* Exact Hero Frost Lavender (#BFC9E2 / #CADDEE) Film Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#CADDEE]/50 via-[#BFC9E2]/65 to-[#ABCAE6]/45 mix-blend-multiply pointer-events-none" />
+                  <div className="absolute inset-0 bg-[#BFC9E2]/40 mix-blend-color pointer-events-none" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/45 to-transparent pointer-events-none" />
+                  
+                  {/* Top Bar: Tag & Stat */}
+                  <div className="relative z-10 flex items-center justify-between gap-2">
+                    <span className="text-[8px] font-mono font-bold tracking-[0.16em] uppercase bg-white/95 text-slate-900 px-2.5 py-0.5 rounded-full border border-white/80 shadow-2xs">
+                      {item.tag}
+                    </span>
+                    <span className="text-[8px] font-mono font-bold tracking-widest uppercase text-white bg-white/20 backdrop-blur-xs border border-white/25 px-2.5 py-0.5 rounded-full">
                       {item.stat}
                     </span>
                   </div>
-                  <p className="text-xs sm:text-sm font-sans text-slate-600 leading-relaxed flex-1">{item.desc}</p>
+
+                  {/* Body Content: Title & Description all over card */}
+                  <div className="relative z-10 pt-2 space-y-1">
+                    <h3 className="font-display font-black text-base text-white uppercase tracking-tight">
+                      {item.name}
+                    </h3>
+                    <p className="text-[11px] font-sans text-slate-200 leading-snug line-clamp-3">
+                      {item.desc}
+                    </p>
+                  </div>
                 </div>
+
+                {/* PC / DESKTOP (hidden sm:flex): Unchanged Original Card Layout */}
+                <div className="hidden sm:flex frost-card frost-card-hover rounded-3xl overflow-hidden shadow-sm flex-col h-full">
+                  {/* Equipment image */}
+                  <div className="relative h-48 overflow-hidden bg-slate-100">
+                    <img
+                      src={item.img}
+                      alt={item.name}
+                      className="w-full h-full object-cover filter brightness-90 contrast-105 transition-transform duration-500 hover:scale-105"
+                    />
+                    {/* Category tag overlay */}
+                    <span className="absolute top-3 left-3 text-[8px] font-mono font-bold tracking-[0.18em] uppercase bg-white/90 text-slate-800 px-2.5 py-1 rounded-full border border-white/80">
+                      {item.tag}
+                    </span>
+                  </div>
+                  {/* Card body */}
+                  <div className="p-6 space-y-3 flex flex-col flex-1">
+                    <div className="flex items-start justify-between gap-2">
+                      <h3 className="font-display font-black text-lg text-slate-950 leading-tight">{item.name}</h3>
+                      <span className="shrink-0 text-[8px] font-mono font-bold tracking-widest uppercase text-slate-950 bg-slate-100 border border-slate-200 px-2 py-1 rounded-full text-center leading-tight">
+                        {item.stat}
+                      </span>
+                    </div>
+                    <p className="text-xs sm:text-sm font-sans text-slate-600 leading-relaxed flex-1">{item.desc}</p>
+                  </div>
+                </div>
+
               </div>
             ))}
 
@@ -695,9 +734,9 @@ export default function HomePage({ onNavigate, onOpenBooking, selectedFaculty, o
                 <div className="p-3 sm:p-3.5 rounded-xl sm:rounded-2xl bg-white/70 border border-white/60 text-xs font-mono text-slate-700 flex items-center justify-between max-w-md mx-auto sm:mx-0">
                   <div className="flex items-center gap-2">
                     <MapPin className="w-3.5 h-3.5 text-slate-900 shrink-0" />
-                    <span className="font-bold text-[10px] sm:text-xs">INDIRANAGAR, BANGALORE</span>
+                    <span className="font-bold text-[10px] sm:text-xs">CIVIL LINES, NAGPUR</span>
                   </div>
-                  <span className="text-slate-500 font-bold tracking-wider text-[9px] sm:text-[10px]">HAL 2ND STAGE</span>
+                  <span className="text-slate-500 font-bold tracking-wider text-[9px] sm:text-[10px]">MAHARASHTRA</span>
                 </div>
               </div>
 
@@ -1076,7 +1115,7 @@ export default function HomePage({ onNavigate, onOpenBooking, selectedFaculty, o
                         </div>
                         <div className="flex justify-between pt-0.5 text-[10px] sm:text-[11px]">
                           <span className="text-slate-500 uppercase">LOCATION:</span>
-                          <span className="text-slate-950 font-bold">100-Ft Rd, Indiranagar</span>
+                          <span className="text-slate-950 font-bold">Civil Lines, Nagpur, Maharashtra</span>
                         </div>
                       </div>
 

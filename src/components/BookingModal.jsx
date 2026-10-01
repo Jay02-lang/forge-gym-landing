@@ -167,7 +167,7 @@ export default function BookingModal({ isOpen, onClose }) {
                 SEE YOU ON THE FLOOR, {formData.name.split(' ')[0].toUpperCase()}!
               </h3>
               <p className="text-slate-600 text-xs sm:text-sm max-w-sm mx-auto font-sans">
-                Confirmation code dispatched to <strong className="text-slate-950">{formData.email}</strong>. Present this code at our Indiranagar reception:
+                Confirmation code dispatched to <strong className="text-slate-950">{formData.email}</strong>. Present this code at our Nagpur reception:
               </p>
             </div>
 
@@ -187,7 +187,7 @@ export default function BookingModal({ isOpen, onClose }) {
               <div className="text-left text-[11px] text-slate-600 space-y-1">
                 <div>FOCUS: {formData.track}</div>
                 <div>WINDOW: {formData.timeSlot}</div>
-                <div>LOCATION: 100-Ft Road, Indiranagar</div>
+                <div>LOCATION: Civil Lines, Nagpur, Maharashtra</div>
               </div>
             </div>
 

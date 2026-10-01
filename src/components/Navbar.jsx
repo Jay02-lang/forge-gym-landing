@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { Zap, Menu, X, ArrowRight } from 'lucide-react';
 
 export default function Navbar({ currentPage, onNavigate, onOpenBooking }) {
@@ -26,14 +27,15 @@ export default function Navbar({ currentPage, onNavigate, onOpenBooking }) {
   };
 
   return (
-    <header 
-      className={`sticky top-0 z-50 transition-all duration-300 ${
-        isScrolled 
-          ? 'bg-[#F8FAFC]/90 backdrop-blur-md border-b border-slate-200/90 py-3.5 shadow-xs' 
-          : 'bg-[#F8FAFC]/75 backdrop-blur-sm border-b border-slate-200/70 py-4'
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <>
+      <header 
+        className={`fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 ${
+          isScrolled 
+            ? 'bg-[#F8FAFC]/95 backdrop-blur-md border-b border-slate-200/90 py-3 shadow-xs' 
+            : 'bg-[#F8FAFC]/90 backdrop-blur-md border-b border-slate-200/70 py-3.5 sm:py-4'
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           
           {/* Logo Brand: IRONFORGE */}
@@ -49,7 +51,7 @@ export default function Navbar({ currentPage, onNavigate, onOpenBooking }) {
             </span>
           </button>
 
-          {/* Desktop Navigation Links (Dark High-Contrast Font) */}
+          {/* Desktop Navigation Links with Animated Underline */}
           <nav className="hidden md:flex items-center gap-6 lg:gap-8">
             {navItems.map((item) => {
               const isActive = currentPage === item.id;
@@ -57,13 +59,20 @@ export default function Navbar({ currentPage, onNavigate, onOpenBooking }) {
                 <button
                   key={item.id}
                   onClick={() => handleItemClick(item.id)}
-                  className={`text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer ${
-                    isActive 
-                      ? 'text-slate-950 border-b-2 border-slate-950 pb-0.5' 
-                      : 'text-slate-600 hover:text-slate-950'
+                  className={`relative py-1.5 text-xs font-bold uppercase tracking-wider transition-colors duration-200 cursor-pointer group ${
+                    isActive ? 'text-slate-950' : 'text-slate-600 hover:text-slate-950'
                   }`}
                 >
-                  {item.label}
+                  <span>{item.label}</span>
+                  {isActive ? (
+                    <motion.span
+                      layoutId="activeNavUnderline"
+                      className="absolute bottom-0 left-0 right-0 h-[2px] bg-slate-950 rounded-full"
+                      transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                    />
+                  ) : (
+                    <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-slate-300 scale-x-0 group-hover:scale-x-100 transition-transform duration-250 ease-out origin-left rounded-full" />
+                  )}
                 </button>
               );
             })}
@@ -98,17 +107,27 @@ export default function Navbar({ currentPage, onNavigate, onOpenBooking }) {
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
         <div className="md:hidden bg-white/95 backdrop-blur-md border-b border-slate-200 px-4 pt-4 pb-6 space-y-3 text-sm font-bold text-slate-800 animate-in fade-in duration-200">
-          {navItems.map((item) => (
-            <button
-              key={item.id}
-              onClick={() => handleItemClick(item.id)}
-              className={`block w-full text-left py-2.5 ${
-                currentPage === item.id ? 'text-slate-950 font-black' : 'text-slate-600'
-              }`}
-            >
-              {item.label}
-            </button>
-          ))}
+          {navItems.map((item) => {
+            const isActive = currentPage === item.id;
+            return (
+              <button
+                key={item.id}
+                onClick={() => handleItemClick(item.id)}
+                className={`relative block w-full text-left py-2.5 transition-colors cursor-pointer ${
+                  isActive ? 'text-slate-950 font-black' : 'text-slate-600'
+                }`}
+              >
+                <span>{item.label}</span>
+                {isActive && (
+                  <motion.div
+                    layoutId="activeMobileNavUnderline"
+                    className="absolute bottom-0 left-0 w-16 h-[2px] bg-slate-950 rounded-full"
+                    transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                  />
+                )}
+              </button>
+            );
+          })}
           <div className="pt-2">
             <button
               onClick={() => {
@@ -123,6 +142,9 @@ export default function Navbar({ currentPage, onNavigate, onOpenBooking }) {
           </div>
         </div>
       )}
-    </header>
+      </header>
+      {/* Spacer so the page content never hides behind the fixed navbar */}
+      <div className="h-[62px] sm:h-[72px]" aria-hidden="true" />
+    </>
   );
 }
