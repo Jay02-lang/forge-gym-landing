@@ -188,7 +188,7 @@ export default function Footer({ onNavigate, onOpenBooking }) {
             TIER 3: ACCREDITED HARDWARE SPEC STRIP & SMOOTH BACK TO TOP
             (NO LEGAL BASELINE, NO NEWSLETTER)
         ========================================================================= */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-slate-600">
+        <div className="pt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs font-mono text-slate-600">
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[11px]">
             <span className="text-slate-950 font-bold">CERTIFIED HARDWARE:</span>
             <span>ELEIKO CALIBRATED DISCS</span>

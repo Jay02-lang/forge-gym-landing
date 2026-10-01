@@ -105,23 +105,23 @@ export default function TrainersPage({ onOpenBooking }) {
           - Frosted white glass cards, badges, and action button
       ========================================================================= */}
       <section className="relative px-4 sm:px-6 lg:px-8 pt-4 pb-16 max-w-7xl mx-auto">
-        <div className="relative rounded-[36px] overflow-hidden border border-[#CBD5E1] bg-[#F8FAFC] shadow-2xl min-h-[640px] sm:min-h-[700px] lg:min-h-[740px] flex flex-col justify-between p-6 sm:p-10 lg:p-14 select-none">
+        <div className="relative rounded-[36px] overflow-hidden border border-[#CBD5E1] bg-[#F8FAFC] shadow-2xl min-h-[580px] sm:min-h-[680px] lg:min-h-[740px] flex flex-col justify-between p-5 sm:p-8 lg:p-14 select-none">
           
           {/* LAYER 1 (z-10): SIGNATURE FROST ICE & LAVENDER DIAGONAL STRIPE */}
           <div className="diagonal-stripe-frost z-10" />
 
           {/* LAYER 2 (z-20): FULL-BODY MALE FITNESS COACH (HEAD TO SNEAKERS) */}
-          <div className="absolute inset-y-0 right-4 sm:right-12 md:right-20 lg:right-28 z-20 flex items-end justify-center pointer-events-none pb-0">
+          <div className="absolute inset-y-0 right-0 sm:right-6 md:right-16 lg:right-28 z-20 flex items-end justify-end pointer-events-none pb-0">
             <img
               src={`${import.meta.env.BASE_URL}fitness_PNG193.png`}
               alt="Full body male fitness coach with clipboard and athletic towel"
-              className="h-[96%] max-h-[640px] object-contain transform translate-y-2 lg:translate-y-4 athlete-cutout-shadow pointer-events-none"
+              className="h-[65%] sm:h-[80%] md:h-[90%] lg:h-[96%] max-h-[640px] object-contain object-bottom transform translate-y-2 lg:translate-y-4 athlete-cutout-shadow pointer-events-none opacity-25 sm:opacity-40 md:opacity-100 transition-opacity duration-300"
             />
           </div>
 
           {/* LAYER 3 (z-30): TOP STATUS BAR */}
-          <div className="relative z-30 flex flex-wrap items-center justify-between gap-3 text-xs font-mono font-bold tracking-wider">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/95 backdrop-blur-md border border-[#E2E8F0] shadow-xs text-slate-900">
+          <div className="relative z-30 flex flex-wrap items-center justify-between gap-2.5 sm:gap-3 text-[11px] sm:text-xs font-mono font-bold tracking-wider">
+            <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 rounded-full bg-white/95 backdrop-blur-md border border-[#E2E8F0] shadow-xs text-slate-900">
               <ShieldCheck className="w-3.5 h-3.5" />
               <span>⚡ FACULTY &amp; ARCHITECTURE • IPF &amp; IWF CERTIFIED</span>
             </div>
@@ -133,25 +133,25 @@ export default function TrainersPage({ onOpenBooking }) {
           </div>
 
           {/* LAYER 4 (z-30): FULL 3-LINE HEADLINE, SUBTEXT & BUTTONS */}
-          <div className="relative z-30 max-w-xl my-auto pt-8 pb-6">
-            <h1 className="font-display font-black text-5xl sm:text-7xl lg:text-8xl xl:text-[5.5rem] tracking-tight leading-[0.9] text-slate-950 drop-shadow-xs">
+          <div className="relative z-30 w-full md:max-w-md lg:max-w-xl my-auto pt-6 sm:pt-8 pb-6">
+            <h1 className="font-display font-black text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-[5.5rem] tracking-tight leading-[0.9] text-slate-950 drop-shadow-xs">
               Coaching.<br />
               Precision.<br />
               <span className="text-slate-700">Mastery.</span>
             </h1>
 
             {/* Original Subtext in Frosted White Glass Card */}
-            <div className="mt-6 p-4.5 rounded-2xl bg-white/90 backdrop-blur-md border border-white/80 shadow-xs max-w-md">
-              <p className="text-sm sm:text-base text-slate-700 font-medium leading-relaxed">
+            <div className="mt-5 sm:mt-6 p-4 sm:p-4.5 rounded-2xl bg-white/90 backdrop-blur-md border border-white/80 shadow-xs max-w-md">
+              <p className="text-xs sm:text-sm md:text-base text-slate-700 font-medium leading-relaxed">
                 Our faculty holds elite CSCS, USAW, and IPF certifications with competitive podium pedigrees.
               </p>
             </div>
 
             {/* Original Action Button */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 mt-8">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-3.5 mt-6 sm:mt-8">
               <button
                 onClick={onOpenBooking}
-                className="dark-pill-btn px-8 py-3.5 text-xs sm:text-sm font-display tracking-wide uppercase inline-flex items-center justify-center gap-3 cursor-pointer shadow-sm"
+                className="dark-pill-btn px-7 sm:px-8 py-3.5 text-xs sm:text-sm font-display tracking-wide uppercase inline-flex items-center justify-center gap-3 cursor-pointer shadow-sm"
               >
                 <span>Schedule Consultation</span>
                 <ArrowRight className="w-4 h-4 stroke-[2.5]" />
@@ -160,16 +160,16 @@ export default function TrainersPage({ onOpenBooking }) {
           </div>
 
           {/* LAYER 5 (z-30): BOTTOM FROSTED TELEMETRY PILLS */}
-          <div className="relative z-30 flex flex-wrap items-center gap-3 pt-4">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/90 backdrop-blur-md border border-white/80 shadow-2xs text-xs font-mono text-slate-600">
+          <div className="relative z-30 flex flex-wrap items-center gap-2 sm:gap-3 pt-4">
+            <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-white/90 backdrop-blur-md border border-white/80 shadow-2xs text-[10px] sm:text-xs font-mono text-slate-600">
               <span className="font-bold text-slate-950">01</span>
               <span>CSCS &amp; USAW FACULTY</span>
             </div>
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/90 backdrop-blur-md border border-white/80 shadow-2xs text-xs font-mono text-slate-600">
+            <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-white/90 backdrop-blur-md border border-white/80 shadow-2xs text-[10px] sm:text-xs font-mono text-slate-600">
               <span className="font-bold text-slate-950">02</span>
               <span>1:1 PERIODIZED MENTORSHIP</span>
             </div>
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/90 backdrop-blur-md border border-white/80 shadow-2xs text-xs font-mono text-slate-600">
+            <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-white/90 backdrop-blur-md border border-white/80 shadow-2xs text-[10px] sm:text-xs font-mono text-slate-600">
               <span className="font-bold text-slate-950">03</span>
               <span>BIOMECHANICAL SCREENING</span>
             </div>
@@ -197,7 +197,7 @@ export default function TrainersPage({ onOpenBooking }) {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-7">
             {TRAINERS_DATA.map((t) => (
               <div 
                 key={t.id}
@@ -448,21 +448,21 @@ export default function TrainersPage({ onOpenBooking }) {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 pt-4 items-stretch">
+          <div className="grid md:grid-cols-3 gap-5 lg:gap-8 pt-4 items-stretch">
             
             {/* Plan 1: BASE (₹ 2,999) */}
-            <div className="frost-card rounded-3xl p-8 space-y-6 flex flex-col justify-between shadow-sm">
+            <div className="frost-card rounded-3xl p-6 sm:p-7 lg:p-8 space-y-5 sm:space-y-6 flex flex-col justify-between shadow-sm">
               <div className="space-y-4">
                 <div className="flex items-center justify-between pb-2 border-b border-slate-200">
                   <span className="px-3 py-1 rounded-full bg-slate-100 text-slate-800 text-[10px] font-mono font-bold tracking-wider uppercase">
                     TIER 01 • ESSENTIALS
                   </span>
                 </div>
-                <h3 className="font-display font-black text-2xl uppercase text-slate-950">
+                <h3 className="font-display font-black text-xl sm:text-2xl uppercase text-slate-950">
                   GYM FLOOR ACCESS
                 </h3>
                 <div className="font-mono">
-                  <span className="font-display font-black text-4xl text-slate-950">₹ 2,999</span>
+                  <span className="font-display font-black text-3xl sm:text-4xl text-slate-950">₹ 2,999</span>
                   <span className="text-xs text-slate-500"> / MONTH</span>
                 </div>
                 <p className="text-xs text-slate-600 leading-relaxed font-sans">
@@ -491,14 +491,14 @@ export default function TrainersPage({ onOpenBooking }) {
 
               <button
                 onClick={onOpenBooking}
-                className="dark-pill-btn w-full py-3.5 font-display font-bold text-xs uppercase cursor-pointer tracking-wider"
+                className="dark-pill-btn w-full py-3.5 font-display font-bold text-xs uppercase cursor-pointer tracking-wider mt-4"
               >
                 JOIN BASE
               </button>
             </div>
 
             {/* Plan 2: PERFORMANCE (₹ 4,999 - Most Popular with Dark Accent) */}
-            <div className="relative rounded-3xl p-8 space-y-6 flex flex-col justify-between shadow-xl bg-gradient-to-b from-[#BFC9E2]/60 via-[#CADDEE]/50 to-white border-2 border-slate-950">
+            <div className="relative rounded-3xl p-6 sm:p-7 lg:p-8 space-y-5 sm:space-y-6 flex flex-col justify-between shadow-xl bg-gradient-to-b from-[#BFC9E2]/60 via-[#CADDEE]/50 to-white border-2 border-slate-950">
               <div className="space-y-4">
                 <div className="flex items-center justify-between pb-2 border-b border-slate-300">
                   <span className="px-3 py-1 rounded-full bg-slate-950 text-white text-[10px] font-mono font-bold tracking-wider uppercase">
@@ -509,12 +509,12 @@ export default function TrainersPage({ onOpenBooking }) {
                   </span>
                 </div>
                 
-                <h3 className="font-display font-black text-2xl uppercase text-slate-950">
+                <h3 className="font-display font-black text-xl sm:text-2xl uppercase text-slate-950">
                   GYM + CLASSES + RECOVERY
                 </h3>
                 
                 <div className="font-mono">
-                  <span className="font-display font-black text-4xl text-slate-950">₹ 4,999</span>
+                  <span className="font-display font-black text-3xl sm:text-4xl text-slate-950">₹ 4,999</span>
                   <span className="text-xs text-slate-600"> / MONTH</span>
                 </div>
                 
@@ -548,25 +548,25 @@ export default function TrainersPage({ onOpenBooking }) {
 
               <button
                 onClick={onOpenBooking}
-                className="dark-pill-btn w-full py-4 text-xs font-display uppercase tracking-wider inline-flex items-center justify-center gap-2 cursor-pointer shadow-md"
+                className="dark-pill-btn w-full py-4 text-xs font-display uppercase tracking-wider inline-flex items-center justify-center gap-2 cursor-pointer shadow-md mt-4"
               >
                 <span>JOIN PERFORMANCE &rarr;</span>
               </button>
             </div>
 
             {/* Plan 3: ELITE (₹ 7,999) */}
-            <div className="frost-card rounded-3xl p-8 space-y-6 flex flex-col justify-between shadow-sm">
+            <div className="frost-card rounded-3xl p-6 sm:p-7 lg:p-8 space-y-5 sm:space-y-6 flex flex-col justify-between shadow-sm">
               <div className="space-y-4">
                 <div className="flex items-center justify-between pb-2 border-b border-slate-200">
                   <span className="px-3 py-1 rounded-full bg-slate-100 text-slate-800 text-[10px] font-mono font-bold tracking-wider uppercase">
                     TIER 03 • ELITE PRIVATE
                   </span>
                 </div>
-                <h3 className="font-display font-black text-2xl uppercase text-slate-950">
+                <h3 className="font-display font-black text-xl sm:text-2xl uppercase text-slate-950">
                   COACHING + PRIVATE LAB
                 </h3>
                 <div className="font-mono">
-                  <span className="font-display font-black text-4xl text-slate-950">₹ 7,999</span>
+                  <span className="font-display font-black text-3xl sm:text-4xl text-slate-950">₹ 7,999</span>
                   <span className="text-xs text-slate-500"> / MONTH</span>
                 </div>
                 <p className="text-xs text-slate-600 leading-relaxed font-sans">
@@ -599,7 +599,7 @@ export default function TrainersPage({ onOpenBooking }) {
 
               <button
                 onClick={onOpenBooking}
-                className="dark-pill-btn w-full py-3.5 font-display font-bold text-xs uppercase cursor-pointer tracking-wider"
+                className="dark-pill-btn w-full py-3.5 font-display font-bold text-xs uppercase cursor-pointer tracking-wider mt-4"
               >
                 JOIN ELITE
               </button>

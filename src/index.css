@@ -106,6 +106,30 @@ body {
   box-shadow: 0 0 70px rgba(171, 202, 230, 0.45);
 }
 
+@media (max-width: 1024px) {
+  .diagonal-stripe-frost {
+    width: 220px;
+    opacity: 0.65;
+  }
+  .diagonal-stripe-frost-flipped {
+    width: 220px;
+    opacity: 0.65;
+  }
+}
+
+@media (max-width: 640px) {
+  .diagonal-stripe-frost {
+    width: 150px;
+    left: 45%;
+    opacity: 0.45;
+  }
+  .diagonal-stripe-frost-flipped {
+    width: 150px;
+    left: 10%;
+    opacity: 0.45;
+  }
+}
+
 .athlete-cutout-shadow {
   filter: drop-shadow(0 20px 35px rgba(15, 23, 42, 0.22));
 }

@@ -84,23 +84,23 @@ export default function HomePage({ onNavigate, onOpenBooking, selectedFaculty, o
           - Frosted white cards, badges, and high-contrast action buttons
       ========================================================================= */}
       <section className="relative px-4 sm:px-6 lg:px-8 pt-4 pb-16 max-w-7xl mx-auto">
-        <div className="relative rounded-[36px] overflow-hidden border border-[#CBD5E1] bg-[#F8FAFC] shadow-2xl min-h-[640px] sm:min-h-[700px] lg:min-h-[740px] flex flex-col justify-between p-6 sm:p-10 lg:p-14 select-none">
+        <div className="relative rounded-[36px] overflow-hidden border border-[#CBD5E1] bg-[#F8FAFC] shadow-2xl min-h-[580px] sm:min-h-[680px] lg:min-h-[740px] flex flex-col justify-between p-5 sm:p-8 lg:p-14 select-none">
           
           {/* LAYER 1 (z-10): SIGNATURE FROST ICE & LAVENDER DIAGONAL STRIPE */}
           <div className="diagonal-stripe-frost z-10" />
 
           {/* LAYER 2 (z-20): SOLO MUSCULAR MALE ATHLETE (WITH WHITE ELEMENTS & APPAREL) */}
-          <div className="absolute inset-y-0 right-4 sm:right-12 md:right-20 lg:right-28 z-20 flex items-end justify-center pointer-events-none pb-0">
+          <div className="absolute inset-y-0 right-0 sm:right-6 md:right-16 lg:right-28 z-20 flex items-end justify-end pointer-events-none pb-0">
             <img
               src={`${import.meta.env.BASE_URL}fitness_PNG170.png`}
               alt="Muscular male strength athlete with athletic gear"
-              className="h-[96%] max-h-[640px] object-contain transform translate-y-2 lg:translate-y-4 athlete-cutout-shadow pointer-events-none"
+              className="h-[65%] sm:h-[80%] md:h-[90%] lg:h-[96%] max-h-[640px] object-contain object-bottom transform translate-y-2 lg:translate-y-4 athlete-cutout-shadow pointer-events-none opacity-25 sm:opacity-40 md:opacity-100 transition-opacity duration-300"
             />
           </div>
 
           {/* LAYER 3 (z-30): TOP STATUS BAR */}
-          <div className="relative z-30 flex flex-wrap items-center justify-between gap-3 text-xs font-mono font-bold tracking-wider">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/95 backdrop-blur-md border border-[#E2E8F0] shadow-xs text-slate-900">
+          <div className="relative z-30 flex flex-wrap items-center justify-between gap-2.5 sm:gap-3 text-[11px] sm:text-xs font-mono font-bold tracking-wider">
+            <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 rounded-full bg-white/95 backdrop-blur-md border border-[#E2E8F0] shadow-xs text-slate-900">
               <span>⚡ IPF &amp; IWF CALIBRATED HUMAN PERFORMANCE</span>
             </div>
             <div className="hidden sm:flex items-center gap-2 text-xs text-slate-600 font-mono font-semibold bg-white/85 backdrop-blur-md px-4 py-1.5 rounded-full border border-[#E2E8F0] shadow-xs">
@@ -111,32 +111,32 @@ export default function HomePage({ onNavigate, onOpenBooking, selectedFaculty, o
           </div>
 
           {/* LAYER 4 (z-30): FULL 3-LINE HEADLINE, SUBTEXT & BUTTONS */}
-          <div className="relative z-30 max-w-xl my-auto pt-8 pb-6">
-            <h1 className="font-display font-black text-5xl sm:text-7xl lg:text-8xl xl:text-[5.5rem] tracking-tight leading-[0.9] text-slate-950 drop-shadow-xs">
+          <div className="relative z-30 w-full md:max-w-md lg:max-w-xl my-auto pt-6 sm:pt-8 pb-6">
+            <h1 className="font-display font-black text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-[5.5rem] tracking-tight leading-[0.9] text-slate-950 drop-shadow-xs">
               Stronger.<br />
               Healthier.<br />
               <span className="text-slate-700">You.</span>
             </h1>
 
             {/* Original Subtext in Frosted White Glass Card */}
-            <div className="mt-6 p-4.5 rounded-2xl bg-white/90 backdrop-blur-md border border-white/80 shadow-xs max-w-md">
-              <p className="text-sm sm:text-base text-slate-700 font-medium leading-relaxed">
+            <div className="mt-5 sm:mt-6 p-4 sm:p-4.5 rounded-2xl bg-white/90 backdrop-blur-md border border-white/80 shadow-xs max-w-md">
+              <p className="text-xs sm:text-sm md:text-base text-slate-700 font-medium leading-relaxed">
                 An uncompromising strength and human performance sanctuary engineered with sports science periodization and calibrated coaching.
               </p>
             </div>
 
             {/* Original Action Buttons */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 mt-8">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-3.5 mt-6 sm:mt-8">
               <button
                 onClick={onOpenBooking}
-                className="dark-pill-btn px-8 py-3.5 text-xs sm:text-sm font-display tracking-wide uppercase inline-flex items-center justify-center gap-3 cursor-pointer shadow-sm"
+                className="dark-pill-btn px-7 sm:px-8 py-3.5 text-xs sm:text-sm font-display tracking-wide uppercase inline-flex items-center justify-center gap-3 cursor-pointer shadow-sm"
               >
                 <span>Start Your Journey</span>
                 <ArrowRight className="w-4 h-4 stroke-[2.5]" />
               </button>
               <button
                 onClick={() => onNavigate('programs')}
-                className="dark-pill-btn px-7 py-3.5 text-xs sm:text-sm font-display tracking-wide uppercase inline-flex items-center justify-center gap-2 cursor-pointer"
+                className="dark-pill-btn px-6 sm:px-7 py-3.5 text-xs sm:text-sm font-display tracking-wide uppercase inline-flex items-center justify-center gap-2 cursor-pointer"
               >
                 <span>Explore Protocols</span>
                 <span>&rarr;</span>
@@ -145,16 +145,16 @@ export default function HomePage({ onNavigate, onOpenBooking, selectedFaculty, o
           </div>
 
           {/* LAYER 5 (z-30): BOTTOM FROSTED TELEMETRY PILLS */}
-          <div className="relative z-30 flex flex-wrap items-center gap-3 pt-4">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/90 backdrop-blur-md border border-white/80 shadow-2xs text-xs font-mono text-slate-600">
+          <div className="relative z-30 flex flex-wrap items-center gap-2 sm:gap-3 pt-4">
+            <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-white/90 backdrop-blur-md border border-white/80 shadow-2xs text-[10px] sm:text-xs font-mono text-slate-600">
               <span className="font-bold text-slate-950">01</span>
               <span>STRENGTH PERIODIZATION</span>
             </div>
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/90 backdrop-blur-md border border-white/80 shadow-2xs text-xs font-mono text-slate-600">
+            <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-white/90 backdrop-blur-md border border-white/80 shadow-2xs text-[10px] sm:text-xs font-mono text-slate-600">
               <span className="font-bold text-slate-950">02</span>
               <span>IPF/IWF PLATFORMS</span>
             </div>
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/90 backdrop-blur-md border border-white/80 shadow-2xs text-xs font-mono text-slate-600">
+            <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-white/90 backdrop-blur-md border border-white/80 shadow-2xs text-[10px] sm:text-xs font-mono text-slate-600">
               <span className="font-bold text-slate-950">03</span>
               <span>SPORTS SCIENCE RECOVERY</span>
             </div>
@@ -620,101 +620,101 @@ export default function HomePage({ onNavigate, onOpenBooking, selectedFaculty, o
           {/* Callout Banner & Complete Membership Initiation Form */}
           <div 
             id="membership-initiation-section" 
-            className="relative overflow-hidden rounded-[36px] bg-gradient-to-br from-[#CADDEE] via-[#DCE3F4] to-[#BFC9E2] p-8 sm:p-12 lg:p-16 xl:p-20 border border-white shadow-2xl"
+            className="relative overflow-hidden rounded-[24px] sm:rounded-[32px] lg:rounded-[36px] bg-gradient-to-br from-[#CADDEE] via-[#DCE3F4] to-[#BFC9E2] p-3.5 sm:p-6 md:p-10 lg:p-14 xl:p-16 border border-white shadow-2xl"
           >
             {/* Female Athlete Workout Background in Full Original Color with Light Film Overlay */}
             <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
               <img 
                 src="https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=1600&auto=format&fit=crop" 
                 alt="Female athlete workout atmosphere in original color" 
-                className="w-full h-full object-cover object-left sm:object-center opacity-70 sm:opacity-80 filter saturate-110 contrast-105"
+                className="w-full h-full object-cover object-top sm:object-center opacity-70 sm:opacity-80 filter saturate-110 contrast-105"
               />
-              {/* Light Cinematic Film Overlay — Preserves Full Color while maintaining text legibility */}
-              <div className="absolute inset-0 bg-gradient-to-r from-[#CADDEE]/35 via-[#DCE3F4]/20 to-transparent" />
+              {/* Adaptive Film Overlay: Top-to-Bottom on Mobile, Left-to-Right on Desktop */}
+              <div className="absolute inset-0 bg-gradient-to-b from-[#CADDEE]/50 via-[#DCE3F4]/35 to-[#BFC9E2]/60 sm:bg-gradient-to-r sm:from-[#CADDEE]/35 sm:via-[#DCE3F4]/20 sm:to-transparent" />
             </div>
 
             <div className="film-grain absolute inset-0 opacity-20 pointer-events-none" />
 
-            {/* Master 2-Column Grid with Generous Column Gap */}
-            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 xl:gap-20 items-start">
+            {/* Master 2-Column Grid with Adaptive Spacing */}
+            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-10 lg:gap-14 xl:gap-16 items-start">
               
               {/* Left Column: Authority Narrative & Ethos (5 cols) */}
-              <div className="lg:col-span-5 space-y-8 text-center sm:text-left">
-                <div className="space-y-4">
-                  <span className="inline-block px-3.5 py-1 rounded-full bg-white/80 text-slate-900 font-mono text-[10px] font-bold tracking-wider uppercase shadow-xs">
+              <div className="lg:col-span-5 space-y-4 sm:space-y-6 text-center sm:text-left">
+                <div className="space-y-2 sm:space-y-3">
+                  <span className="inline-block px-3 py-1 rounded-full bg-white/85 text-slate-900 font-mono text-[9px] sm:text-[10px] font-bold tracking-wider uppercase shadow-xs">
                     MEMBERSHIP INITIATION
                   </span>
-                  <h3 className="font-display font-black text-3xl sm:text-4xl lg:text-5xl uppercase tracking-tight text-slate-950 leading-tight">
-                    YOUR NEXT LEVEL <br />
+                  <h3 className="font-display font-black text-2xl sm:text-4xl lg:text-5xl uppercase tracking-tight text-slate-950 leading-tight">
+                    YOUR NEXT LEVEL <br className="hidden sm:inline" />
                     STARTS HERE.
                   </h3>
-                  <p className="text-sm sm:text-base font-sans text-slate-700 leading-relaxed">
+                  <p className="text-xs sm:text-sm md:text-base font-sans text-slate-700 leading-relaxed max-w-md mx-auto sm:mx-0">
                     Stop waiting. Apply for membership or schedule your personal facility walkthrough.
                   </p>
                 </div>
 
-                {/* Key Facility Assurance Badges */}
-                <div className="space-y-3.5 pt-2 text-left">
-                  <div className="flex items-center gap-4 p-4 rounded-2xl bg-white/75 backdrop-blur-sm border border-white/70 shadow-xs">
-                    <ShieldCheck className="w-5 h-5 text-slate-900 shrink-0" />
+                {/* Key Facility Assurance Badges (Compact & Touch Friendly) */}
+                <div className="space-y-2 sm:space-y-3 text-left max-w-md mx-auto sm:mx-0">
+                  <div className="flex items-center gap-3 p-3 sm:p-3.5 rounded-xl sm:rounded-2xl bg-white/80 backdrop-blur-sm border border-white/70 shadow-xs">
+                    <ShieldCheck className="w-4 h-4 sm:w-5 sm:h-5 text-slate-900 shrink-0" />
                     <div className="text-xs">
-                      <div className="font-bold text-slate-950 uppercase font-mono tracking-wider">ELEIKO IPF COMPETITION RIGS</div>
-                      <div className="text-slate-600 mt-0.5">Calibrated steel discs, drop pads, and competition bars.</div>
+                      <div className="font-bold text-slate-950 uppercase font-mono tracking-wider text-[10px] sm:text-xs">ELEIKO IPF COMPETITION RIGS</div>
+                      <div className="text-slate-600 mt-0.5 text-[10px] sm:text-xs">Calibrated steel discs, drop pads, and competition bars.</div>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-4 p-4 rounded-2xl bg-white/75 backdrop-blur-sm border border-white/70 shadow-xs">
-                    <Activity className="w-5 h-5 text-slate-900 shrink-0" />
+                  <div className="flex items-center gap-3 p-3 sm:p-3.5 rounded-xl sm:rounded-2xl bg-white/80 backdrop-blur-sm border border-white/70 shadow-xs">
+                    <Activity className="w-4 h-4 sm:w-5 sm:h-5 text-slate-900 shrink-0" />
                     <div className="text-xs">
-                      <div className="font-bold text-slate-950 uppercase font-mono tracking-wider">1:1 COACHING ORIENTATION</div>
-                      <div className="text-slate-600 mt-0.5">Movement screen with certified CSCS &amp; USAW faculty.</div>
+                      <div className="font-bold text-slate-950 uppercase font-mono tracking-wider text-[10px] sm:text-xs">1:1 COACHING ORIENTATION</div>
+                      <div className="text-slate-600 mt-0.5 text-[10px] sm:text-xs">Movement screen with certified CSCS &amp; USAW faculty.</div>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-4 p-4 rounded-2xl bg-white/75 backdrop-blur-sm border border-white/70 shadow-xs">
-                    <Clock className="w-5 h-5 text-slate-900 shrink-0" />
+                  <div className="flex items-center gap-3 p-3 sm:p-3.5 rounded-xl sm:rounded-2xl bg-white/80 backdrop-blur-sm border border-white/70 shadow-xs">
+                    <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-slate-900 shrink-0" />
                     <div className="text-xs">
-                      <div className="font-bold text-slate-950 uppercase font-mono tracking-wider">5:00 AM – 11:00 PM DAILY ACCESS</div>
-                      <div className="text-slate-600 mt-0.5">Keycard access for active cohort members.</div>
+                      <div className="font-bold text-slate-950 uppercase font-mono tracking-wider text-[10px] sm:text-xs">5:00 AM – 11:00 PM DAILY ACCESS</div>
+                      <div className="text-slate-600 mt-0.5 text-[10px] sm:text-xs">Keycard access for active cohort members.</div>
                     </div>
                   </div>
                 </div>
 
                 {/* Location Micro-Card */}
-                <div className="p-4 rounded-2xl bg-white/65 border border-white/50 text-xs font-mono text-slate-700 flex items-center justify-between">
-                  <div className="flex items-center gap-2.5">
-                    <MapPin className="w-4 h-4 text-slate-900 shrink-0" />
-                    <span className="font-bold">INDIRANAGAR, BANGALORE</span>
+                <div className="p-3 sm:p-3.5 rounded-xl sm:rounded-2xl bg-white/70 border border-white/60 text-xs font-mono text-slate-700 flex items-center justify-between max-w-md mx-auto sm:mx-0">
+                  <div className="flex items-center gap-2">
+                    <MapPin className="w-3.5 h-3.5 text-slate-900 shrink-0" />
+                    <span className="font-bold text-[10px] sm:text-xs">INDIRANAGAR, BANGALORE</span>
                   </div>
-                  <span className="text-slate-500 font-bold tracking-wider">HAL 2ND STAGE</span>
+                  <span className="text-slate-500 font-bold tracking-wider text-[9px] sm:text-[10px]">HAL 2ND STAGE</span>
                 </div>
               </div>
 
               {/* Right Column: Complete Interactive Form Card (7 cols) */}
-              <div className="lg:col-span-7">
-                <div className="bg-white/95 backdrop-blur-xl border border-white/90 rounded-3xl p-7 sm:p-10 lg:p-12 shadow-2xl text-slate-900">
+              <div className="lg:col-span-7 w-full">
+                <div className="bg-white/95 backdrop-blur-xl border border-white/90 rounded-2xl sm:rounded-3xl p-4 sm:p-7 md:p-9 lg:p-10 shadow-2xl text-slate-900">
                   
                   {!initiationSubmitted ? (
-                    <form onSubmit={handleInitiationSubmit} className="space-y-6 sm:space-y-7">
+                    <form onSubmit={handleInitiationSubmit} className="space-y-4 sm:space-y-5">
                       
-                      {/* Form Header with Generous Bottom Spacing */}
-                      <div className="space-y-1.5 pb-4 border-b border-slate-200/80">
-                        <div className="flex items-center justify-between gap-3">
-                          <span className="font-display font-black text-lg sm:text-xl uppercase text-slate-950 tracking-tight">
+                      {/* Form Header with Clean Mobile Alignment */}
+                      <div className="space-y-1 pb-3 border-b border-slate-200/80">
+                        <div className="flex items-center justify-between gap-2">
+                          <span className="font-display font-black text-sm sm:text-lg uppercase text-slate-950 tracking-tight leading-tight">
                             FACILITY WALKTHROUGH &amp; ROSTER ADMISSION
                           </span>
-                          <span className="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 uppercase shrink-0">
+                          <span className="text-[9px] sm:text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 uppercase shrink-0">
                             STEP 01/01
                           </span>
                         </div>
-                        <p className="text-xs sm:text-sm text-slate-600 font-sans">
+                        <p className="text-[11px] sm:text-xs text-slate-600 font-sans">
                           Complete your athletic profile. Receive immediate orientation confirmation.
                         </p>
                       </div>
 
                       {/* Field 1: Full Athlete Name */}
-                      <div className="space-y-2">
-                        <label className="flex items-center gap-1.5 text-xs font-mono font-bold uppercase text-slate-800 tracking-wider">
+                      <div className="space-y-1.5">
+                        <label className="flex items-center gap-1.5 text-[11px] sm:text-xs font-mono font-bold uppercase text-slate-800 tracking-wider">
                           <User className="w-3.5 h-3.5 text-slate-950" />
                           <span>FULL ATHLETE NAME *</span>
                         </label>
@@ -724,14 +724,14 @@ export default function HomePage({ onNavigate, onOpenBooking, selectedFaculty, o
                           value={initiationData.name}
                           onChange={(e) => setInitiationData({ ...initiationData, name: e.target.value })}
                           placeholder="e.g. Alex Morgan"
-                          className="w-full bg-slate-50/90 border border-slate-200 rounded-2xl px-4 py-3.5 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-slate-950 focus:ring-2 focus:ring-slate-950/10 transition-all font-sans font-medium"
+                          className="w-full bg-slate-50/90 border border-slate-200 rounded-xl sm:rounded-2xl px-3.5 py-3 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-slate-950 focus:ring-2 focus:ring-slate-950/10 transition-all font-sans font-medium"
                         />
                       </div>
 
-                      {/* Field 2 & 3: Dual Contact Details with Comfortable Gap */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
-                        <div className="space-y-2">
-                          <label className="flex items-center gap-1.5 text-xs font-mono font-bold uppercase text-slate-800 tracking-wider">
+                      {/* Field 2 & 3: Dual Contact Details with Comfortable Mobile Spacing */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
+                        <div className="space-y-1.5">
+                          <label className="flex items-center gap-1.5 text-[11px] sm:text-xs font-mono font-bold uppercase text-slate-800 tracking-wider">
                             <Mail className="w-3.5 h-3.5 text-slate-950" />
                             <span>EMAIL ADDRESS *</span>
                           </label>
@@ -741,12 +741,12 @@ export default function HomePage({ onNavigate, onOpenBooking, selectedFaculty, o
                             value={initiationData.email}
                             onChange={(e) => setInitiationData({ ...initiationData, email: e.target.value })}
                             placeholder="alex@athlete.com"
-                            className="w-full bg-slate-50/90 border border-slate-200 rounded-2xl px-4 py-3.5 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-slate-950 focus:ring-2 focus:ring-slate-950/10 transition-all font-sans font-medium"
+                            className="w-full bg-slate-50/90 border border-slate-200 rounded-xl sm:rounded-2xl px-3.5 py-3 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-slate-950 focus:ring-2 focus:ring-slate-950/10 transition-all font-sans font-medium"
                           />
                         </div>
 
-                        <div className="space-y-2">
-                          <label className="flex items-center gap-1.5 text-xs font-mono font-bold uppercase text-slate-800 tracking-wider">
+                        <div className="space-y-1.5">
+                          <label className="flex items-center gap-1.5 text-[11px] sm:text-xs font-mono font-bold uppercase text-slate-800 tracking-wider">
                             <Phone className="w-3.5 h-3.5 text-slate-950" />
                             <span>PHONE / WHATSAPP *</span>
                           </label>
@@ -756,56 +756,56 @@ export default function HomePage({ onNavigate, onOpenBooking, selectedFaculty, o
                             value={initiationData.phone}
                             onChange={(e) => setInitiationData({ ...initiationData, phone: e.target.value })}
                             placeholder="+91 98765 43210"
-                            className="w-full bg-slate-50/90 border border-slate-200 rounded-2xl px-4 py-3.5 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-slate-950 focus:ring-2 focus:ring-slate-950/10 transition-all font-sans font-medium"
+                            className="w-full bg-slate-50/90 border border-slate-200 rounded-xl sm:rounded-2xl px-3.5 py-3 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-slate-950 focus:ring-2 focus:ring-slate-950/10 transition-all font-sans font-medium"
                           />
                         </div>
                       </div>
 
-                      {/* Field 4: Training Discipline (Spacious 2-Column Grid with Casual Options & Fancy Synonyms) */}
-                      <div className="space-y-2.5">
-                        <label className="flex items-center justify-between text-xs font-mono font-bold uppercase text-slate-800 tracking-wider">
+                      {/* Field 4: Training Discipline (2-Column Grid on Both Mobile & Desktop for Optimal Density) */}
+                      <div className="space-y-1.5">
+                        <label className="flex items-center justify-between text-[11px] sm:text-xs font-mono font-bold uppercase text-slate-800 tracking-wider">
                           <span className="flex items-center gap-1.5">
                             <Dumbbell className="w-3.5 h-3.5 text-slate-950" />
                             <span>PRIMARY TRAINING DISCIPLINE</span>
                           </span>
-                          <span className="text-[10px] text-slate-500 font-normal">TAP TO SELECT</span>
+                          <span className="text-[9px] sm:text-[10px] text-slate-500 font-normal">TAP TO SELECT</span>
                         </label>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                        <div className="grid grid-cols-2 gap-2 sm:gap-2.5">
                           {[
                             { 
                               id: 'FUNCTIONAL VITALITY (General Fitness)', 
                               fancy: 'FUNCTIONAL VITALITY', 
-                              casual: 'Fitness & Everyday Energy',
+                              casual: 'Everyday Energy',
                               tag: 'FITNESS' 
                             },
                             { 
                               id: 'CARDIOVASCULAR KINETICS (Cardio & Stamina)', 
                               fancy: 'CARDIO KINETICS', 
-                              casual: 'Aerobic Engine & Stamina',
+                              casual: 'Aerobic Engine',
                               tag: 'CARDIO' 
                             },
                             { 
                               id: 'PHYSIQUE ARCHITECTURE (Body Recomp & Toning)', 
-                              fancy: 'PHYSIQUE ARCHITECTURE', 
-                              casual: 'Body Recomp & Hypertrophy',
+                              fancy: 'PHYSIQUE ARCH.', 
+                              casual: 'Recomp & Muscle',
                               tag: 'TONING' 
                             },
                             { 
                               id: 'BARBELL CALIBRATION (Maximal Strength)', 
-                              fancy: 'BARBELL CALIBRATION', 
-                              casual: 'IPF Calibrated Strength',
+                              fancy: 'BARBELL CALIB.', 
+                              casual: 'Calibrated Steel',
                               tag: 'STRENGTH' 
                             },
                             { 
                               id: 'OLYMPIC BALLISTICS (Weightlifting)', 
-                              fancy: 'OLYMPIC BALLISTICS', 
-                              casual: 'Speed, Snatch & Clean',
+                              fancy: 'OLYMPIC BALL.', 
+                              casual: 'Snatch & Clean',
                               tag: 'OLYMPIC' 
                             },
                             { 
                               id: 'THERMAL & CNS RESTORE (Recovery & Longevity)', 
-                              fancy: 'THERMAL & CNS RESTORE', 
-                              casual: 'Cold Plunge & Cedar Sauna',
+                              fancy: 'THERMAL & CNS', 
+                              casual: 'Plunge & Sauna',
                               tag: 'WELLNESS' 
                             }
                           ].map((item) => {
@@ -815,26 +815,26 @@ export default function HomePage({ onNavigate, onOpenBooking, selectedFaculty, o
                                 key={item.id}
                                 type="button"
                                 onClick={() => setInitiationData({ ...initiationData, discipline: item.id })}
-                                className={`p-3.5 rounded-2xl text-left transition-all duration-150 cursor-pointer border ${
+                                className={`p-2.5 sm:p-3 rounded-xl sm:rounded-2xl text-left transition-all duration-150 cursor-pointer border ${
                                   isSelected 
-                                    ? 'bg-[#0F172A] text-white border-[#0F172A] shadow-md' 
-                                    : 'bg-slate-50/90 text-slate-800 border-slate-200/90 hover:bg-slate-100 hover:border-slate-300'
+                                    ? 'bg-[#0F172A] text-white border-[#0F172A] shadow-sm' 
+                                    : 'bg-slate-50/90 text-slate-800 border-slate-200/90 hover:bg-slate-100'
                                 }`}
                               >
-                                <div className="flex items-center justify-between gap-1 mb-1.5">
-                                  <span className={`text-[9px] font-mono font-bold px-2 py-0.5 rounded ${
+                                <div className="flex items-center justify-between gap-1 mb-1">
+                                  <span className={`text-[8px] sm:text-[9px] font-mono font-bold px-1.5 py-0.5 rounded ${
                                     isSelected ? 'bg-white/20 text-[#CADDEE]' : 'bg-slate-200 text-slate-700'
                                   }`}>
                                     {item.tag}
                                   </span>
                                   {isSelected && (
-                                    <span className="w-2 h-2 rounded-full bg-[#CADDEE]"></span>
+                                    <span className="w-1.5 h-1.5 rounded-full bg-[#CADDEE]"></span>
                                   )}
                                 </div>
-                                <div className="font-mono text-xs font-bold tracking-tight leading-tight">
+                                <div className="font-mono text-[11px] sm:text-xs font-bold tracking-tight leading-tight">
                                   {item.fancy}
                                 </div>
-                                <div className={`text-[11px] font-sans mt-0.5 ${
+                                <div className={`text-[10px] font-sans mt-0.5 line-clamp-1 ${
                                   isSelected ? 'text-slate-300' : 'text-slate-500'
                                 }`}>
                                   {item.casual}
@@ -845,14 +845,14 @@ export default function HomePage({ onNavigate, onOpenBooking, selectedFaculty, o
                         </div>
                       </div>
 
-                      {/* Field 5: Faculty Coach Consultation (Integrated Schedule with Faculty) */}
-                      <div className="space-y-2">
-                        <label className="flex items-center justify-between text-xs font-mono font-bold uppercase text-slate-800 tracking-wider">
+                      {/* Field 5: Faculty Coach Consultation */}
+                      <div className="space-y-1.5">
+                        <label className="flex items-center justify-between text-[11px] sm:text-xs font-mono font-bold uppercase text-slate-800 tracking-wider">
                           <span className="flex items-center gap-1.5">
                             <UserCheck className="w-3.5 h-3.5 text-slate-950" />
                             <span>FACULTY COACH CONSULTATION</span>
                           </span>
-                          <span className="text-[10px] text-slate-500 font-normal">1:1 WALKTHROUGH MENTOR</span>
+                          <span className="text-[9px] sm:text-[10px] text-slate-500 font-normal">1:1 MENTOR</span>
                         </label>
                         <select
                           value={initiationData.faculty}
@@ -860,7 +860,7 @@ export default function HomePage({ onNavigate, onOpenBooking, selectedFaculty, o
                             setInitiationData({ ...initiationData, faculty: e.target.value });
                             if (onSelectFaculty) onSelectFaculty(e.target.value);
                           }}
-                          className="w-full bg-slate-50/90 border border-slate-200 rounded-2xl px-4 py-3.5 text-xs sm:text-sm text-slate-900 font-mono focus:outline-none focus:border-slate-950 focus:ring-2 focus:ring-slate-950/10 transition-all cursor-pointer font-semibold"
+                          className="w-full bg-slate-50/90 border border-slate-200 rounded-xl sm:rounded-2xl px-3.5 py-3 text-xs sm:text-sm text-slate-900 font-mono focus:outline-none focus:border-slate-950 focus:ring-2 focus:ring-slate-950/10 transition-all cursor-pointer font-semibold"
                         >
                           <option value="ANY SENIOR FACULTY COACH">⚡ FIRST AVAILABLE SENIOR FACULTY COACH</option>
                           <option value="ALEX MORGAN">ALEX MORGAN (Head of Strength &amp; Power • CSCS)</option>
@@ -870,16 +870,16 @@ export default function HomePage({ onNavigate, onOpenBooking, selectedFaculty, o
                         </select>
                       </div>
 
-                      {/* Field 6: Preferred Walkthrough Window with Comfortable Spacing */}
-                      <div className="space-y-2.5">
-                        <label className="flex items-center justify-between text-xs font-mono font-bold uppercase text-slate-800 tracking-wider">
+                      {/* Field 6: Preferred Walkthrough Window (Compact 3-Column Grid on Mobile) */}
+                      <div className="space-y-1.5">
+                        <label className="flex items-center justify-between text-[11px] sm:text-xs font-mono font-bold uppercase text-slate-800 tracking-wider">
                           <span className="flex items-center gap-1.5">
                             <Clock className="w-3.5 h-3.5 text-slate-950" />
                             <span>PREFERRED WALKTHROUGH WINDOW</span>
                           </span>
-                          <span className="text-[10px] text-slate-500 font-normal">STAFFED HOURS</span>
+                          <span className="text-[9px] sm:text-[10px] text-slate-500 font-normal">STAFFED HOURS</span>
                         </label>
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-3.5">
+                        <div className="grid grid-cols-3 gap-2 sm:gap-2.5">
                           {[
                             { id: 'MORNING (8:00 AM - 12:00 PM)', label: 'MORNING', sub: '8AM – 12PM' },
                             { id: 'AFTERNOON (12:00 PM - 5:00 PM)', label: 'AFTERNOON', sub: '12PM – 5PM' },
@@ -891,14 +891,14 @@ export default function HomePage({ onNavigate, onOpenBooking, selectedFaculty, o
                                 key={item.id}
                                 type="button"
                                 onClick={() => setInitiationData({ ...initiationData, timeSlot: item.id })}
-                                className={`py-3 px-3 rounded-2xl text-center transition-all duration-150 cursor-pointer border ${
+                                className={`py-2.5 px-2 rounded-xl sm:rounded-2xl text-center transition-all duration-150 cursor-pointer border ${
                                   isSelected 
-                                    ? 'bg-[#0F172A] text-white border-[#0F172A] shadow-md' 
-                                    : 'bg-slate-50/90 text-slate-700 border-slate-200 hover:bg-slate-100 hover:border-slate-300'
+                                    ? 'bg-[#0F172A] text-white border-[#0F172A] shadow-sm' 
+                                    : 'bg-slate-50/90 text-slate-700 border-slate-200 hover:bg-slate-100'
                                 }`}
                               >
-                                <div className="font-mono text-xs font-bold leading-tight">{item.label}</div>
-                                <div className={`text-[10px] font-sans mt-0.5 ${isSelected ? 'text-slate-300' : 'text-slate-500'}`}>{item.sub}</div>
+                                <div className="font-mono text-[11px] sm:text-xs font-bold leading-tight">{item.label}</div>
+                                <div className={`text-[9px] sm:text-[10px] font-sans mt-0.5 ${isSelected ? 'text-slate-300' : 'text-slate-500'}`}>{item.sub}</div>
                               </button>
                             );
                           })}
@@ -906,8 +906,8 @@ export default function HomePage({ onNavigate, onOpenBooking, selectedFaculty, o
                       </div>
 
                       {/* Field 7: Athletic Background & Goals (Optional) */}
-                      <div className="space-y-2">
-                        <label className="flex items-center gap-1.5 text-xs font-mono font-bold uppercase text-slate-800 tracking-wider">
+                      <div className="space-y-1.5">
+                        <label className="flex items-center gap-1.5 text-[11px] sm:text-xs font-mono font-bold uppercase text-slate-800 tracking-wider">
                           <FileText className="w-3.5 h-3.5 text-slate-950" />
                           <span>ATHLETIC BACKGROUND &amp; GOALS (OPTIONAL)</span>
                         </label>
@@ -915,40 +915,40 @@ export default function HomePage({ onNavigate, onOpenBooking, selectedFaculty, o
                           rows={2}
                           value={initiationData.experience}
                           onChange={(e) => setInitiationData({ ...initiationData, experience: e.target.value })}
-                          placeholder="Tell us about your background with barbell training, previous injuries, or specific targets..."
-                          className="w-full bg-slate-50/90 border border-slate-200 rounded-2xl px-4 py-3 text-xs text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-slate-950 focus:ring-2 focus:ring-slate-950/10 transition-all font-sans font-medium resize-none"
+                          placeholder="Tell us about your barbell background or goals..."
+                          className="w-full bg-slate-50/90 border border-slate-200 rounded-xl sm:rounded-2xl px-3.5 py-2.5 text-xs text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-slate-950 focus:ring-2 focus:ring-slate-950/10 transition-all font-sans font-medium resize-none"
                         />
                       </div>
 
-                      {/* Submit Action Button & Micro-Guarantee with Generous Padding */}
-                      <div className="pt-3 space-y-3">
+                      {/* Submit Action Button & Micro-Guarantee with Clean Mobile Wrapping */}
+                      <div className="pt-2 space-y-2.5">
                         <button
                           type="submit"
-                          className="w-full py-4.5 rounded-2xl bg-[#0F172A] hover:bg-black text-white font-display font-black text-xs sm:text-sm uppercase tracking-widest transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl active:scale-[0.99] flex items-center justify-center gap-3 cursor-pointer shadow-md"
+                          className="w-full py-3.5 sm:py-4 rounded-xl sm:rounded-2xl bg-[#0F172A] hover:bg-black text-white font-display font-black text-xs sm:text-sm uppercase tracking-wide sm:tracking-wider transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl active:scale-[0.99] flex items-center justify-center gap-2 cursor-pointer shadow-md"
                         >
                           <span>APPLY FOR MEMBERSHIP &amp; SCHEDULE TOUR</span>
                           <ArrowRight className="w-4 h-4" />
                         </button>
 
-                        <div className="flex items-center justify-center gap-2 text-[11px] font-sans text-slate-600 text-center pt-1">
+                        <div className="flex items-center justify-center gap-1.5 text-[10px] sm:text-[11px] font-sans text-slate-600 text-center px-1">
                           <ShieldCheck className="w-3.5 h-3.5 text-slate-900 shrink-0" />
-                          <span>Strictly technical walkthrough. Direct coach consultation with zero sales pressure.</span>
+                          <span>Strictly technical walkthrough. Zero sales pressure.</span>
                         </div>
                       </div>
 
                     </form>
                   ) : (
                     /* Submission Confirmation View with Generous Spacing */
-                    <div className="py-8 px-4 text-center space-y-6 animate-in fade-in duration-300">
-                      <div className="w-16 h-16 mx-auto rounded-2xl bg-[#0F172A] text-white flex items-center justify-center shadow-lg">
-                        <Check className="w-8 h-8 text-white" />
+                    <div className="py-6 sm:py-8 px-2 text-center space-y-4 sm:space-y-6 animate-in fade-in duration-300">
+                      <div className="w-14 h-14 sm:w-16 sm:h-16 mx-auto rounded-2xl bg-[#0F172A] text-white flex items-center justify-center shadow-lg">
+                        <Check className="w-7 h-7 sm:w-8 sm:h-8 text-white" />
                       </div>
 
-                      <div className="space-y-2">
-                        <span className="inline-block px-3.5 py-0.5 rounded-full bg-slate-100 text-slate-800 font-mono text-[10px] font-bold uppercase tracking-wider">
+                      <div className="space-y-1.5">
+                        <span className="inline-block px-3 py-0.5 rounded-full bg-slate-100 text-slate-800 font-mono text-[9px] sm:text-[10px] font-bold uppercase tracking-wider">
                           APPLICATION TRANSMITTED • ROSTER PENDING
                         </span>
-                        <h4 className="font-display font-black text-2xl sm:text-3xl uppercase tracking-tight text-slate-950">
+                        <h4 className="font-display font-black text-xl sm:text-3xl uppercase tracking-tight text-slate-950">
                           WALKTHROUGH SCHEDULED
                         </h4>
                         <p className="text-xs sm:text-sm text-slate-600 font-sans max-w-sm mx-auto leading-relaxed">
@@ -957,31 +957,31 @@ export default function HomePage({ onNavigate, onOpenBooking, selectedFaculty, o
                       </div>
 
                       {/* Admission Summary Card */}
-                      <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 text-left space-y-2.5 text-xs font-mono">
-                        <div className="flex justify-between border-b border-slate-200/80 pb-2">
+                      <div className="p-3.5 sm:p-5 rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-200 text-left space-y-2 text-[11px] sm:text-xs font-mono">
+                        <div className="flex justify-between border-b border-slate-200/80 pb-1.5">
                           <span className="text-slate-500 uppercase">ATHLETE:</span>
                           <span className="text-slate-950 font-bold">{initiationData.name}</span>
                         </div>
-                        <div className="flex justify-between border-b border-slate-200/80 pb-2">
+                        <div className="flex justify-between border-b border-slate-200/80 pb-1.5">
                           <span className="text-slate-500 uppercase">FACULTY MENTOR:</span>
-                          <span className="text-slate-950 font-bold">{initiationData.faculty}</span>
+                          <span className="text-slate-950 font-bold truncate max-w-[180px]">{initiationData.faculty}</span>
                         </div>
-                        <div className="flex justify-between border-b border-slate-200/80 pb-2">
+                        <div className="flex justify-between border-b border-slate-200/80 pb-1.5">
                           <span className="text-slate-500 uppercase">DISCIPLINE:</span>
-                          <span className="text-slate-950 font-bold">{initiationData.discipline}</span>
+                          <span className="text-slate-950 font-bold truncate max-w-[180px]">{initiationData.discipline}</span>
                         </div>
-                        <div className="flex justify-between border-b border-slate-200/80 pb-2">
+                        <div className="flex justify-between border-b border-slate-200/80 pb-1.5">
                           <span className="text-slate-500 uppercase">WINDOW:</span>
                           <span className="text-slate-950 font-bold">{initiationData.timeSlot}</span>
                         </div>
-                        <div className="flex justify-between pt-1 text-[11px]">
+                        <div className="flex justify-between pt-0.5 text-[10px] sm:text-[11px]">
                           <span className="text-slate-500 uppercase">LOCATION:</span>
                           <span className="text-slate-950 font-bold">100-Ft Rd, Indiranagar</span>
                         </div>
                       </div>
 
-                      <div className="text-xs sm:text-sm text-slate-600 font-sans leading-relaxed">
-                        Our Head Strength Coach will review your athletic profile and confirm your entry slot via WhatsApp/Phone within 2 hours.
+                      <div className="text-[11px] sm:text-xs text-slate-600 font-sans leading-relaxed">
+                        Our Head Strength Coach will review your athletic profile and confirm your entry slot via WhatsApp within 2 hours.
                       </div>
 
                       <button
@@ -999,7 +999,7 @@ export default function HomePage({ onNavigate, onOpenBooking, selectedFaculty, o
                             experience: ''
                           });
                         }}
-                        className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-900 font-mono text-xs font-bold transition-all cursor-pointer shadow-xs"
+                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-900 font-mono text-[11px] sm:text-xs font-bold transition-all cursor-pointer shadow-xs"
                       >
                         <RotateCcw className="w-3.5 h-3.5" />
                         <span>SUBMIT ANOTHER REQUEST</span>
