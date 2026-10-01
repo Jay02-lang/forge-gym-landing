@@ -291,23 +291,33 @@ export default function ProgramsPage({ onOpenBooking }) {
           - Full 3-line headline and content positioned on RIGHT: Focused. Relentless. Proven.
           - Frosted white glass cards, badges, and action buttons
       ========================================================================= */}
-      <section className="relative px-4 sm:px-6 lg:px-8 pt-4 pb-16 max-w-7xl mx-auto">
-        <div className="relative rounded-[36px] overflow-hidden border border-[#CBD5E1] bg-[#F8FAFC] shadow-2xl min-h-[580px] sm:min-h-[680px] lg:min-h-[740px] flex flex-col justify-between p-5 sm:p-8 lg:p-14 select-none">
-          
-          {/* LAYER 1 (z-10): FLIPPED SIGNATURE FROST ICE & LAVENDER DIAGONAL STRIPE */}
-          <div className="diagonal-stripe-frost-flipped z-10" />
+      {/* =========================================================================
+          SECTION 01: FLAT DYNAMIC SPORTS HERO (PROGRAMS - FLIPPED LAYOUT)
+          - Flat edge-to-edge section (zero card borders, zero card shadows)
+          - Flipped Frost Ice & Lavender diagonal stripe behind her
+          - Solo female athlete cutout (/fitness_PNG100.png) positioned on LEFT
+          - Full 3-line headline and content positioned on RIGHT: Focused. Relentless. Proven.
+          - Frosted white glass cards, badges, and action buttons
+      ========================================================================= */}
+      <section className="relative overflow-hidden border-b border-slate-200/80 bg-[#F8FAFC] min-h-[560px] sm:min-h-[660px] lg:min-h-[720px] flex flex-col justify-between select-none">
+        
+        {/* LAYER 1 (z-10): FLIPPED SIGNATURE FROST ICE & LAVENDER DIAGONAL STRIPE */}
+        <div className="diagonal-stripe-frost-flipped z-10" />
 
-          {/* LAYER 2 (z-20): SOLO FEMALE ATHLETE (POSITIONED ON LEFT) */}
-          <div className="absolute inset-y-0 left-0 sm:left-4 md:left-10 lg:left-20 z-20 flex items-end justify-start pointer-events-none pb-0">
-            <img
-              src={`${import.meta.env.BASE_URL}fitness_PNG100.png`}
-              alt="Female strength and athletic conditioning athlete"
-              className="h-[65%] sm:h-[80%] md:h-[90%] lg:h-[96%] max-h-[640px] object-contain object-bottom transform translate-y-2 lg:translate-y-4 athlete-cutout-shadow pointer-events-none opacity-25 sm:opacity-40 md:opacity-100 transition-opacity duration-300"
-            />
-          </div>
+        {/* LAYER 2 (z-20): SOLO FEMALE ATHLETE (POSITIONED ON LEFT) */}
+        <div className="absolute inset-y-0 left-0 sm:left-4 md:left-10 lg:left-20 xl:left-28 z-20 flex items-end justify-start pointer-events-none pb-0">
+          <img
+            src={`${import.meta.env.BASE_URL}fitness_PNG100.png`}
+            alt="Female strength and athletic conditioning athlete"
+            className="h-[65%] sm:h-[80%] md:h-[90%] lg:h-[96%] max-h-[680px] object-contain object-bottom transform translate-y-2 lg:translate-y-4 athlete-cutout-shadow pointer-events-none opacity-25 sm:opacity-40 md:opacity-100 transition-opacity duration-300"
+          />
+        </div>
 
-          {/* LAYER 3 (z-30): TOP STATUS BAR */}
-          <div className="relative z-30 flex flex-wrap items-center justify-between gap-2.5 sm:gap-3 text-[11px] sm:text-xs font-mono font-bold tracking-wider">
+        {/* INNER CONTENT GRID (MAX-W-7XL ALIGNED WITH THE REST OF THE PAGE) */}
+        <div className="relative z-30 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-6 sm:pt-8 pb-10 sm:pb-12 flex flex-col justify-between flex-1">
+
+          {/* LAYER 3: TOP STATUS BAR */}
+          <div className="flex flex-wrap items-center justify-between gap-2.5 sm:gap-3 text-[11px] sm:text-xs font-mono font-bold tracking-wider">
             <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 rounded-full bg-white/95 backdrop-blur-md border border-[#E2E8F0] shadow-xs text-slate-900">
               <ShieldCheck className="w-3.5 h-3.5" />
               <span>COMMAND CENTER • VERIFIED PERIODIZATION</span>
@@ -319,8 +329,8 @@ export default function ProgramsPage({ onOpenBooking }) {
             </div>
           </div>
 
-          {/* LAYER 4 (z-30): FULL 3-LINE HEADLINE, SUBTEXT & BUTTONS (ALIGNED RIGHT) */}
-          <div className="relative z-30 w-full md:max-w-md lg:max-w-xl my-auto pt-6 sm:pt-8 pb-6 md:ml-auto flex flex-col items-start text-left">
+          {/* LAYER 4: FULL 3-LINE HEADLINE, SUBTEXT & BUTTONS (ALIGNED RIGHT) */}
+          <div className="w-full md:max-w-md lg:max-w-xl my-auto pt-8 sm:pt-12 pb-8 md:ml-auto flex flex-col items-start text-left">
             <h1 className="font-display font-black text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-[5.5rem] tracking-tight leading-[0.9] text-slate-950 drop-shadow-xs">
               Focused.<br />
               Relentless.<br />
@@ -328,7 +338,7 @@ export default function ProgramsPage({ onOpenBooking }) {
             </h1>
 
             {/* Original Subtext in Frosted White Glass Card */}
-            <div className="mt-5 sm:mt-6 p-4 sm:p-4.5 rounded-2xl bg-white/90 backdrop-blur-md border border-white/80 shadow-xs max-w-md">
+            <div className="mt-5 sm:mt-6 p-4 sm:p-4.5 rounded-2xl bg-white/90 backdrop-blur-md border border-slate-200/80 shadow-xs max-w-md">
               <p className="text-xs sm:text-sm md:text-base text-slate-700 font-medium leading-relaxed">
                 Choose from six sports science disciplines. From IPF calibrated powerlifting to high-density metabolic complexes.
               </p>
@@ -346,17 +356,17 @@ export default function ProgramsPage({ onOpenBooking }) {
             </div>
           </div>
 
-          {/* LAYER 5 (z-30): BOTTOM FROSTED TELEMETRY PILLS (RIGHT-ALIGNED / DISTRIBUTED) */}
-          <div className="relative z-30 flex flex-wrap items-center justify-start md:justify-end gap-2 sm:gap-3 pt-4">
-            <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-white/90 backdrop-blur-md border border-white/80 shadow-2xs text-[10px] sm:text-xs font-mono text-slate-600">
+          {/* LAYER 5: BOTTOM FROSTED TELEMETRY PILLS (RIGHT-ALIGNED / DISTRIBUTED) */}
+          <div className="flex flex-wrap items-center justify-start md:justify-end gap-2 sm:gap-3 pt-4">
+            <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-white/90 backdrop-blur-md border border-slate-200/80 shadow-2xs text-[10px] sm:text-xs font-mono text-slate-600">
               <span className="font-bold text-slate-950">01</span>
               <span>PERIODIZED PROGRESSION</span>
             </div>
-            <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-white/90 backdrop-blur-md border border-white/80 shadow-2xs text-[10px] sm:text-xs font-mono text-slate-600">
+            <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-white/90 backdrop-blur-md border border-slate-200/80 shadow-2xs text-[10px] sm:text-xs font-mono text-slate-600">
               <span className="font-bold text-slate-950">02</span>
               <span>ELEIKO IPF &amp; IWF SPEC</span>
             </div>
-            <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-white/90 backdrop-blur-md border border-white/80 shadow-2xs text-[10px] sm:text-xs font-mono text-slate-600">
+            <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-white/90 backdrop-blur-md border border-slate-200/80 shadow-2xs text-[10px] sm:text-xs font-mono text-slate-600">
               <span className="font-bold text-slate-950">03</span>
               <span>CNS &amp; HYPERTROPHY RECOVERY</span>
             </div>
@@ -383,7 +393,7 @@ export default function ProgramsPage({ onOpenBooking }) {
             {filteredPrograms.map(p => (
               <div 
                 key={p.id}
-                className="frost-card frost-card-hover rounded-3xl overflow-hidden flex flex-col justify-between group shadow-sm transition-all p-6"
+                className="frost-card frost-card-hover rounded-3xl overflow-hidden flex flex-col justify-between group shadow-sm transition-all p-5 sm:p-6"
               >
                 <div className="space-y-5">
                   {/* Distinct Program Image Container with Light Film */}
@@ -416,7 +426,7 @@ export default function ProgramsPage({ onOpenBooking }) {
                     <h3 className="font-display font-black text-2xl uppercase tracking-tight text-slate-950">
                       {p.title}
                     </h3>
-                    <div className="text-xs font-sans font-semibold text-slate-600 uppercase tracking-wider">
+                    <div className="text-xs font-sans font-semibold text-slate-600 uppercase tracking-wider min-h-[18px] flex items-center">
                       {p.sub}
                     </div>
                     <p className="text-xs text-slate-600 leading-relaxed font-sans pt-1">
@@ -447,10 +457,10 @@ export default function ProgramsPage({ onOpenBooking }) {
                   </div>
                   <button
                     onClick={onOpenBooking}
-                    className="dark-pill-btn px-4 py-1.5 text-xs font-mono font-bold uppercase cursor-pointer inline-flex items-center gap-1"
+                    className="dark-pill-btn px-4 py-2 text-xs font-mono font-bold uppercase cursor-pointer inline-flex items-center gap-1.5 shadow-sm"
                   >
                     <span>APPLY</span>
-                    <span>&rarr;</span>
+                    <ArrowRight className="w-3.5 h-3.5 stroke-[2.5]" />
                   </button>
                 </div>
 
@@ -1006,7 +1016,7 @@ export default function ProgramsPage({ onOpenBooking }) {
                 className="dark-pill-btn px-9 py-4 text-sm font-display tracking-wider uppercase inline-flex items-center gap-2 cursor-pointer whitespace-nowrap"
               >
                 <span>JOIN IRONFORGE</span>
-                <span>&rarr;</span>
+                <ArrowRight className="w-4 h-4 stroke-[2.5]" />
               </button>
             </div>
           </div>

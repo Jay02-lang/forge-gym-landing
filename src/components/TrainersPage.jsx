@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   ShieldCheck, 
   Award, 
@@ -8,7 +8,9 @@ import {
   Clock, 
   Phone, 
   Mail, 
-  Zap 
+  Zap,
+  ChevronDown,
+  ChevronUp
 } from 'lucide-react';
 
 const TRAINERS_DATA = [
@@ -86,6 +88,23 @@ const FACILITIES_DATA = [
 ];
 
 export default function TrainersPage({ onOpenBooking }) {
+  const [expandedCoaches, setExpandedCoaches] = useState({});
+  const [expandedFacilities, setExpandedFacilities] = useState({});
+
+  const toggleExpand = (id) => {
+    setExpandedCoaches(prev => ({
+      ...prev,
+      [id]: !prev[id]
+    }));
+  };
+
+  const toggleFacilityExpand = (id) => {
+    setExpandedFacilities(prev => ({
+      ...prev,
+      [id]: !prev[id]
+    }));
+  };
+
   return (
     <div className="bg-[#F8FAFC] text-[#0F172A] min-h-screen frost-page-bg">
       
@@ -104,26 +123,36 @@ export default function TrainersPage({ onOpenBooking }) {
           - Full 3-line headline: Coaching. Precision. Mastery.
           - Frosted white glass cards, badges, and action button
       ========================================================================= */}
-      <section className="relative px-4 sm:px-6 lg:px-8 pt-4 pb-16 max-w-7xl mx-auto">
-        <div className="relative rounded-[36px] overflow-hidden border border-[#CBD5E1] bg-[#F8FAFC] shadow-2xl min-h-[580px] sm:min-h-[680px] lg:min-h-[740px] flex flex-col justify-between p-5 sm:p-8 lg:p-14 select-none">
-          
-          {/* LAYER 1 (z-10): SIGNATURE FROST ICE & LAVENDER DIAGONAL STRIPE */}
-          <div className="diagonal-stripe-frost z-10" />
+      {/* =========================================================================
+          SECTION 01: FLAT DYNAMIC SPORTS HERO (FACULTY / TRAINERS)
+          - Flat edge-to-edge section (zero card borders, zero card shadows)
+          - Signature Frost Ice & Lavender diagonal stripe (38° angle)
+          - Solo muscular male strength coach cutout (/fitness_PNG193.png)
+          - Full 3-line headline: Coaching. Precision. Mastery.
+          - Frosted white glass cards, badges, and action button
+      ========================================================================= */}
+      <section className="relative overflow-hidden border-b border-slate-200/80 bg-[#F8FAFC] min-h-[560px] sm:min-h-[660px] lg:min-h-[720px] flex flex-col justify-between select-none">
+        
+        {/* LAYER 1 (z-10): SIGNATURE FROST ICE & LAVENDER DIAGONAL STRIPE */}
+        <div className="diagonal-stripe-frost z-10" />
 
-          {/* LAYER 2 (z-20): FULL-BODY MALE FITNESS COACH (HEAD TO SNEAKERS) */}
-          <div className="absolute inset-y-0 right-0 sm:right-6 md:right-16 lg:right-28 z-20 flex items-end justify-end pointer-events-none pb-0">
-            <img
-              src={`${import.meta.env.BASE_URL}fitness_PNG193.png`}
-              alt="Full body male fitness coach with clipboard and athletic towel"
-              className="h-[65%] sm:h-[80%] md:h-[90%] lg:h-[96%] max-h-[640px] object-contain object-bottom transform translate-y-2 lg:translate-y-4 athlete-cutout-shadow pointer-events-none opacity-25 sm:opacity-40 md:opacity-100 transition-opacity duration-300"
-            />
-          </div>
+        {/* LAYER 2 (z-20): FULL-BODY MALE FITNESS COACH (HEAD TO SNEAKERS) */}
+        <div className="absolute inset-y-0 right-0 sm:right-6 md:right-16 lg:right-28 xl:right-36 z-20 flex items-end justify-end pointer-events-none pb-0">
+          <img
+            src={`${import.meta.env.BASE_URL}fitness_PNG193.png`}
+            alt="Full body male fitness coach with clipboard and athletic towel"
+            className="h-[65%] sm:h-[80%] md:h-[90%] lg:h-[96%] max-h-[680px] object-contain object-bottom transform translate-y-2 lg:translate-y-4 athlete-cutout-shadow pointer-events-none opacity-25 sm:opacity-40 md:opacity-100 transition-opacity duration-300"
+          />
+        </div>
 
-          {/* LAYER 3 (z-30): TOP STATUS BAR */}
-          <div className="relative z-30 flex flex-wrap items-center justify-between gap-2.5 sm:gap-3 text-[11px] sm:text-xs font-mono font-bold tracking-wider">
+        {/* INNER CONTENT GRID (MAX-W-7XL ALIGNED WITH THE REST OF THE PAGE) */}
+        <div className="relative z-30 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-6 sm:pt-8 pb-10 sm:pb-12 flex flex-col justify-between flex-1">
+
+          {/* LAYER 3: TOP STATUS BAR */}
+          <div className="flex flex-wrap items-center justify-between gap-2.5 sm:gap-3 text-[11px] sm:text-xs font-mono font-bold tracking-wider">
             <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 rounded-full bg-white/95 backdrop-blur-md border border-[#E2E8F0] shadow-xs text-slate-900">
               <ShieldCheck className="w-3.5 h-3.5" />
-              <span>⚡ FACULTY &amp; ARCHITECTURE • IPF &amp; IWF CERTIFIED</span>
+              <span>FACULTY &amp; ARCHITECTURE • IPF &amp; IWF CERTIFIED</span>
             </div>
             <div className="hidden sm:flex items-center gap-2 text-xs text-slate-600 font-mono font-semibold bg-white/85 backdrop-blur-md px-4 py-1.5 rounded-full border border-[#E2E8F0] shadow-xs">
               <span className="text-slate-950 font-bold">INDIRANAGAR, BANGALORE</span>
@@ -132,8 +161,8 @@ export default function TrainersPage({ onOpenBooking }) {
             </div>
           </div>
 
-          {/* LAYER 4 (z-30): FULL 3-LINE HEADLINE, SUBTEXT & BUTTONS */}
-          <div className="relative z-30 w-full md:max-w-md lg:max-w-xl my-auto pt-6 sm:pt-8 pb-6">
+          {/* LAYER 4: FULL 3-LINE HEADLINE, SUBTEXT & BUTTONS */}
+          <div className="w-full md:max-w-md lg:max-w-xl my-auto pt-8 sm:pt-12 pb-8">
             <h1 className="font-display font-black text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-[5.5rem] tracking-tight leading-[0.9] text-slate-950 drop-shadow-xs">
               Coaching.<br />
               Precision.<br />
@@ -141,7 +170,7 @@ export default function TrainersPage({ onOpenBooking }) {
             </h1>
 
             {/* Original Subtext in Frosted White Glass Card */}
-            <div className="mt-5 sm:mt-6 p-4 sm:p-4.5 rounded-2xl bg-white/90 backdrop-blur-md border border-white/80 shadow-xs max-w-md">
+            <div className="mt-5 sm:mt-6 p-4 sm:p-4.5 rounded-2xl bg-white/90 backdrop-blur-md border border-slate-200/80 shadow-xs max-w-md">
               <p className="text-xs sm:text-sm md:text-base text-slate-700 font-medium leading-relaxed">
                 Our faculty holds elite CSCS, USAW, and IPF certifications with competitive podium pedigrees.
               </p>
@@ -159,17 +188,17 @@ export default function TrainersPage({ onOpenBooking }) {
             </div>
           </div>
 
-          {/* LAYER 5 (z-30): BOTTOM FROSTED TELEMETRY PILLS */}
-          <div className="relative z-30 flex flex-wrap items-center gap-2 sm:gap-3 pt-4">
-            <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-white/90 backdrop-blur-md border border-white/80 shadow-2xs text-[10px] sm:text-xs font-mono text-slate-600">
+          {/* LAYER 5: BOTTOM FROSTED TELEMETRY PILLS */}
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3 pt-4">
+            <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-white/90 backdrop-blur-md border border-slate-200/80 shadow-2xs text-[10px] sm:text-xs font-mono text-slate-600">
               <span className="font-bold text-slate-950">01</span>
               <span>CSCS &amp; USAW FACULTY</span>
             </div>
-            <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-white/90 backdrop-blur-md border border-white/80 shadow-2xs text-[10px] sm:text-xs font-mono text-slate-600">
+            <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-white/90 backdrop-blur-md border border-slate-200/80 shadow-2xs text-[10px] sm:text-xs font-mono text-slate-600">
               <span className="font-bold text-slate-950">02</span>
               <span>1:1 PERIODIZED MENTORSHIP</span>
             </div>
-            <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-white/90 backdrop-blur-md border border-white/80 shadow-2xs text-[10px] sm:text-xs font-mono text-slate-600">
+            <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-white/90 backdrop-blur-md border border-slate-200/80 shadow-2xs text-[10px] sm:text-xs font-mono text-slate-600">
               <span className="font-bold text-slate-950">03</span>
               <span>BIOMECHANICAL SCREENING</span>
             </div>
@@ -197,54 +226,137 @@ export default function TrainersPage({ onOpenBooking }) {
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-7">
-            {TRAINERS_DATA.map((t) => (
-              <div 
-                key={t.id}
-                className="frost-card frost-card-hover rounded-3xl overflow-hidden p-6 flex flex-col justify-between shadow-sm transition-all"
-              >
-                <div className="space-y-4">
-                  {/* Photo with Light Film Overlay */}
-                  <div className="relative h-64 rounded-2xl overflow-hidden bg-slate-100">
-                    <img 
-                      src={t.image} 
-                      alt={t.name} 
-                      className="w-full h-full object-cover filter brightness-105 contrast-95" 
-                    />
-                    <div className="film-overlay-light" />
-
-                    <div className="absolute bottom-3 left-3 right-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full border border-slate-200 text-[10px] font-mono text-slate-900 font-bold truncate">
-                      {t.creds}
-                    </div>
-                  </div>
-
-                  <div className="space-y-1">
-                    <h3 className="font-display font-black text-xl uppercase tracking-tight text-slate-950">
-                      {t.name}
-                    </h3>
-                    <div className="text-xs font-sans font-semibold text-slate-600 uppercase tracking-wide">
-                      {t.role}
-                    </div>
-                    <div className="text-[11px] font-sans text-slate-500 pt-0.5">
-                      {t.specialty}
-                    </div>
-                    <p className="text-xs font-sans text-slate-600 pt-2 leading-relaxed">
-                      {t.bio}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="pt-6 mt-4 border-t border-slate-200">
-                  <button
-                    onClick={() => onOpenBooking(t.name)}
-                    className="dark-pill-btn w-full py-2.5 text-xs font-mono font-bold uppercase cursor-pointer inline-flex items-center justify-center gap-1.5"
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6 items-start">
+            {TRAINERS_DATA.map((t) => {
+              const isExpanded = Boolean(expandedCoaches[t.id]);
+              return (
+                  <div 
+                    key={t.id}
+                    className="frost-card frost-card-hover rounded-3xl overflow-hidden p-4 sm:p-5 flex flex-col justify-between shadow-sm transition-all duration-300 relative"
                   >
-                    <span>SCHEDULE WITH {t.name.split(' ')[0]}</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-              </div>
-            ))}
+                    <div>
+                      {/* Photo with Light Film Overlay */}
+                      <div className="relative h-48 sm:h-52 rounded-2xl overflow-hidden bg-slate-100 mb-3.5">
+                        <img 
+                          src={t.image} 
+                          alt={t.name} 
+                          className="w-full h-full object-cover filter brightness-105 contrast-95" 
+                        />
+                        <div className="film-overlay-light" />
+
+                        <div className="absolute bottom-2.5 left-2.5 right-2.5 bg-white/90 backdrop-blur-sm px-2.5 py-1 rounded-full border border-slate-200 text-[9px] sm:text-[10px] font-mono text-slate-900 font-bold truncate text-center">
+                          {t.creds}
+                        </div>
+                      </div>
+
+                      {/* Name & Role with Normalized Baseline Height for Perfect Horizontal Button Alignment */}
+                      <div className="space-y-1 mb-3">
+                        <h3 className="font-display font-black text-xl uppercase tracking-tight text-slate-950 truncate">
+                          {t.name}
+                        </h3>
+                        <div className="text-xs font-sans font-semibold text-slate-600 uppercase tracking-wide min-h-[36px] flex items-center leading-snug">
+                          {t.role}
+                        </div>
+                      </div>
+
+                      {/* SCHEDULE BUTTON: Prominently placed in the space above More Info */}
+                      <div className="mb-3">
+                        <button
+                          type="button"
+                          onClick={() => onOpenBooking(t.name)}
+                          className="dark-pill-btn w-full py-2.5 sm:py-3 px-4 text-xs font-mono font-bold uppercase tracking-wider inline-flex items-center justify-center gap-2 cursor-pointer shadow-sm hover:bg-slate-800 transition-all"
+                        >
+                          <span>SCHEDULE WITH {t.name.split(' ')[0]}</span>
+                          <ArrowRight className="w-3.5 h-3.5 stroke-[2.5]" />
+                        </button>
+                      </div>
+
+                      {/* COLLAPSED STATE: Open visibly frosted blur extending to card edge with unboxed More Info */}
+                      {!isExpanded ? (
+                        <div 
+                          role="button"
+                          tabIndex={0}
+                          aria-expanded={false}
+                          aria-label={`More info about ${t.name}`}
+                          onClick={() => toggleExpand(t.id)}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                              e.preventDefault();
+                              toggleExpand(t.id);
+                            }
+                          }}
+                          className="relative -mx-4 sm:-mx-5 -mb-4 sm:-mb-5 mt-2 pt-3 pb-4 px-4 sm:px-5 cursor-pointer group select-none overflow-hidden"
+                        >
+                          {/* Distinct visible frosted glass blur layer extending to card edges */}
+                          <div className="absolute inset-0 bg-gradient-to-b from-slate-100/40 via-slate-200/70 to-slate-200/95 backdrop-blur-md" />
+                          
+                          {/* Frosted glass top sheen */}
+                          <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/30 to-white/60 pointer-events-none" />
+
+                          <div className="relative z-10 flex flex-col items-center justify-center gap-1">
+                            <div className="inline-flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-wider text-slate-900 group-hover:text-black group-hover:translate-y-0.5 transition-all">
+                              <span>MORE INFO</span>
+                              <ChevronDown className="w-3.5 h-3.5 stroke-[2.5]" />
+                            </div>
+
+                            {/* Decorative blurred text hidden from screen readers */}
+                            <div 
+                              aria-hidden="true" 
+                              className="w-full text-center text-[10px] font-mono text-slate-500/70 tracking-wider truncate filter blur-[2px] select-none pointer-events-none"
+                            >
+                              {t.specialty} • {t.creds}
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        /* EXPANDED STATE: Full info revealed with accessible Less Info toggle */
+                        <div className="mt-4 space-y-3 animate-in fade-in duration-300 text-left">
+                          <div className="space-y-2.5">
+                            <div>
+                              <span className="text-[9px] font-mono font-bold uppercase tracking-wider text-slate-500">
+                                SPECIALTY &amp; FOCUS
+                              </span>
+                              <p className="text-xs font-sans font-semibold text-slate-800 leading-snug mt-0.5">
+                                {t.specialty}
+                              </p>
+                            </div>
+
+                            <div className="pt-2 border-t border-slate-200/70">
+                              <span className="text-[9px] font-mono font-bold uppercase tracking-wider text-slate-500">
+                                COACHING DOSSIER
+                              </span>
+                              <p className="text-xs font-sans text-slate-600 leading-relaxed mt-0.5">
+                                {t.bio}
+                              </p>
+                            </div>
+                          </div>
+
+                          {/* Open Less Info toggle extending to card edge with frosted blur background and 44px+ touch target */}
+                          <div 
+                            role="button"
+                            tabIndex={0}
+                            aria-expanded={true}
+                            aria-label={`Collapse info for ${t.name}`}
+                            onClick={() => toggleExpand(t.id)}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter' || e.key === ' ') {
+                                e.preventDefault();
+                                toggleExpand(t.id);
+                              }
+                            }}
+                            className="relative -mx-4 sm:-mx-5 -mb-4 sm:-mb-5 mt-4 py-3.5 px-4 sm:px-5 cursor-pointer group select-none text-center bg-gradient-to-b from-slate-100/30 via-slate-200/50 to-slate-200/80 backdrop-blur-sm"
+                          >
+                            <div className="inline-flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-wider text-slate-700 group-hover:text-black transition-colors">
+                              <span>LESS INFO</span>
+                              <ChevronUp className="w-3.5 h-3.5 stroke-[2.5]" />
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+              );
+            })}
           </div>
 
         </div>
@@ -384,46 +496,130 @@ export default function TrainersPage({ onOpenBooking }) {
             </h2>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-7 items-stretch">
-            {FACILITIES_DATA.map((f) => (
-              <div 
-                key={f.id}
-                className="frost-card frost-card-hover rounded-[32px] overflow-hidden p-6 sm:p-7 flex flex-col justify-between shadow-sm transition-all duration-300"
-              >
-                <div className="space-y-5">
-                  {/* Expanded Image Viewport */}
-                  <div className="relative h-64 sm:h-72 rounded-[22px] overflow-hidden bg-slate-100 shadow-inner">
-                    <img 
-                      src={f.image} 
-                      alt={f.name} 
-                      className="w-full h-full object-cover filter brightness-100 contrast-100 group-hover:scale-105 transition-all duration-500" 
-                    />
-                    <div className="film-overlay-light" />
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6 items-start">
+            {FACILITIES_DATA.map((f) => {
+              const isExpanded = Boolean(expandedFacilities[f.id]);
+              return (
+                <div 
+                  key={f.id}
+                  className="frost-card frost-card-hover rounded-3xl overflow-hidden p-4 sm:p-5 flex flex-col justify-between shadow-sm transition-all duration-300 relative"
+                >
+                  <div>
+                    {/* Facility Image with Film Overlay & Zone Badge */}
+                    <div className="relative h-48 sm:h-52 rounded-2xl overflow-hidden bg-slate-100 mb-3.5 shadow-inner">
+                      <img 
+                        src={f.image} 
+                        alt={f.name} 
+                        className="w-full h-full object-cover filter brightness-100 contrast-100 group-hover:scale-105 transition-all duration-500" 
+                      />
+                      <div className="film-overlay-light" />
 
-                    <div className="absolute top-3.5 left-3.5 px-3 py-1 rounded-full bg-slate-950/90 backdrop-blur-xs text-white font-mono text-[10px] font-bold tracking-wider shadow-sm">
-                      {f.zone}
+                      <div className="absolute bottom-2.5 left-2.5 right-2.5 bg-white/90 backdrop-blur-sm px-2.5 py-1 rounded-full border border-slate-200 text-[9px] sm:text-[10px] font-mono text-slate-900 font-bold truncate text-center">
+                        {f.zone} • ARCHITECTURAL ZONE
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="space-y-2">
-                    <h3 className="font-display font-black text-2xl uppercase tracking-tight text-slate-950">
-                      {f.name}
-                    </h3>
-                    <div className="text-[11px] font-mono font-bold text-slate-700 tracking-wide uppercase bg-slate-100 border border-slate-200/80 px-3 py-1.5 rounded-xl">
-                      {f.specs}
+                    {/* Zone Name & Key Specs with Normalized Baseline Height */}
+                    <div className="space-y-1 mb-2">
+                      <h3 className="font-display font-black text-xl uppercase tracking-tight text-slate-950 truncate">
+                        {f.name}
+                      </h3>
+                      <div className="text-xs font-sans font-semibold text-slate-600 uppercase tracking-wide min-h-[36px] flex items-center leading-snug">
+                        {f.specs.split('•')[0].trim()}
+                      </div>
                     </div>
-                    <p className="text-xs sm:text-[13px] font-sans text-slate-600 leading-relaxed pt-1">
-                      {f.desc}
-                    </p>
+
+                    {/* COLLAPSED STATE: Open visibly frosted blur extending to card edge with unboxed More Info */}
+                    {!isExpanded ? (
+                      <div 
+                        role="button"
+                        tabIndex={0}
+                        aria-expanded={false}
+                        aria-label={`More specifications for ${f.name}`}
+                        onClick={() => toggleFacilityExpand(f.id)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            toggleFacilityExpand(f.id);
+                          }
+                        }}
+                        className="relative -mx-4 sm:-mx-5 -mb-4 sm:-mb-5 mt-2 pt-3 pb-4 px-4 sm:px-5 cursor-pointer group select-none overflow-hidden"
+                      >
+                        {/* Distinct visible frosted glass blur layer extending to card edges */}
+                        <div className="absolute inset-0 bg-gradient-to-b from-slate-100/40 via-slate-200/70 to-slate-200/95 backdrop-blur-md" />
+                        
+                        {/* Frosted glass top sheen */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/30 to-white/60 pointer-events-none" />
+
+                        <div className="relative z-10 flex flex-col items-center justify-center gap-1">
+                          <div className="inline-flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-wider text-slate-900 group-hover:text-black group-hover:translate-y-0.5 transition-all">
+                            <span>MORE INFO</span>
+                            <ChevronDown className="w-3.5 h-3.5 stroke-[2.5]" />
+                          </div>
+
+                          {/* Decorative blurred text underneath */}
+                          <div 
+                            aria-hidden="true" 
+                            className="w-full text-center text-[10px] font-mono text-slate-500/70 tracking-wider truncate filter blur-[2px] select-none pointer-events-none"
+                          >
+                            {f.specs}
+                          </div>
+                        </div>
+                      </div>
+                    ) : (
+                      /* EXPANDED STATE: Full specifications and overview revealed with accessible Less Info toggle */
+                      <div className="mt-4 space-y-3 animate-in fade-in duration-300 text-left">
+                        <div className="space-y-2.5">
+                          <div>
+                            <span className="text-[9px] font-mono font-bold uppercase tracking-wider text-slate-500">
+                              HARDWARE SPECIFICATIONS
+                            </span>
+                            <p className="text-xs font-sans font-semibold text-slate-800 leading-snug mt-0.5">
+                              {f.specs}
+                            </p>
+                          </div>
+
+                          <div className="pt-2 border-t border-slate-200/70">
+                            <span className="text-[9px] font-mono font-bold uppercase tracking-wider text-slate-500">
+                              ZONE OVERVIEW
+                            </span>
+                            <p className="text-xs font-sans text-slate-600 leading-relaxed mt-0.5">
+                              {f.desc}
+                            </p>
+                          </div>
+
+                          <div className="pt-2 border-t border-slate-200/70 flex items-center justify-between text-xs font-mono text-slate-500">
+                            <span className="text-[10px] font-bold uppercase text-slate-500">FACILITY ACCESS</span>
+                            <span className="text-slate-950 font-bold bg-slate-100 border border-slate-200 px-2.5 py-0.5 rounded-full text-[9px]">INCLUDED</span>
+                          </div>
+                        </div>
+
+                        {/* Open Less Info toggle extending to card edge with frosted blur background and 44px+ touch target */}
+                        <div 
+                          role="button"
+                          tabIndex={0}
+                          aria-expanded={true}
+                          aria-label={`Collapse specifications for ${f.name}`}
+                          onClick={() => toggleFacilityExpand(f.id)}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                              e.preventDefault();
+                              toggleFacilityExpand(f.id);
+                            }
+                          }}
+                          className="relative -mx-4 sm:-mx-5 -mb-4 sm:-mb-5 mt-4 py-3.5 px-4 sm:px-5 cursor-pointer group select-none text-center bg-gradient-to-b from-slate-100/30 via-slate-200/50 to-slate-200/80 backdrop-blur-sm"
+                        >
+                          <div className="inline-flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-wider text-slate-700 group-hover:text-black transition-colors">
+                            <span>LESS INFO</span>
+                            <ChevronUp className="w-3.5 h-3.5 stroke-[2.5]" />
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
-
-                <div className="pt-5 mt-6 border-t border-slate-200 flex items-center justify-between text-xs font-mono text-slate-500">
-                  <span className="font-medium">FACILITY ACCESS</span>
-                  <span className="text-slate-950 font-bold bg-slate-100 border border-slate-200 px-2.5 py-0.5 rounded-full text-[10px]">INCLUDED</span>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
         </div>
@@ -550,7 +746,8 @@ export default function TrainersPage({ onOpenBooking }) {
                 onClick={onOpenBooking}
                 className="dark-pill-btn w-full py-4 text-xs font-display uppercase tracking-wider inline-flex items-center justify-center gap-2 cursor-pointer shadow-md mt-4"
               >
-                <span>JOIN PERFORMANCE &rarr;</span>
+                <span>JOIN PERFORMANCE</span>
+                <ArrowRight className="w-3.5 h-3.5 stroke-[2.5]" />
               </button>
             </div>
 

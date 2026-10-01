@@ -86,6 +86,7 @@ export default function Navbar({ currentPage, onNavigate, onOpenBooking }) {
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="p-2 text-slate-700 hover:text-slate-950 focus:outline-none cursor-pointer"
               aria-label="Toggle Menu"
+              aria-expanded={isMobileMenuOpen}
             >
               {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -96,12 +97,12 @@ export default function Navbar({ currentPage, onNavigate, onOpenBooking }) {
 
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
-        <div className="md:hidden bg-white/95 backdrop-blur-md border-b border-slate-200 px-4 pt-4 pb-6 space-y-3 text-sm font-bold text-slate-800">
+        <div className="md:hidden bg-white/95 backdrop-blur-md border-b border-slate-200 px-4 pt-4 pb-6 space-y-3 text-sm font-bold text-slate-800 animate-in fade-in duration-200">
           {navItems.map((item) => (
             <button
               key={item.id}
               onClick={() => handleItemClick(item.id)}
-              className={`block w-full text-left py-2 ${
+              className={`block w-full text-left py-2.5 ${
                 currentPage === item.id ? 'text-slate-950 font-black' : 'text-slate-600'
               }`}
             >
@@ -114,9 +115,10 @@ export default function Navbar({ currentPage, onNavigate, onOpenBooking }) {
                 setIsMobileMenuOpen(false);
                 onOpenBooking();
               }}
-              className="w-full dark-pill-btn text-xs uppercase tracking-wider py-3 cursor-pointer text-center"
+              className="w-full dark-pill-btn text-xs uppercase tracking-wider py-3 cursor-pointer inline-flex items-center justify-center gap-2 shadow-sm"
             >
-              JOIN NOW &rarr;
+              <span>JOIN NOW</span>
+              <ArrowRight className="w-3.5 h-3.5 stroke-[2.5]" />
             </button>
           </div>
         </div>

@@ -47,7 +47,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] text-[#0F172A] flex flex-col relative selection:bg-[#CADDEE] selection:text-[#0F172A] frost-page-bg">
+    <div className="min-h-screen bg-[#F8FAFC] text-[#0F172A] flex flex-col relative selection:bg-[#CADDEE] selection:text-[#0F172A] frost-page-bg overflow-x-hidden">
       {/* Navigation Header */}
       <Navbar 
         currentPage={currentPage} 

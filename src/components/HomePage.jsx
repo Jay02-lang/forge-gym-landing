@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { 
   ArrowRight, 
+  ArrowLeft,
   Zap, 
   Target, 
   BarChart3, 
@@ -30,6 +31,7 @@ export default function HomePage({ onNavigate, onOpenBooking, selectedFaculty, o
   const containerRef = useRef(null);
 
   // Membership & Faculty Initiation Inline Form State
+  const [formStep, setFormStep] = useState(1);
   const [initiationData, setInitiationData] = useState({
     name: '',
     email: '',
@@ -50,6 +52,10 @@ export default function HomePage({ onNavigate, onOpenBooking, selectedFaculty, o
 
   const handleInitiationSubmit = (e) => {
     e.preventDefault();
+    if (!initiationData.name.trim() || !initiationData.email.trim() || !initiationData.phone.trim()) {
+      setFormStep(1);
+      return;
+    }
     setInitiationSubmitted(true);
   };
 
@@ -77,29 +83,32 @@ export default function HomePage({ onNavigate, onOpenBooking, selectedFaculty, o
           - Massive high-contrast typography and original action buttons
       ========================================================================= */}
       {/* =========================================================================
-          SECTION 01: DYNAMIC DIAGONAL SPORTS HERO
-          - Signature Frost Ice & Lavender diagonal stripe (40° angle)
-          - Solo muscular male athlete cutout with white athletic details (/fitness_PNG170.png)
-          - 100% original copy preserved: Stronger. Healthier. You. (Full 3-line headline)
-          - Frosted white cards, badges, and high-contrast action buttons
+          SECTION 01: FLAT DYNAMIC SPORTS HERO (MERGED SEAMLESSLY WITH PAGE)
+          - Flat edge-to-edge section (zero card borders, zero card shadows)
+          - Signature Frost Ice & Lavender diagonal stripe (38° angle)
+          - Solo muscular male athlete cutout (/fitness_PNG170.png) grounded on baseline
+          - 100% original copy preserved: Stronger. Healthier. You.
+          - High-contrast dark typography and action buttons
       ========================================================================= */}
-      <section className="relative px-4 sm:px-6 lg:px-8 pt-4 pb-16 max-w-7xl mx-auto">
-        <div className="relative rounded-[36px] overflow-hidden border border-[#CBD5E1] bg-[#F8FAFC] shadow-2xl min-h-[580px] sm:min-h-[680px] lg:min-h-[740px] flex flex-col justify-between p-5 sm:p-8 lg:p-14 select-none">
+      <section className="relative overflow-hidden border-b border-slate-200/80 bg-[#F8FAFC] min-h-[560px] sm:min-h-[660px] lg:min-h-[720px] flex flex-col justify-between select-none">
+        
+        {/* LAYER 1 (z-10): SIGNATURE FROST ICE & LAVENDER DIAGONAL STRIPE */}
+        <div className="diagonal-stripe-frost z-10" />
+
+        {/* LAYER 2 (z-20): SOLO MUSCULAR MALE ATHLETE (WITH WHITE ELEMENTS & APPAREL) */}
+        <div className="absolute inset-y-0 right-0 sm:right-6 md:right-16 lg:right-28 xl:right-36 z-20 flex items-end justify-end pointer-events-none pb-0">
+          <img
+            src={`${import.meta.env.BASE_URL}fitness_PNG170.png`}
+            alt="Muscular male strength athlete with athletic gear"
+            className="h-[65%] sm:h-[80%] md:h-[90%] lg:h-[96%] max-h-[680px] object-contain object-bottom transform translate-y-2 lg:translate-y-4 athlete-cutout-shadow pointer-events-none opacity-25 sm:opacity-40 md:opacity-100 transition-opacity duration-300"
+          />
+        </div>
+
+        {/* INNER CONTENT GRID (MAX-W-7XL ALIGNED WITH THE REST OF THE PAGE) */}
+        <div className="relative z-30 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-6 sm:pt-8 pb-10 sm:pb-12 flex flex-col justify-between flex-1">
           
-          {/* LAYER 1 (z-10): SIGNATURE FROST ICE & LAVENDER DIAGONAL STRIPE */}
-          <div className="diagonal-stripe-frost z-10" />
-
-          {/* LAYER 2 (z-20): SOLO MUSCULAR MALE ATHLETE (WITH WHITE ELEMENTS & APPAREL) */}
-          <div className="absolute inset-y-0 right-0 sm:right-6 md:right-16 lg:right-28 z-20 flex items-end justify-end pointer-events-none pb-0">
-            <img
-              src={`${import.meta.env.BASE_URL}fitness_PNG170.png`}
-              alt="Muscular male strength athlete with athletic gear"
-              className="h-[65%] sm:h-[80%] md:h-[90%] lg:h-[96%] max-h-[640px] object-contain object-bottom transform translate-y-2 lg:translate-y-4 athlete-cutout-shadow pointer-events-none opacity-25 sm:opacity-40 md:opacity-100 transition-opacity duration-300"
-            />
-          </div>
-
-          {/* LAYER 3 (z-30): TOP STATUS BAR */}
-          <div className="relative z-30 flex flex-wrap items-center justify-between gap-2.5 sm:gap-3 text-[11px] sm:text-xs font-mono font-bold tracking-wider">
+          {/* LAYER 3: TOP STATUS BAR */}
+          <div className="flex flex-wrap items-center justify-between gap-2.5 sm:gap-3 text-[11px] sm:text-xs font-mono font-bold tracking-wider">
             <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 rounded-full bg-white/95 backdrop-blur-md border border-[#E2E8F0] shadow-xs text-slate-900">
               <span>⚡ IPF &amp; IWF CALIBRATED HUMAN PERFORMANCE</span>
             </div>
@@ -110,22 +119,22 @@ export default function HomePage({ onNavigate, onOpenBooking, selectedFaculty, o
             </div>
           </div>
 
-          {/* LAYER 4 (z-30): FULL 3-LINE HEADLINE, SUBTEXT & BUTTONS */}
-          <div className="relative z-30 w-full md:max-w-md lg:max-w-xl my-auto pt-6 sm:pt-8 pb-6">
+          {/* LAYER 4: FULL 3-LINE HEADLINE, SUBTEXT & BUTTONS */}
+          <div className="w-full md:max-w-md lg:max-w-xl my-auto pt-8 sm:pt-12 pb-8">
             <h1 className="font-display font-black text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-[5.5rem] tracking-tight leading-[0.9] text-slate-950 drop-shadow-xs">
               Stronger.<br />
               Healthier.<br />
               <span className="text-slate-700">You.</span>
             </h1>
 
-            {/* Original Subtext in Frosted White Glass Card */}
-            <div className="mt-5 sm:mt-6 p-4 sm:p-4.5 rounded-2xl bg-white/90 backdrop-blur-md border border-white/80 shadow-xs max-w-md">
+            {/* Subtext in Subtle Frosted Pill Card */}
+            <div className="mt-5 sm:mt-6 p-4 sm:p-4.5 rounded-2xl bg-white/90 backdrop-blur-md border border-slate-200/80 shadow-xs max-w-md">
               <p className="text-xs sm:text-sm md:text-base text-slate-700 font-medium leading-relaxed">
                 An uncompromising strength and human performance sanctuary engineered with sports science periodization and calibrated coaching.
               </p>
             </div>
 
-            {/* Original Action Buttons */}
+            {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-3.5 mt-6 sm:mt-8">
               <button
                 onClick={onOpenBooking}
@@ -136,25 +145,25 @@ export default function HomePage({ onNavigate, onOpenBooking, selectedFaculty, o
               </button>
               <button
                 onClick={() => onNavigate('programs')}
-                className="dark-pill-btn px-6 sm:px-7 py-3.5 text-xs sm:text-sm font-display tracking-wide uppercase inline-flex items-center justify-center gap-2 cursor-pointer"
+                className="dark-pill-btn px-6 sm:px-7 py-3.5 text-xs sm:text-sm font-display tracking-wide uppercase inline-flex items-center justify-center gap-3 cursor-pointer"
               >
                 <span>Explore Protocols</span>
-                <span>&rarr;</span>
+                <ArrowRight className="w-4 h-4 stroke-[2.5]" />
               </button>
             </div>
           </div>
 
-          {/* LAYER 5 (z-30): BOTTOM FROSTED TELEMETRY PILLS */}
-          <div className="relative z-30 flex flex-wrap items-center gap-2 sm:gap-3 pt-4">
-            <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-white/90 backdrop-blur-md border border-white/80 shadow-2xs text-[10px] sm:text-xs font-mono text-slate-600">
+          {/* LAYER 5: BOTTOM FROSTED TELEMETRY PILLS */}
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3 pt-4">
+            <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-white/90 backdrop-blur-md border border-slate-200/80 shadow-2xs text-[10px] sm:text-xs font-mono text-slate-600">
               <span className="font-bold text-slate-950">01</span>
               <span>STRENGTH PERIODIZATION</span>
             </div>
-            <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-white/90 backdrop-blur-md border border-white/80 shadow-2xs text-[10px] sm:text-xs font-mono text-slate-600">
+            <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-white/90 backdrop-blur-md border border-slate-200/80 shadow-2xs text-[10px] sm:text-xs font-mono text-slate-600">
               <span className="font-bold text-slate-950">02</span>
               <span>IPF/IWF PLATFORMS</span>
             </div>
-            <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-white/90 backdrop-blur-md border border-white/80 shadow-2xs text-[10px] sm:text-xs font-mono text-slate-600">
+            <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-white/90 backdrop-blur-md border border-slate-200/80 shadow-2xs text-[10px] sm:text-xs font-mono text-slate-600">
               <span className="font-bold text-slate-950">03</span>
               <span>SPORTS SCIENCE RECOVERY</span>
             </div>
@@ -185,7 +194,7 @@ export default function HomePage({ onNavigate, onOpenBooking, selectedFaculty, o
           <div className="grid md:grid-cols-3 gap-8">
             
             {/* Card 1: Strength */}
-            <div className="frost-card frost-card-hover rounded-3xl p-8 space-y-5 shadow-sm transition-all flex flex-col justify-between">
+            <div className="frost-card frost-card-hover rounded-3xl p-6 sm:p-8 space-y-5 shadow-sm transition-all flex flex-col justify-between">
               <div className="space-y-4">
                 <div className="w-12 h-12 rounded-2xl bg-slate-950 text-white flex items-center justify-center font-bold">
                   <Dumbbell className="w-6 h-6 stroke-[2.2]" />
@@ -205,7 +214,7 @@ export default function HomePage({ onNavigate, onOpenBooking, selectedFaculty, o
             </div>
 
             {/* Card 2: Healthier */}
-            <div className="frost-card frost-card-hover rounded-3xl p-8 space-y-5 shadow-sm transition-all flex flex-col justify-between">
+            <div className="frost-card frost-card-hover rounded-3xl p-6 sm:p-8 space-y-5 shadow-sm transition-all flex flex-col justify-between">
               <div className="space-y-4">
                 <div className="w-12 h-12 rounded-2xl bg-slate-950 text-white flex items-center justify-center font-bold">
                   <Flame className="w-6 h-6 stroke-[2.2]" />
@@ -225,7 +234,7 @@ export default function HomePage({ onNavigate, onOpenBooking, selectedFaculty, o
             </div>
 
             {/* Card 3: You */}
-            <div className="frost-card frost-card-hover rounded-3xl p-8 space-y-5 shadow-sm transition-all flex flex-col justify-between">
+            <div className="frost-card frost-card-hover rounded-3xl p-6 sm:p-8 space-y-5 shadow-sm transition-all flex flex-col justify-between">
               <div className="space-y-4">
                 <div className="w-12 h-12 rounded-2xl bg-slate-950 text-white flex items-center justify-center font-bold">
                   <Activity className="w-6 h-6 stroke-[2.2]" />
@@ -271,9 +280,10 @@ export default function HomePage({ onNavigate, onOpenBooking, selectedFaculty, o
 
             <button
               onClick={() => onNavigate('programs')}
-              className="text-xs font-mono font-bold uppercase tracking-wider text-slate-900 hover:text-black transition-colors self-start sm:self-auto cursor-pointer"
+              className="text-xs font-mono font-bold uppercase tracking-wider text-slate-900 hover:text-black transition-colors self-start sm:self-auto cursor-pointer inline-flex items-center gap-1.5 group"
             >
-              View Full Catalog &rarr;
+              <span>View Full Catalog</span>
+              <ArrowRight className="w-3.5 h-3.5 stroke-[2.5] group-hover:translate-x-0.5 transition-transform" />
             </button>
           </div>
 
@@ -283,7 +293,7 @@ export default function HomePage({ onNavigate, onOpenBooking, selectedFaculty, o
             {/* Card 1: Strength */}
             <div 
               onClick={() => onNavigate('programs')}
-              className="group relative h-72 sm:h-80 rounded-3xl overflow-hidden cursor-pointer shadow-md hover:shadow-xl transition-all duration-300 border border-slate-200/80 p-8 flex flex-col justify-end"
+              className="group relative h-72 sm:h-80 rounded-3xl overflow-hidden cursor-pointer shadow-md hover:shadow-xl transition-all duration-300 border border-slate-200/80 p-6 sm:p-8 flex flex-col justify-end"
             >
               <img
                 src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1000&auto=format&fit=crop"
@@ -307,7 +317,7 @@ export default function HomePage({ onNavigate, onOpenBooking, selectedFaculty, o
                 </p>
                 <div className="pt-2 flex items-center gap-2 text-xs font-mono font-bold text-slate-950 group-hover:translate-x-1 transition-transform">
                   <span>VIEW PROTOCOL</span>
-                  <span>&rarr;</span>
+                  <ArrowRight className="w-3.5 h-3.5 stroke-[2.5]" />
                 </div>
               </div>
             </div>
@@ -315,7 +325,7 @@ export default function HomePage({ onNavigate, onOpenBooking, selectedFaculty, o
             {/* Card 2: Muscle Build */}
             <div 
               onClick={() => onNavigate('programs')}
-              className="group relative h-72 sm:h-80 rounded-3xl overflow-hidden cursor-pointer shadow-md hover:shadow-xl transition-all duration-300 border border-slate-200/80 p-8 flex flex-col justify-end"
+              className="group relative h-72 sm:h-80 rounded-3xl overflow-hidden cursor-pointer shadow-md hover:shadow-xl transition-all duration-300 border border-slate-200/80 p-6 sm:p-8 flex flex-col justify-end"
             >
               <img
                 src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=1000&auto=format&fit=crop"
@@ -339,7 +349,7 @@ export default function HomePage({ onNavigate, onOpenBooking, selectedFaculty, o
                 </p>
                 <div className="pt-2 flex items-center gap-2 text-xs font-mono font-bold text-slate-950 group-hover:translate-x-1 transition-transform">
                   <span>VIEW PROTOCOL</span>
-                  <span>&rarr;</span>
+                  <ArrowRight className="w-3.5 h-3.5 stroke-[2.5]" />
                 </div>
               </div>
             </div>
@@ -347,7 +357,7 @@ export default function HomePage({ onNavigate, onOpenBooking, selectedFaculty, o
             {/* Card 3: Fat Loss */}
             <div 
               onClick={() => onNavigate('programs')}
-              className="group relative h-72 sm:h-80 rounded-3xl overflow-hidden cursor-pointer shadow-md hover:shadow-xl transition-all duration-300 border border-slate-200/80 p-8 flex flex-col justify-end"
+              className="group relative h-72 sm:h-80 rounded-3xl overflow-hidden cursor-pointer shadow-md hover:shadow-xl transition-all duration-300 border border-slate-200/80 p-6 sm:p-8 flex flex-col justify-end"
             >
               <img
                 src="https://images.unsplash.com/photo-1549060279-7e168fcee0c2?q=80&w=1000&auto=format&fit=crop"
@@ -371,7 +381,7 @@ export default function HomePage({ onNavigate, onOpenBooking, selectedFaculty, o
                 </p>
                 <div className="pt-2 flex items-center gap-2 text-xs font-mono font-bold text-slate-950 group-hover:translate-x-1 transition-transform">
                   <span>VIEW PROTOCOL</span>
-                  <span>&rarr;</span>
+                  <ArrowRight className="w-3.5 h-3.5 stroke-[2.5]" />
                 </div>
               </div>
             </div>
@@ -379,7 +389,7 @@ export default function HomePage({ onNavigate, onOpenBooking, selectedFaculty, o
             {/* Card 4: Athletic Performance */}
             <div 
               onClick={() => onNavigate('programs')}
-              className="group relative h-72 sm:h-80 rounded-3xl overflow-hidden cursor-pointer shadow-md hover:shadow-xl transition-all duration-300 border border-slate-200/80 p-8 flex flex-col justify-end"
+              className="group relative h-72 sm:h-80 rounded-3xl overflow-hidden cursor-pointer shadow-md hover:shadow-xl transition-all duration-300 border border-slate-200/80 p-6 sm:p-8 flex flex-col justify-end"
             >
               <img
                 src="https://images.unsplash.com/photo-1517963879433-6ad2b056d712?q=80&w=1000&auto=format&fit=crop"
@@ -403,7 +413,7 @@ export default function HomePage({ onNavigate, onOpenBooking, selectedFaculty, o
                 </p>
                 <div className="pt-2 flex items-center gap-2 text-xs font-mono font-bold text-slate-950 group-hover:translate-x-1 transition-transform">
                   <span>VIEW PROTOCOL</span>
-                  <span>&rarr;</span>
+                  <ArrowRight className="w-3.5 h-3.5 stroke-[2.5]" />
                 </div>
               </div>
             </div>
@@ -552,16 +562,17 @@ export default function HomePage({ onNavigate, onOpenBooking, selectedFaculty, o
             
             <button
               onClick={() => onNavigate('trainers')}
-              className="text-xs font-mono font-bold uppercase tracking-wider text-slate-900 hover:text-black transition-colors cursor-pointer"
+              className="text-xs font-mono font-bold uppercase tracking-wider text-slate-900 hover:text-black transition-colors cursor-pointer inline-flex items-center gap-1.5 group"
             >
-              VIEW ALL &rarr;
+              <span>VIEW ALL</span>
+              <ArrowRight className="w-3.5 h-3.5 stroke-[2.5] group-hover:translate-x-0.5 transition-transform" />
             </button>
           </div>
 
           {/* 3 Trainer Cards */}
           <div className="grid md:grid-cols-3 gap-8">
             
-            <div className="frost-card frost-card-hover rounded-3xl overflow-hidden p-6 space-y-4 shadow-sm transition-all">
+            <div className="frost-card frost-card-hover rounded-3xl overflow-hidden p-5 sm:p-6 space-y-4 shadow-sm transition-all">
               <div className="relative h-64 rounded-2xl overflow-hidden bg-slate-100">
                 <img 
                   src="https://images.unsplash.com/photo-1567013127542-490d757e51fc?q=80&w=800&auto=format&fit=crop" 
@@ -572,14 +583,14 @@ export default function HomePage({ onNavigate, onOpenBooking, selectedFaculty, o
               </div>
               <div className="space-y-1">
                 <h3 className="font-display font-black text-xl uppercase text-slate-950">ALEX MORGAN</h3>
-                <div className="text-xs font-sans font-semibold text-slate-600 uppercase tracking-wide">Head Strength Coach • CSCS</div>
+                <div className="text-xs font-sans font-semibold text-slate-600 uppercase tracking-wide min-h-[24px] flex items-center">Head Strength Coach • CSCS</div>
                 <p className="text-xs font-sans text-slate-600 pt-1">
                   12 years coaching national powerlifters on IPF calibrated steel and CNS periodization.
                 </p>
               </div>
             </div>
 
-            <div className="frost-card frost-card-hover rounded-3xl overflow-hidden p-6 space-y-4 shadow-sm transition-all">
+            <div className="frost-card frost-card-hover rounded-3xl overflow-hidden p-5 sm:p-6 space-y-4 shadow-sm transition-all">
               <div className="relative h-64 rounded-2xl overflow-hidden bg-slate-100">
                 <img 
                   src="https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=800&auto=format&fit=crop" 
@@ -590,14 +601,14 @@ export default function HomePage({ onNavigate, onOpenBooking, selectedFaculty, o
               </div>
               <div className="space-y-1">
                 <h3 className="font-display font-black text-xl uppercase text-slate-950">SARAH LEE</h3>
-                <div className="text-xs font-sans font-semibold text-slate-600 uppercase tracking-wide">Conditioning &amp; Hyrox Director</div>
+                <div className="text-xs font-sans font-semibold text-slate-600 uppercase tracking-wide min-h-[24px] flex items-center">Conditioning &amp; Hyrox Director</div>
                 <p className="text-xs font-sans text-slate-600 pt-1">
                   Specialist in lactate clearance kinetics and aerobic threshold endurance programming.
                 </p>
               </div>
             </div>
 
-            <div className="frost-card frost-card-hover rounded-3xl overflow-hidden p-6 space-y-4 shadow-sm transition-all">
+            <div className="frost-card frost-card-hover rounded-3xl overflow-hidden p-5 sm:p-6 space-y-4 shadow-sm transition-all">
               <div className="relative h-64 rounded-2xl overflow-hidden bg-slate-100">
                 <img 
                   src="https://images.unsplash.com/photo-1534367507873-d2d7e24c797f?q=80&w=800&auto=format&fit=crop" 
@@ -608,7 +619,7 @@ export default function HomePage({ onNavigate, onOpenBooking, selectedFaculty, o
               </div>
               <div className="space-y-1">
                 <h3 className="font-display font-black text-xl uppercase text-slate-950">MIKE JOHNSON</h3>
-                <div className="text-xs font-sans font-semibold text-slate-600 uppercase tracking-wide">Nutrition &amp; Hypertrophy Head</div>
+                <div className="text-xs font-sans font-semibold text-slate-600 uppercase tracking-wide min-h-[24px] flex items-center">Nutrition &amp; Hypertrophy Head</div>
                 <p className="text-xs font-sans text-slate-600 pt-1">
                   M.Sc. Kinesiology combining motor recruitment with rigorous macronutrient periodization.
                 </p>
@@ -697,244 +708,333 @@ export default function HomePage({ onNavigate, onOpenBooking, selectedFaculty, o
                   {!initiationSubmitted ? (
                     <form onSubmit={handleInitiationSubmit} className="space-y-4 sm:space-y-5">
                       
-                      {/* Form Header with Clean Mobile Alignment */}
-                      <div className="space-y-1 pb-3 border-b border-slate-200/80">
+                      {/* Form Header with Step Indicator & Progress Pills */}
+                      <div className="space-y-2 pb-3 border-b border-slate-200/80">
                         <div className="flex items-center justify-between gap-2">
                           <span className="font-display font-black text-sm sm:text-lg uppercase text-slate-950 tracking-tight leading-tight">
                             FACILITY WALKTHROUGH &amp; ROSTER ADMISSION
                           </span>
-                          <span className="text-[9px] sm:text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 uppercase shrink-0">
-                            STEP 01/01
+                          <span className="text-[9px] sm:text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 uppercase shrink-0">
+                            STEP 0{formStep}/02
                           </span>
                         </div>
                         <p className="text-[11px] sm:text-xs text-slate-600 font-sans">
-                          Complete your athletic profile. Receive immediate orientation confirmation.
+                          {formStep === 1 
+                            ? 'Part 1: Athletic profile & discipline. You can submit immediately.' 
+                            : 'Part 2: Select faculty mentor and preferred walkthrough window.'}
                         </p>
-                      </div>
 
-                      {/* Field 1: Full Athlete Name */}
-                      <div className="space-y-1.5">
-                        <label className="flex items-center gap-1.5 text-[11px] sm:text-xs font-mono font-bold uppercase text-slate-800 tracking-wider">
-                          <User className="w-3.5 h-3.5 text-slate-950" />
-                          <span>FULL ATHLETE NAME *</span>
-                        </label>
-                        <input
-                          type="text"
-                          required
-                          value={initiationData.name}
-                          onChange={(e) => setInitiationData({ ...initiationData, name: e.target.value })}
-                          placeholder="e.g. Alex Morgan"
-                          className="w-full bg-slate-50/90 border border-slate-200 rounded-xl sm:rounded-2xl px-3.5 py-3 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-slate-950 focus:ring-2 focus:ring-slate-950/10 transition-all font-sans font-medium"
-                        />
-                      </div>
+                        {/* Interactive Step Switcher Tabs */}
+                        <div className="grid grid-cols-2 gap-2 pt-1">
+                          <button
+                            type="button"
+                            onClick={() => setFormStep(1)}
+                            className={`py-2 px-3 rounded-xl font-mono text-[10px] sm:text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer border ${
+                              formStep === 1
+                                ? 'bg-[#0F172A] text-white border-[#0F172A] shadow-xs'
+                                : 'bg-slate-50/90 text-slate-600 border-slate-200 hover:bg-slate-100'
+                            }`}
+                          >
+                            <span className={`w-3.5 h-3.5 rounded-full text-[8px] flex items-center justify-center font-bold ${
+                              formStep === 1 ? 'bg-white text-slate-950' : 'bg-slate-300 text-slate-700'
+                            }`}>1</span>
+                            <span className="truncate">CORE INTAKE</span>
+                          </button>
 
-                      {/* Field 2 & 3: Dual Contact Details with Comfortable Mobile Spacing */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
-                        <div className="space-y-1.5">
-                          <label className="flex items-center gap-1.5 text-[11px] sm:text-xs font-mono font-bold uppercase text-slate-800 tracking-wider">
-                            <Mail className="w-3.5 h-3.5 text-slate-950" />
-                            <span>EMAIL ADDRESS *</span>
-                          </label>
-                          <input
-                            type="email"
-                            required
-                            value={initiationData.email}
-                            onChange={(e) => setInitiationData({ ...initiationData, email: e.target.value })}
-                            placeholder="alex@athlete.com"
-                            className="w-full bg-slate-50/90 border border-slate-200 rounded-xl sm:rounded-2xl px-3.5 py-3 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-slate-950 focus:ring-2 focus:ring-slate-950/10 transition-all font-sans font-medium"
-                          />
-                        </div>
-
-                        <div className="space-y-1.5">
-                          <label className="flex items-center gap-1.5 text-[11px] sm:text-xs font-mono font-bold uppercase text-slate-800 tracking-wider">
-                            <Phone className="w-3.5 h-3.5 text-slate-950" />
-                            <span>PHONE / WHATSAPP *</span>
-                          </label>
-                          <input
-                            type="tel"
-                            required
-                            value={initiationData.phone}
-                            onChange={(e) => setInitiationData({ ...initiationData, phone: e.target.value })}
-                            placeholder="+91 98765 43210"
-                            className="w-full bg-slate-50/90 border border-slate-200 rounded-xl sm:rounded-2xl px-3.5 py-3 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-slate-950 focus:ring-2 focus:ring-slate-950/10 transition-all font-sans font-medium"
-                          />
+                          <button
+                            type="button"
+                            onClick={() => setFormStep(2)}
+                            className={`py-2 px-3 rounded-xl font-mono text-[10px] sm:text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer border ${
+                              formStep === 2
+                                ? 'bg-[#0F172A] text-white border-[#0F172A] shadow-xs'
+                                : 'bg-slate-50/90 text-slate-600 border-slate-200 hover:bg-slate-100'
+                            }`}
+                          >
+                            <span className={`w-3.5 h-3.5 rounded-full text-[8px] flex items-center justify-center font-bold ${
+                              formStep === 2 ? 'bg-white text-slate-950' : 'bg-slate-300 text-slate-700'
+                            }`}>2</span>
+                            <span className="truncate">PREFERENCES</span>
+                          </button>
                         </div>
                       </div>
 
-                      {/* Field 4: Training Discipline (2-Column Grid on Both Mobile & Desktop for Optimal Density) */}
-                      <div className="space-y-1.5">
-                        <label className="flex items-center justify-between text-[11px] sm:text-xs font-mono font-bold uppercase text-slate-800 tracking-wider">
-                          <span className="flex items-center gap-1.5">
-                            <Dumbbell className="w-3.5 h-3.5 text-slate-950" />
-                            <span>PRIMARY TRAINING DISCIPLINE</span>
-                          </span>
-                          <span className="text-[9px] sm:text-[10px] text-slate-500 font-normal">TAP TO SELECT</span>
-                        </label>
-                        <div className="grid grid-cols-2 gap-2 sm:gap-2.5">
-                          {[
-                            { 
-                              id: 'FUNCTIONAL VITALITY (General Fitness)', 
-                              fancy: 'FUNCTIONAL VITALITY', 
-                              casual: 'Everyday Energy',
-                              tag: 'FITNESS' 
-                            },
-                            { 
-                              id: 'CARDIOVASCULAR KINETICS (Cardio & Stamina)', 
-                              fancy: 'CARDIO KINETICS', 
-                              casual: 'Aerobic Engine',
-                              tag: 'CARDIO' 
-                            },
-                            { 
-                              id: 'PHYSIQUE ARCHITECTURE (Body Recomp & Toning)', 
-                              fancy: 'PHYSIQUE ARCH.', 
-                              casual: 'Recomp & Muscle',
-                              tag: 'TONING' 
-                            },
-                            { 
-                              id: 'BARBELL CALIBRATION (Maximal Strength)', 
-                              fancy: 'BARBELL CALIB.', 
-                              casual: 'Calibrated Steel',
-                              tag: 'STRENGTH' 
-                            },
-                            { 
-                              id: 'OLYMPIC BALLISTICS (Weightlifting)', 
-                              fancy: 'OLYMPIC BALL.', 
-                              casual: 'Snatch & Clean',
-                              tag: 'OLYMPIC' 
-                            },
-                            { 
-                              id: 'THERMAL & CNS RESTORE (Recovery & Longevity)', 
-                              fancy: 'THERMAL & CNS', 
-                              casual: 'Plunge & Sauna',
-                              tag: 'WELLNESS' 
-                            }
-                          ].map((item) => {
-                            const isSelected = initiationData.discipline === item.id;
-                            return (
-                              <button
-                                key={item.id}
-                                type="button"
-                                onClick={() => setInitiationData({ ...initiationData, discipline: item.id })}
-                                className={`p-2.5 sm:p-3 rounded-xl sm:rounded-2xl text-left transition-all duration-150 cursor-pointer border ${
-                                  isSelected 
-                                    ? 'bg-[#0F172A] text-white border-[#0F172A] shadow-sm' 
-                                    : 'bg-slate-50/90 text-slate-800 border-slate-200/90 hover:bg-slate-100'
-                                }`}
-                              >
-                                <div className="flex items-center justify-between gap-1 mb-1">
-                                  <span className={`text-[8px] sm:text-[9px] font-mono font-bold px-1.5 py-0.5 rounded ${
-                                    isSelected ? 'bg-white/20 text-[#CADDEE]' : 'bg-slate-200 text-slate-700'
-                                  }`}>
-                                    {item.tag}
-                                  </span>
-                                  {isSelected && (
-                                    <span className="w-1.5 h-1.5 rounded-full bg-[#CADDEE]"></span>
-                                  )}
-                                </div>
-                                <div className="font-mono text-[11px] sm:text-xs font-bold tracking-tight leading-tight">
-                                  {item.fancy}
-                                </div>
-                                <div className={`text-[10px] font-sans mt-0.5 line-clamp-1 ${
-                                  isSelected ? 'text-slate-300' : 'text-slate-500'
-                                }`}>
-                                  {item.casual}
-                                </div>
-                              </button>
-                            );
-                          })}
+                      {/* ================= STEP 1: CORE INTAKE (UP TO PRIMARY TRAINING DISCIPLINE) ================= */}
+                      {formStep === 1 && (
+                        <div className="space-y-4 sm:space-y-4.5 animate-in fade-in duration-200">
+                          {/* Field 1: Full Athlete Name */}
+                          <div className="space-y-1.5">
+                            <label className="flex items-center gap-1.5 text-[11px] sm:text-xs font-mono font-bold uppercase text-slate-800 tracking-wider">
+                              <User className="w-3.5 h-3.5 text-slate-950" />
+                              <span>FULL ATHLETE NAME *</span>
+                            </label>
+                            <input
+                              type="text"
+                              required
+                              value={initiationData.name}
+                              onChange={(e) => setInitiationData({ ...initiationData, name: e.target.value })}
+                              placeholder="e.g. Alex Morgan"
+                              className="w-full bg-slate-50/90 border border-slate-200 rounded-xl sm:rounded-2xl px-3.5 py-3 text-base sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-slate-950 focus:ring-2 focus:ring-slate-950/10 transition-all font-sans font-medium"
+                            />
+                          </div>
+
+                          {/* Field 2 & 3: Dual Contact Details with Comfortable Mobile Spacing */}
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
+                            <div className="space-y-1.5">
+                              <label className="flex items-center gap-1.5 text-[11px] sm:text-xs font-mono font-bold uppercase text-slate-800 tracking-wider">
+                                <Mail className="w-3.5 h-3.5 text-slate-950" />
+                                <span>EMAIL ADDRESS *</span>
+                              </label>
+                              <input
+                                type="email"
+                                required
+                                value={initiationData.email}
+                                onChange={(e) => setInitiationData({ ...initiationData, email: e.target.value })}
+                                placeholder="alex@athlete.com"
+                                className="w-full bg-slate-50/90 border border-slate-200 rounded-xl sm:rounded-2xl px-3.5 py-3 text-base sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-slate-950 focus:ring-2 focus:ring-slate-950/10 transition-all font-sans font-medium"
+                              />
+                            </div>
+
+                            <div className="space-y-1.5">
+                              <label className="flex items-center gap-1.5 text-[11px] sm:text-xs font-mono font-bold uppercase text-slate-800 tracking-wider">
+                                <Phone className="w-3.5 h-3.5 text-slate-950" />
+                                <span>PHONE / WHATSAPP *</span>
+                              </label>
+                              <input
+                                type="tel"
+                                required
+                                value={initiationData.phone}
+                                onChange={(e) => setInitiationData({ ...initiationData, phone: e.target.value })}
+                                placeholder="+91 98765 43210"
+                                className="w-full bg-slate-50/90 border border-slate-200 rounded-xl sm:rounded-2xl px-3.5 py-3 text-base sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-slate-950 focus:ring-2 focus:ring-slate-950/10 transition-all font-sans font-medium"
+                              />
+                            </div>
+                          </div>
+
+                          {/* Field 4: Training Discipline (2-Column Grid on Both Mobile & Desktop) */}
+                          <div className="space-y-1.5">
+                            <label className="flex items-center justify-between text-[11px] sm:text-xs font-mono font-bold uppercase text-slate-800 tracking-wider">
+                              <span className="flex items-center gap-1.5">
+                                <Dumbbell className="w-3.5 h-3.5 text-slate-950" />
+                                <span>PRIMARY TRAINING DISCIPLINE</span>
+                              </span>
+                              <span className="text-[9px] sm:text-[10px] text-slate-500 font-normal">TAP TO SELECT</span>
+                            </label>
+                            <div className="grid grid-cols-2 gap-2 sm:gap-2.5">
+                              {[
+                                { 
+                                  id: 'FUNCTIONAL VITALITY (General Fitness)', 
+                                  fancy: 'FUNCTIONAL VITALITY', 
+                                  casual: 'Everyday Energy',
+                                  tag: 'FITNESS' 
+                                },
+                                { 
+                                  id: 'CARDIOVASCULAR KINETICS (Cardio & Stamina)', 
+                                  fancy: 'CARDIO KINETICS', 
+                                  casual: 'Aerobic Engine',
+                                  tag: 'CARDIO' 
+                                },
+                                { 
+                                  id: 'PHYSIQUE ARCHITECTURE (Body Recomp & Toning)', 
+                                  fancy: 'PHYSIQUE ARCH.', 
+                                  casual: 'Recomp & Muscle',
+                                  tag: 'TONING' 
+                                },
+                                { 
+                                  id: 'BARBELL CALIBRATION (Maximal Strength)', 
+                                  fancy: 'BARBELL CALIB.', 
+                                  casual: 'Calibrated Steel',
+                                  tag: 'STRENGTH' 
+                                },
+                                { 
+                                  id: 'OLYMPIC BALLISTICS (Weightlifting)', 
+                                  fancy: 'OLYMPIC BALL.', 
+                                  casual: 'Snatch & Clean',
+                                  tag: 'OLYMPIC' 
+                                },
+                                { 
+                                  id: 'THERMAL & CNS RESTORE (Recovery & Longevity)', 
+                                  fancy: 'THERMAL & CNS', 
+                                  casual: 'Plunge & Sauna',
+                                  tag: 'WELLNESS' 
+                                }
+                              ].map((item) => {
+                                const isSelected = initiationData.discipline === item.id;
+                                return (
+                                  <button
+                                    key={item.id}
+                                    type="button"
+                                    onClick={() => setInitiationData({ ...initiationData, discipline: item.id })}
+                                    className={`p-2.5 sm:p-3 rounded-xl sm:rounded-2xl text-left transition-all duration-150 cursor-pointer border ${
+                                      isSelected 
+                                        ? 'bg-[#0F172A] text-white border-[#0F172A] shadow-sm' 
+                                        : 'bg-slate-50/90 text-slate-800 border-slate-200/90 hover:bg-slate-100'
+                                    }`}
+                                  >
+                                    <div className="flex items-center justify-between gap-1 mb-1">
+                                      <span className={`text-[8px] sm:text-[9px] font-mono font-bold px-1.5 py-0.5 rounded ${
+                                        isSelected ? 'bg-white/20 text-[#CADDEE]' : 'bg-slate-200 text-slate-700'
+                                      }`}>
+                                        {item.tag}
+                                      </span>
+                                      {isSelected && (
+                                        <span className="w-1.5 h-1.5 rounded-full bg-[#CADDEE]"></span>
+                                      )}
+                                    </div>
+                                    <div className="font-mono text-[11px] sm:text-xs font-bold tracking-tight leading-tight">
+                                      {item.fancy}
+                                    </div>
+                                    <div className={`text-[10px] font-sans mt-0.5 line-clamp-1 ${
+                                      isSelected ? 'text-slate-300' : 'text-slate-500'
+                                    }`}>
+                                      {item.casual}
+                                    </div>
+                                  </button>
+                                );
+                              })}
+                            </div>
+                          </div>
+
+                          {/* Step 1 Actions: Primary Submit directly active + Option to refine with Step 2 */}
+                          <div className="pt-2 space-y-2.5">
+                            <button
+                              type="submit"
+                              className="w-full py-3.5 sm:py-4 rounded-xl sm:rounded-2xl bg-[#0F172A] hover:bg-black text-white font-display font-black text-xs sm:text-sm uppercase tracking-wide sm:tracking-wider transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl active:scale-[0.99] flex items-center justify-center gap-2 cursor-pointer shadow-md"
+                            >
+                              <span>APPLY FOR MEMBERSHIP NOW</span>
+                              <ArrowRight className="w-4 h-4" />
+                            </button>
+
+                            <button
+                              type="button"
+                              onClick={() => {
+                                if (!initiationData.name.trim() || !initiationData.email.trim() || !initiationData.phone.trim()) {
+                                  const formEl = document.querySelector('form');
+                                  if (formEl && formEl.reportValidity) {
+                                    formEl.reportValidity();
+                                    return;
+                                  }
+                                }
+                                setFormStep(2);
+                              }}
+                              className="w-full py-2.5 sm:py-3 rounded-xl sm:rounded-2xl bg-white hover:bg-slate-50 text-slate-800 border border-slate-200/90 font-mono text-[10px] sm:text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-2xs hover:border-slate-300"
+                            >
+                              <span>OR ADD PREFERENCES (STEP 2)</span>
+                              <ChevronRight className="w-3.5 h-3.5 text-slate-600" />
+                            </button>
+
+                            <div className="flex items-center justify-center gap-1.5 text-[10px] sm:text-[11px] font-sans text-slate-600 text-center px-1">
+                              <ShieldCheck className="w-3.5 h-3.5 text-slate-900 shrink-0" />
+                              <span>Strictly technical walkthrough. Zero sales pressure.</span>
+                            </div>
+                          </div>
                         </div>
-                      </div>
+                      )}
 
-                      {/* Field 5: Faculty Coach Consultation */}
-                      <div className="space-y-1.5">
-                        <label className="flex items-center justify-between text-[11px] sm:text-xs font-mono font-bold uppercase text-slate-800 tracking-wider">
-                          <span className="flex items-center gap-1.5">
-                            <UserCheck className="w-3.5 h-3.5 text-slate-950" />
-                            <span>FACULTY COACH CONSULTATION</span>
-                          </span>
-                          <span className="text-[9px] sm:text-[10px] text-slate-500 font-normal">1:1 MENTOR</span>
-                        </label>
-                        <select
-                          value={initiationData.faculty}
-                          onChange={(e) => {
-                            setInitiationData({ ...initiationData, faculty: e.target.value });
-                            if (onSelectFaculty) onSelectFaculty(e.target.value);
-                          }}
-                          className="w-full bg-slate-50/90 border border-slate-200 rounded-xl sm:rounded-2xl px-3.5 py-3 text-xs sm:text-sm text-slate-900 font-mono focus:outline-none focus:border-slate-950 focus:ring-2 focus:ring-slate-950/10 transition-all cursor-pointer font-semibold"
-                        >
-                          <option value="ANY SENIOR FACULTY COACH">⚡ FIRST AVAILABLE SENIOR FACULTY COACH</option>
-                          <option value="ALEX MORGAN">ALEX MORGAN (Head of Strength &amp; Power • CSCS)</option>
-                          <option value="SARAH LEE">SARAH LEE (Conditioning &amp; Hyrox Director)</option>
-                          <option value="MIKE JOHNSON">MIKE JOHNSON (Head of Nutrition &amp; Hypertrophy)</option>
-                          <option value="EMMA DAVIS">EMMA DAVIS (Biomechanics &amp; Recovery Protocol)</option>
-                        </select>
-                      </div>
+                      {/* ================= STEP 2: REMAINING PREFERENCES ================= */}
+                      {formStep === 2 && (
+                        <div className="space-y-4 sm:space-y-4.5 animate-in fade-in duration-200">
+                          {/* Field 5: Faculty Coach Consultation */}
+                          <div className="space-y-1.5">
+                            <label className="flex items-center justify-between text-[11px] sm:text-xs font-mono font-bold uppercase text-slate-800 tracking-wider">
+                              <span className="flex items-center gap-1.5">
+                                <UserCheck className="w-3.5 h-3.5 text-slate-950" />
+                                <span>FACULTY COACH CONSULTATION</span>
+                              </span>
+                              <span className="text-[9px] sm:text-[10px] text-slate-500 font-normal">1:1 MENTOR</span>
+                            </label>
+                            <select
+                              value={initiationData.faculty}
+                              onChange={(e) => {
+                                setInitiationData({ ...initiationData, faculty: e.target.value });
+                                if (onSelectFaculty) onSelectFaculty(e.target.value);
+                              }}
+                              className="w-full bg-slate-50/90 border border-slate-200 rounded-xl sm:rounded-2xl px-3.5 py-3 text-base sm:text-sm text-slate-900 font-mono focus:outline-none focus:border-slate-950 focus:ring-2 focus:ring-slate-950/10 transition-all cursor-pointer font-semibold"
+                            >
+                              <option value="ANY SENIOR FACULTY COACH">⚡ FIRST AVAILABLE SENIOR FACULTY COACH</option>
+                              <option value="ALEX MORGAN">ALEX MORGAN (Head of Strength &amp; Power • CSCS)</option>
+                              <option value="SARAH LEE">SARAH LEE (Conditioning &amp; Hyrox Director)</option>
+                              <option value="MIKE JOHNSON">MIKE JOHNSON (Head of Nutrition &amp; Hypertrophy)</option>
+                              <option value="EMMA DAVIS">EMMA DAVIS (Biomechanics &amp; Recovery Protocol)</option>
+                            </select>
+                          </div>
 
-                      {/* Field 6: Preferred Walkthrough Window (Compact 3-Column Grid on Mobile) */}
-                      <div className="space-y-1.5">
-                        <label className="flex items-center justify-between text-[11px] sm:text-xs font-mono font-bold uppercase text-slate-800 tracking-wider">
-                          <span className="flex items-center gap-1.5">
-                            <Clock className="w-3.5 h-3.5 text-slate-950" />
-                            <span>PREFERRED WALKTHROUGH WINDOW</span>
-                          </span>
-                          <span className="text-[9px] sm:text-[10px] text-slate-500 font-normal">STAFFED HOURS</span>
-                        </label>
-                        <div className="grid grid-cols-3 gap-2 sm:gap-2.5">
-                          {[
-                            { id: 'MORNING (8:00 AM - 12:00 PM)', label: 'MORNING', sub: '8AM – 12PM' },
-                            { id: 'AFTERNOON (12:00 PM - 5:00 PM)', label: 'AFTERNOON', sub: '12PM – 5PM' },
-                            { id: 'EVENING (5:00 PM - 8:00 PM)', label: 'EVENING', sub: '5PM – 8PM' }
-                          ].map((item) => {
-                            const isSelected = initiationData.timeSlot === item.id;
-                            return (
-                              <button
-                                key={item.id}
-                                type="button"
-                                onClick={() => setInitiationData({ ...initiationData, timeSlot: item.id })}
-                                className={`py-2.5 px-2 rounded-xl sm:rounded-2xl text-center transition-all duration-150 cursor-pointer border ${
-                                  isSelected 
-                                    ? 'bg-[#0F172A] text-white border-[#0F172A] shadow-sm' 
-                                    : 'bg-slate-50/90 text-slate-700 border-slate-200 hover:bg-slate-100'
-                                }`}
-                              >
-                                <div className="font-mono text-[11px] sm:text-xs font-bold leading-tight">{item.label}</div>
-                                <div className={`text-[9px] sm:text-[10px] font-sans mt-0.5 ${isSelected ? 'text-slate-300' : 'text-slate-500'}`}>{item.sub}</div>
-                              </button>
-                            );
-                          })}
+                          {/* Field 6: Preferred Walkthrough Window (Compact 3-Column Grid on Mobile) */}
+                          <div className="space-y-1.5">
+                            <label className="flex items-center justify-between text-[11px] sm:text-xs font-mono font-bold uppercase text-slate-800 tracking-wider">
+                              <span className="flex items-center gap-1.5">
+                                <Clock className="w-3.5 h-3.5 text-slate-950" />
+                                <span>PREFERRED WALKTHROUGH WINDOW</span>
+                              </span>
+                              <span className="text-[9px] sm:text-[10px] text-slate-500 font-normal">STAFFED HOURS</span>
+                            </label>
+                            <div className="grid grid-cols-3 gap-2 sm:gap-2.5">
+                              {[
+                                { id: 'MORNING (8:00 AM - 12:00 PM)', label: 'MORNING', sub: '8AM – 12PM' },
+                                { id: 'AFTERNOON (12:00 PM - 5:00 PM)', label: 'AFTERNOON', sub: '12PM – 5PM' },
+                                { id: 'EVENING (5:00 PM - 8:00 PM)', label: 'EVENING', sub: '5PM – 8PM' }
+                              ].map((item) => {
+                                const isSelected = initiationData.timeSlot === item.id;
+                                return (
+                                  <button
+                                    key={item.id}
+                                    type="button"
+                                    onClick={() => setInitiationData({ ...initiationData, timeSlot: item.id })}
+                                    className={`py-2.5 px-2 rounded-xl sm:rounded-2xl text-center transition-all duration-150 cursor-pointer border ${
+                                      isSelected 
+                                        ? 'bg-[#0F172A] text-white border-[#0F172A] shadow-sm' 
+                                        : 'bg-slate-50/90 text-slate-700 border-slate-200 hover:bg-slate-100'
+                                    }`}
+                                  >
+                                    <div className="font-mono text-[11px] sm:text-xs font-bold leading-tight">{item.label}</div>
+                                    <div className={`text-[9px] sm:text-[10px] font-sans mt-0.5 ${isSelected ? 'text-slate-300' : 'text-slate-500'}`}>{item.sub}</div>
+                                  </button>
+                                );
+                              })}
+                            </div>
+                          </div>
+
+                          {/* Field 7: Athletic Background & Goals (Optional) */}
+                          <div className="space-y-1.5">
+                            <label className="flex items-center gap-1.5 text-[11px] sm:text-xs font-mono font-bold uppercase text-slate-800 tracking-wider">
+                              <FileText className="w-3.5 h-3.5 text-slate-950" />
+                              <span>ATHLETIC BACKGROUND &amp; GOALS (OPTIONAL)</span>
+                            </label>
+                            <textarea
+                              rows={2}
+                              value={initiationData.experience}
+                              onChange={(e) => setInitiationData({ ...initiationData, experience: e.target.value })}
+                              placeholder="Tell us about your barbell background or goals..."
+                              className="w-full bg-slate-50/90 border border-slate-200 rounded-xl sm:rounded-2xl px-3.5 py-2.5 text-base sm:text-xs text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-slate-950 focus:ring-2 focus:ring-slate-950/10 transition-all font-sans font-medium resize-none"
+                            />
+                          </div>
+
+                          {/* Step 2 Actions */}
+                          <div className="pt-2 space-y-2.5">
+                            <button
+                              type="submit"
+                              className="w-full py-3.5 sm:py-4 rounded-xl sm:rounded-2xl bg-[#0F172A] hover:bg-black text-white font-display font-black text-xs sm:text-sm uppercase tracking-wide sm:tracking-wider transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl active:scale-[0.99] flex items-center justify-center gap-2 cursor-pointer shadow-md"
+                            >
+                              <span>CONFIRM APPLICATION &amp; SCHEDULE TOUR</span>
+                              <ArrowRight className="w-4 h-4" />
+                            </button>
+
+                            <button
+                              type="button"
+                              onClick={() => setFormStep(1)}
+                              className="w-full py-2.5 sm:py-3 rounded-xl sm:rounded-2xl bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 font-mono text-[10px] sm:text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-2xs hover:border-slate-300"
+                            >
+                              <ArrowLeft className="w-3.5 h-3.5" />
+                              <span>BACK TO CORE INTAKE (STEP 1)</span>
+                            </button>
+
+                            <div className="flex items-center justify-center gap-1.5 text-[10px] sm:text-[11px] font-sans text-slate-600 text-center px-1">
+                              <ShieldCheck className="w-3.5 h-3.5 text-slate-900 shrink-0" />
+                              <span>Strictly technical walkthrough. Zero sales pressure.</span>
+                            </div>
+                          </div>
+
                         </div>
-                      </div>
-
-                      {/* Field 7: Athletic Background & Goals (Optional) */}
-                      <div className="space-y-1.5">
-                        <label className="flex items-center gap-1.5 text-[11px] sm:text-xs font-mono font-bold uppercase text-slate-800 tracking-wider">
-                          <FileText className="w-3.5 h-3.5 text-slate-950" />
-                          <span>ATHLETIC BACKGROUND &amp; GOALS (OPTIONAL)</span>
-                        </label>
-                        <textarea
-                          rows={2}
-                          value={initiationData.experience}
-                          onChange={(e) => setInitiationData({ ...initiationData, experience: e.target.value })}
-                          placeholder="Tell us about your barbell background or goals..."
-                          className="w-full bg-slate-50/90 border border-slate-200 rounded-xl sm:rounded-2xl px-3.5 py-2.5 text-xs text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-slate-950 focus:ring-2 focus:ring-slate-950/10 transition-all font-sans font-medium resize-none"
-                        />
-                      </div>
-
-                      {/* Submit Action Button & Micro-Guarantee with Clean Mobile Wrapping */}
-                      <div className="pt-2 space-y-2.5">
-                        <button
-                          type="submit"
-                          className="w-full py-3.5 sm:py-4 rounded-xl sm:rounded-2xl bg-[#0F172A] hover:bg-black text-white font-display font-black text-xs sm:text-sm uppercase tracking-wide sm:tracking-wider transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl active:scale-[0.99] flex items-center justify-center gap-2 cursor-pointer shadow-md"
-                        >
-                          <span>APPLY FOR MEMBERSHIP &amp; SCHEDULE TOUR</span>
-                          <ArrowRight className="w-4 h-4" />
-                        </button>
-
-                        <div className="flex items-center justify-center gap-1.5 text-[10px] sm:text-[11px] font-sans text-slate-600 text-center px-1">
-                          <ShieldCheck className="w-3.5 h-3.5 text-slate-900 shrink-0" />
-                          <span>Strictly technical walkthrough. Zero sales pressure.</span>
-                        </div>
-                      </div>
+                      )}
 
                     </form>
                   ) : (
@@ -988,6 +1088,7 @@ export default function HomePage({ onNavigate, onOpenBooking, selectedFaculty, o
                         type="button"
                         onClick={() => {
                           setInitiationSubmitted(false);
+                          setFormStep(1);
                           setInitiationData({
                             name: '',
                             email: '',
