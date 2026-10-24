@@ -1,46 +1,103 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   ArrowRight, 
-  ArrowLeft,
-  Zap, 
-  Target, 
-  BarChart3, 
   ChevronRight, 
-  Award, 
-  Flame, 
   ShieldCheck, 
-  Dumbbell, 
-  CheckCircle2, 
-  TrendingUp, 
+  Award, 
+  MapPin, 
+  Clock, 
+  Check, 
+  Zap,
   Activity,
-  User,
-  Mail,
-  Phone,
-  Clock,
-  Calendar,
-  Check,
-  RotateCcw,
-  MapPin,
   UserCheck,
-  FileText
+  Flame,
+  Layers,
+  ThermometerSnowflake
 } from 'lucide-react';
+import {
+  FadeIn,
+  SlideUp,
+  StaggerContainer,
+  StaggerItem,
+  SlideFromLeft,
+  SlideFromRight
+} from './ScrollAnimations';
 
-export default function HomePage({ onNavigate, onOpenBooking, selectedFaculty, onSelectFaculty }) {
-  // Before/After comparison slider state (percentage from 0 to 100)
-  const [sliderPos, setSliderPos] = useState(50);
-  const containerRef = useRef(null);
+// Short, curious hardware catalog with authentic contextual images (Plain layout, zero navy blue)
+const HARDWARE_ITEMS = [
+  {
+    category: 'FREE WEIGHTS',
+    name: 'Eleiko Competition Barbells',
+    image: 'https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?q=80&w=700&auto=format&fit=crop',
+    curiousHook: 'Why do ordinary barbells hurt your wrists?',
+    desc: 'Eleiko bars rotate freely on precision Swedish needle bearings. Zero wrist torque, smooth spin, and flawless balance.',
+    spec: '20kg Swedish steel • 215,000 PSI knurling',
+    feature: 'SWEDISH NEEDLE BEARINGS'
+  },
+  {
+    category: 'FREE WEIGHTS',
+    name: 'Calibrated Competition Plates',
+    image: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=700&auto=format&fit=crop',
+    curiousHook: 'How exact is your 100kg lift?',
+    desc: 'Commercial plates are often off by up to 2kg. Ours are calibrated to within 10 grams so every personal record counts.',
+    spec: '0.25kg to 25kg thin-profile steel discs',
+    feature: '10-GRAM ACCURACY'
+  },
+  {
+    category: 'CABLES & TURF',
+    name: 'Dual Motion Towers & Sled Track',
+    image: 'https://images.unsplash.com/photo-1517963879433-6ad2b056d712?q=80&w=700&auto=format&fit=crop',
+    curiousHook: 'Can you build pure power without joint wear?',
+    desc: 'Aircraft-grade cable pulleys and a 40-meter indoor turf sled runway give you joint-friendly athletic power.',
+    spec: '2x 100kg stacks • 40m sprint runway',
+    feature: 'ZERO-IMPACT POWER'
+  },
+  {
+    category: 'CARDIO & ENGINE',
+    name: 'Concept2 Rowers & SkiErgs',
+    image: 'https://images.unsplash.com/photo-1540497077202-7c8a3999166f?q=80&w=700&auto=format&fit=crop',
+    curiousHook: 'What makes air resistance so brutal yet gentle on joints?',
+    desc: 'The harder you pull, the more resistance the wind flywheel pushes back. Pure lung-burning stamina with zero joint impact.',
+    spec: 'Dual wind flywheels • PM5 performance monitors',
+    feature: 'ALL-DAY ENGINE'
+  },
+  {
+    category: 'RECOVERY LAB',
+    name: '38°F Contrast Plunge & Cedar Sauna',
+    image: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=700&auto=format&fit=crop',
+    curiousHook: 'Can three minutes in ice erase days of muscle soreness?',
+    desc: 'Drop into 38°F chilled water, then warm up in 190°F Finnish cedar heat to flush stiffness on contact.',
+    spec: 'Micro-filtered ice plunge • Cedar dry heat',
+    feature: 'FAST MUSCLE RECOVERY'
+  }
+];
 
-  // Membership & Faculty Initiation Inline Form State
-  const [formStep, setFormStep] = useState(1);
+export default function HomePage({ 
+  onNavigate, 
+  onOpenBooking, 
+  onScrollToIntake,
+  selectedFaculty, 
+  onSelectFaculty 
+}) {
+  // Hardware Filter State
+  const [activeHardwareFilter, setActiveHardwareFilter] = useState('ALL');
+  const hardwareCategories = ['ALL', 'FREE WEIGHTS', 'CABLES & TURF', 'CARDIO & ENGINE', 'RECOVERY LAB'];
+
+  const filteredHardware = HARDWARE_ITEMS.filter(item => {
+    if (activeHardwareFilter === 'ALL') return true;
+    return item.category === activeHardwareFilter;
+  });
+
+  // Interactive Tour Enquiry Form State
+  const [formError, setFormError] = useState('');
   const [initiationData, setInitiationData] = useState({
     name: '',
     email: '',
     phone: '',
-    discipline: 'FUNCTIONAL VITALITY (General Fitness)',
-    faculty: selectedFaculty || 'ANY SENIOR FACULTY COACH',
-    timeSlot: 'MORNING (8:00 AM - 12:00 PM)',
-    objective: '',
-    experience: ''
+    discipline: 'BARBELL & STRENGTH',
+    faculty: selectedFaculty || 'ANY COACH (BEST MATCH)',
+    timeSlot: 'MORNING (08:00 – 12:00)',
+    objective: ''
   });
   const [initiationSubmitted, setInitiationSubmitted] = useState(false);
 
@@ -52,204 +109,229 @@ export default function HomePage({ onNavigate, onOpenBooking, selectedFaculty, o
 
   const handleInitiationSubmit = (e) => {
     e.preventDefault();
-    if (!initiationData.name.trim() || !initiationData.email.trim() || !initiationData.phone.trim()) {
-      setFormStep(1);
+    setFormError('');
+    if (!initiationData.name.trim()) {
+      setFormError('Please enter your full name.');
+      return;
+    }
+    if (!initiationData.phone.trim()) {
+      setFormError('Please enter your phone or WhatsApp number.');
+      return;
+    }
+    if (!initiationData.email.trim()) {
+      setFormError('Please enter your email address.');
       return;
     }
     setInitiationSubmitted(true);
   };
 
-  const handleSliderChange = (e) => {
-    setSliderPos(Number(e.target.value));
-  };
-
   return (
-    <div className="bg-[#F8FAFC] text-[#0F172A] min-h-screen frost-page-bg">
+    <div className="bg-[#07080A] text-[#F8FAFC] min-h-screen selection:bg-[#FF5500] selection:text-black">
       
       {/* =========================================================================
-          SECTION 01: OPTION 3 FROST BLUE HERO STAGE
-          - Full-bleed image filling the card completely (no white bars)
-          - Light Film covering over photography
-          - Dark high-contrast slate typography
-          - Centered clothed athlete actively lifting with chalk at barbell
-          - Zero video cards, zero review badges
-          - Clean bottom frosted card with key verified metrics
+          SECTION 01: MONUMENTAL CARD-FREE HERO
+          - Zero cards, zero slashes, zero coordinates, zero marquee
+          - Simple, welcoming, high-impact language
+          - Competition orange (#FF5500) focal accent
       ========================================================================= */}
-      {/* =========================================================================
-          SECTION 01: CRISP MODEL & RIGHT-SIDE FROSTED WHITE BLUR FILM HERO
-          - Left side: 100% crisp, sharp, unblurred athlete model
-          - Right side: Frosted white blur film covering content area
-          - Original content strictly preserved: Stronger. Healthier. You.
-          - Massive high-contrast typography and original action buttons
-      ========================================================================= */}
-      {/* =========================================================================
-          SECTION 01: FLAT DYNAMIC SPORTS HERO (MERGED SEAMLESSLY WITH PAGE)
-          - Flat edge-to-edge section (zero card borders, zero card shadows)
-          - Signature Frost Ice & Lavender diagonal stripe (38° angle)
-          - Solo muscular male athlete cutout (/fitness_PNG170.png) grounded on baseline
-          - 100% original copy preserved: Stronger. Healthier. You.
-          - High-contrast dark typography and action buttons
-      ========================================================================= */}
-      <section className="relative overflow-hidden border-b border-slate-200/80 bg-[#F8FAFC] min-h-[560px] sm:min-h-[660px] lg:min-h-[720px] flex flex-col justify-between select-none">
+      <section className="relative overflow-hidden border-b border-white/[0.08] min-h-[85svh] flex flex-col justify-between">
         
-        {/* LAYER 1 (z-10): SIGNATURE FROST ICE & LAVENDER DIAGONAL STRIPE */}
-        <div className="diagonal-stripe-frost z-10" />
-
-        {/* LAYER 2 (z-20): SOLO MUSCULAR MALE ATHLETE (WITH WHITE ELEMENTS & APPAREL) */}
-        <div className="absolute inset-y-0 right-0 sm:right-6 md:right-16 lg:right-28 xl:right-36 z-20 flex items-end justify-end pointer-events-none pb-0">
+        {/* Full-Bleed Atmospheric Background Canvas */}
+        <div className="absolute inset-0 z-0 pointer-events-none">
           <img
-            src={`${import.meta.env.BASE_URL}fitness_PNG170.png`}
-            alt="Muscular male strength athlete with athletic gear"
-            className="h-[65%] sm:h-[80%] md:h-[90%] lg:h-[96%] max-h-[680px] object-contain object-bottom transform translate-y-2 lg:translate-y-4 athlete-cutout-shadow pointer-events-none opacity-25 sm:opacity-40 md:opacity-100 transition-opacity duration-300"
+            src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1800&auto=format&fit=crop"
+            alt="Ironforge Eleiko platform"
+            className="w-full h-full object-cover filter brightness-[0.24] contrast-125 saturate-[0.8]"
           />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#07080A] via-[#07080A]/60 to-[#07080A]/80" />
+          <div className="film-grain absolute inset-0 opacity-40" />
         </div>
 
-        {/* INNER CONTENT GRID (MAX-W-7XL ALIGNED WITH THE REST OF THE PAGE) */}
-        <div className="relative z-30 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-6 sm:pt-8 pb-10 sm:pb-12 flex flex-col justify-between flex-1">
-          
-          {/* LAYER 3: TOP STATUS BAR */}
-          <div className="flex flex-wrap items-center justify-between gap-2.5 sm:gap-3 text-[11px] sm:text-xs font-mono font-bold tracking-wider">
-            <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 rounded-full bg-white/95 backdrop-blur-md border border-[#E2E8F0] shadow-xs text-slate-900">
-              <span>⚡ IPF &amp; IWF CALIBRATED HUMAN PERFORMANCE</span>
+        {/* Top Wireframe Architectural Telemetry Line */}
+        <div className="relative z-10 border-b border-white/[0.08] px-4 sm:px-6 lg:px-8 py-2.5 sm:py-3 bg-[#07080A]/60 backdrop-blur-md">
+          <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2 sm:gap-3 text-[10px] sm:text-[11px] font-mono text-slate-400">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <span className="text-[#FF5500] font-bold tracking-wider">CIVIL LINES, NAGPUR</span>
+              <span className="text-white/20 hidden sm:inline">•</span>
+              <span className="hidden sm:inline">RAMDASPETH</span>
             </div>
-            <div className="hidden sm:flex items-center gap-2 text-xs text-slate-600 font-mono font-semibold bg-white/85 backdrop-blur-md px-4 py-1.5 rounded-full border border-[#E2E8F0] shadow-xs">
-              <span className="text-slate-950 font-bold">NAGPUR, MAHARASHTRA</span>
-              <span>/</span>
-              <span>21.1458° N, 79.0882° E</span>
+
+            <div className="flex items-center gap-3 sm:gap-4">
+              <span className="text-[#FF5500] font-bold tracking-wider">PREMIUM STRENGTH GYM</span>
+              <span className="text-white/20">•</span>
+              <span>05:00 – 23:00 ACCESS</span>
             </div>
           </div>
-
-          {/* LAYER 4: FULL 3-LINE HEADLINE, SUBTEXT & BUTTONS */}
-          <div className="w-full md:max-w-md lg:max-w-xl my-auto pt-8 sm:pt-12 pb-8">
-            <h1 className="font-display font-black text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-[5.5rem] tracking-tight leading-[0.9] text-slate-950 drop-shadow-xs">
-              Stronger.<br />
-              Healthier.<br />
-              <span className="text-slate-700">You.</span>
-            </h1>
-
-            {/* Subtext in Subtle Frosted Pill Card */}
-            <div className="mt-5 sm:mt-6 p-4 sm:p-4.5 rounded-2xl bg-white/90 backdrop-blur-md border border-slate-200/80 shadow-xs max-w-md">
-              <p className="text-xs sm:text-sm md:text-base text-slate-700 font-medium leading-relaxed">
-                An uncompromising strength and human performance sanctuary engineered with sports science periodization and calibrated coaching.
-              </p>
-            </div>
-
-            {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-3.5 mt-6 sm:mt-8">
-              <button
-                onClick={onOpenBooking}
-                className="dark-pill-btn px-7 sm:px-8 py-3.5 text-xs sm:text-sm font-display tracking-wide uppercase inline-flex items-center justify-center gap-3 cursor-pointer shadow-sm"
-              >
-                <span>Start Your Journey</span>
-                <ArrowRight className="w-4 h-4 stroke-[2.5]" />
-              </button>
-              <button
-                onClick={() => onNavigate('programs')}
-                className="dark-pill-btn px-6 sm:px-7 py-3.5 text-xs sm:text-sm font-display tracking-wide uppercase inline-flex items-center justify-center gap-3 cursor-pointer"
-              >
-                <span>Explore Protocols</span>
-                <ArrowRight className="w-4 h-4 stroke-[2.5]" />
-              </button>
-            </div>
-          </div>
-
-          {/* LAYER 5: BOTTOM FROSTED TELEMETRY PILLS */}
-          <div className="flex flex-wrap items-center gap-2 sm:gap-3 pt-4">
-            <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-white/90 backdrop-blur-md border border-slate-200/80 shadow-2xs text-[10px] sm:text-xs font-mono text-slate-600">
-              <span className="font-bold text-slate-950">01</span>
-              <span>STRENGTH PERIODIZATION</span>
-            </div>
-            <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-white/90 backdrop-blur-md border border-slate-200/80 shadow-2xs text-[10px] sm:text-xs font-mono text-slate-600">
-              <span className="font-bold text-slate-950">02</span>
-              <span>IPF/IWF PLATFORMS</span>
-            </div>
-            <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-white/90 backdrop-blur-md border border-slate-200/80 shadow-2xs text-[10px] sm:text-xs font-mono text-slate-600">
-              <span className="font-bold text-slate-950">03</span>
-              <span>SPORTS SCIENCE RECOVERY</span>
-            </div>
-          </div>
-
         </div>
+
+        {/* Hero Core Stage (No Cards Anywhere, Clear & Simple Language) */}
+        <div className="relative z-10 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-12 sm:py-20 lg:py-24 my-auto text-left">
+          <div className="space-y-5 sm:space-y-6 max-w-5xl">
+            
+            {/* Tagline */}
+            <div className="inline-flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest">
+              <span className="px-2.5 py-0.5 rounded-full bg-[#FF5500]/10 border border-[#FF5500]/30 text-[#FF5500] font-mono font-bold text-[10px]">
+                OPEN TO ALL FITNESS LEVELS
+              </span>
+              <span className="text-white/30 hidden xs:inline">•</span>
+              <span className="text-slate-400 hidden xs:inline text-[11px]">PREMIUM STRENGTH GYM</span>
+            </div>
+
+            {/* Monumental Macro-Typography with Orange Accent */}
+            <div className="space-y-1">
+              <h1 className="hero-monument-title text-white">
+                UNCOMPROMISING<br />
+                STRENGTH <span className="text-[#FF5500]">TRAINING</span>
+              </h1>
+            </div>
+
+            {/* Simple, Punchy Hero Sentences (Zero Jargon) */}
+            <p className="hero-editorial-lead text-slate-300 max-w-2xl font-normal">
+              World-class equipment. Friendly expert coaches. Ice plunge and cedar sauna. Built for anyone ready to get stronger.
+            </p>
+
+            {/* Dominant Focal Action (Single Dominant CTA in Competition Orange) */}
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 pt-2">
+              <button
+                onClick={() => onOpenBooking ? onOpenBooking({ program: 'FACILITY TOUR' }) : null}
+                className="bg-[#FF5500] hover:bg-[#FF6A1A] text-black px-8 sm:px-9 py-3.5 sm:py-4 rounded-full text-xs sm:text-sm font-display font-black uppercase tracking-wider inline-flex items-center justify-center gap-3 cursor-pointer shadow-[0_0_24px_rgba(255,85,0,0.35)] transition-all duration-150 min-h-[48px] active:scale-[0.98]"
+              >
+                <span>SCHEDULE FACILITY TOUR</span>
+                <ArrowRight className="w-4 h-4 stroke-[2.5]" />
+              </button>
+              
+              <button
+                onClick={onScrollToIntake || (() => onNavigate('trainers'))}
+                className="text-xs sm:text-sm font-mono font-bold uppercase tracking-wider text-slate-300 hover:text-white px-5 sm:px-6 py-3.5 sm:py-4 transition-colors cursor-pointer inline-flex items-center justify-center sm:justify-start gap-2 group min-h-[48px]"
+              >
+                <span>APPLY FOR MEMBERSHIP</span>
+                <ChevronRight className="w-4 h-4 stroke-[2.5] group-hover:translate-x-1 transition-transform text-[#FF5500]" />
+              </button>
+            </div>
+
+          </div>
+        </div>
+
       </section>
 
       {/* =========================================================================
-          SECTION 02: TRAIN WITH PURPOSE
-          3 Frosted Cards with Lavender/Ice Accent Badges and Dark Slate Typography
+          SECTION 02: WHY IRONFORGE (PLAIN EDITORIAL LAYOUT, NO CARDS, NO NAVY BLUE)
+          - Unboxed, plain editorial columns directly on the obsidian canvas
+          - Short, curiosity-driven copy with contextual photography
+          - Zero slashes, zero navy blue colors
       ========================================================================= */}
-      <section className="py-20 border-b border-slate-200/80 bg-white/60">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      <section className="py-20 border-b border-white/[0.08] bg-[#07080A]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-left space-y-12">
           
-          <div className="space-y-2 max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-stone-200 shadow-2xs font-mono text-xs font-bold text-slate-900 uppercase tracking-wider">
-              <span>01 METHODOLOGY</span>
+          <div className="space-y-2 pb-6 border-b border-white/[0.08] flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div>
+              <div className="inline-flex items-center gap-2 text-xs font-mono font-bold text-slate-400 uppercase tracking-widest">
+                <span className="text-[#FF5500] font-bold">01</span>
+                <span>•</span>
+                <span>WHY IRONFORGE</span>
+              </div>
+              <h2 className="font-display font-black text-3xl sm:text-4xl lg:text-5xl uppercase tracking-tight text-white leading-tight mt-1">
+                BUILT DIFFERENT. ON PURPOSE.
+              </h2>
             </div>
-            <h2 className="font-display font-black text-3xl sm:text-4xl lg:text-5xl uppercase tracking-tight text-slate-950">
-              TRAIN WITH PURPOSE.
-            </h2>
-            <p className="text-sm sm:text-base font-sans text-slate-600 leading-relaxed">
-              More than just a gym — we build stronger people, healthier lives and a better you through sports science and accountable coaching.
+            <p className="text-xs sm:text-sm font-sans text-slate-400 max-w-md">
+              Three things you will notice the moment you walk through our doors.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          {/* 3 Plain Editorial Columns (No Cards, No Navy Blue) */}
+          <div className="grid md:grid-cols-3 gap-8 lg:gap-12">
             
-            {/* Card 1: Strength */}
-            <div className="frost-card frost-card-hover rounded-3xl p-6 sm:p-8 space-y-5 shadow-sm transition-all flex flex-col justify-between">
-              <div className="space-y-4">
-                <div className="w-12 h-12 rounded-2xl bg-slate-950 text-white flex items-center justify-center font-bold">
-                  <Dumbbell className="w-6 h-6 stroke-[2.2]" />
-                </div>
-                <h3 className="font-display font-black text-2xl uppercase tracking-tight text-slate-950">
-                  BUILD RAW STRENGTH
-                </h3>
-                <p className="text-sm text-slate-600 leading-relaxed font-sans">
-                  Progressive overload anchored on calibrated competition steel. Master squats, presses, and pulls with biomechanical precision.
-                </p>
+            {/* Item 01: Genuine Swedish Steel */}
+            <div className="space-y-4">
+              <div className="relative h-60 rounded-2xl overflow-hidden border border-white/[0.08]">
+                <img
+                  src="https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?q=80&w=900&auto=format&fit=crop"
+                  alt="Athlete chalking hands for Eleiko barbell lift"
+                  className="w-full h-full object-cover filter brightness-[0.8] contrast-110 hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#07080A] via-transparent to-transparent pointer-events-none" />
+                <span className="absolute top-3 left-3 px-2.5 py-0.5 rounded-full bg-black/80 backdrop-blur-md text-[10px] font-mono font-bold text-[#FF5500] border border-white/15 uppercase">
+                  01 • THE HARDWARE
+                </span>
+                <span className="absolute bottom-3 right-3 text-[10px] font-mono text-slate-300 bg-black/80 px-2.5 py-0.5 rounded-full backdrop-blur-sm">
+                  18 ELEIKO PLATFORMS
+                </span>
               </div>
-
-              <div className="pt-4 border-t border-slate-200/80 flex flex-wrap gap-2">
-                <span className="px-2.5 py-1 rounded-full bg-slate-100 text-[10px] font-mono font-bold text-slate-700">CNS OPTIMIZATION</span>
-                <span className="px-2.5 py-1 rounded-full bg-slate-100 text-[10px] font-mono font-bold text-slate-700">CALIBRATED LOAD</span>
+              
+              <div className="space-y-2">
+                <h3 className="font-display font-black text-xl uppercase tracking-tight text-white">
+                  NO BENT BARS. NO PLASTIC.
+                </h3>
+                <p className="text-xs sm:text-sm font-sans text-slate-300 leading-relaxed">
+                  Ever wondered why ordinary gym bars hurt your wrists while others feel weightless? Genuine Eleiko calibrated steel spins smoothly on needle bearings and stays perfectly balanced.
+                </p>
+                <div className="pt-2 flex items-center justify-between text-[11px] font-mono text-[#FF5500] font-bold">
+                  <span>SWEDISH CALIBRATION</span>
+                  <span className="text-slate-400">ZERO WOBBLE</span>
+                </div>
               </div>
             </div>
 
-            {/* Card 2: Healthier */}
-            <div className="frost-card frost-card-hover rounded-3xl p-6 sm:p-8 space-y-5 shadow-sm transition-all flex flex-col justify-between">
-              <div className="space-y-4">
-                <div className="w-12 h-12 rounded-2xl bg-slate-950 text-white flex items-center justify-center font-bold">
-                  <Flame className="w-6 h-6 stroke-[2.2]" />
-                </div>
-                <h3 className="font-display font-black text-2xl uppercase tracking-tight text-slate-950">
-                  HEALTHIER BIOLOGY
-                </h3>
-                <p className="text-sm text-slate-600 leading-relaxed font-sans">
-                  Metabolic conditioning and mitochondrial density without reckless burnout. Aerobic capacity engineered for long-term health.
-                </p>
+            {/* Item 02: Contrast Therapy Suite */}
+            <div className="space-y-4">
+              <div className="relative h-60 rounded-2xl overflow-hidden border border-white/[0.08]">
+                <img
+                  src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=900&auto=format&fit=crop"
+                  alt="Clear contrast ice plunge bath and sauna atmosphere"
+                  className="w-full h-full object-cover filter brightness-[0.8] contrast-110 hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#07080A] via-transparent to-transparent pointer-events-none" />
+                <span className="absolute top-3 left-3 px-2.5 py-0.5 rounded-full bg-black/80 backdrop-blur-md text-[10px] font-mono font-bold text-[#FF5500] border border-white/15 uppercase">
+                  02 • THE CONTRAST
+                </span>
+                <span className="absolute bottom-3 right-3 text-[10px] font-mono text-slate-300 bg-black/80 px-2.5 py-0.5 rounded-full backdrop-blur-sm">
+                  38°F COLD • 190°F HEAT
+                </span>
               </div>
-
-              <div className="pt-4 border-t border-slate-200/80 flex flex-wrap gap-2">
-                <span className="px-2.5 py-1 rounded-full bg-slate-100 text-[10px] font-mono font-bold text-slate-700">INDIVIDUALIZED</span>
-                <span className="px-2.5 py-1 rounded-full bg-slate-100 text-[10px] font-mono font-bold text-slate-700">VOLUME BENCHMARKS</span>
+              
+              <div className="space-y-2">
+                <h3 className="font-display font-black text-xl uppercase tracking-tight text-white">
+                  RESET AT 38°F &amp; 190°F.
+                </h3>
+                <p className="text-xs sm:text-sm font-sans text-slate-300 leading-relaxed">
+                  Why wait two full days for muscle soreness to fade? Three minutes in our chilled water drops inflammation instantly so you wake up refreshed and ready to train again.
+                </p>
+                <div className="pt-2 flex items-center justify-between text-[11px] font-mono text-[#FF5500] font-bold">
+                  <span>FINNISH CEDAR HEAT</span>
+                  <span className="text-slate-400">ZERO SORENESS</span>
+                </div>
               </div>
             </div>
 
-            {/* Card 3: You */}
-            <div className="frost-card frost-card-hover rounded-3xl p-6 sm:p-8 space-y-5 shadow-sm transition-all flex flex-col justify-between">
-              <div className="space-y-4">
-                <div className="w-12 h-12 rounded-2xl bg-slate-950 text-white flex items-center justify-center font-bold">
-                  <Activity className="w-6 h-6 stroke-[2.2]" />
-                </div>
-                <h3 className="font-display font-black text-2xl uppercase tracking-tight text-slate-950">
-                  A BETTER YOU
-                </h3>
-                <p className="text-sm text-slate-600 leading-relaxed font-sans">
-                  Accountability metrics that keep you consistent. 1-on-1 coach feedback loops that translate gym discipline into personal resilience.
-                </p>
+            {/* Item 03: Pure Focus Culture */}
+            <div className="space-y-4">
+              <div className="relative h-60 rounded-2xl overflow-hidden border border-white/[0.08]">
+                <img
+                  src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=900&auto=format&fit=crop"
+                  alt="Coach guiding an athlete on proper lifting technique"
+                  className="w-full h-full object-cover filter brightness-[0.8] contrast-110 hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#07080A] via-transparent to-transparent pointer-events-none" />
+                <span className="absolute top-3 left-3 px-2.5 py-0.5 rounded-full bg-black/80 backdrop-blur-md text-[10px] font-mono font-bold text-[#FF5500] border border-white/15 uppercase">
+                  03 • THE CULTURE
+                </span>
+                <span className="absolute bottom-3 right-3 text-[10px] font-mono text-slate-300 bg-black/80 px-2.5 py-0.5 rounded-full backdrop-blur-sm">
+                  CAPPED FLOOR ACCESS
+                </span>
               </div>
-
-              <div className="pt-4 border-t border-slate-200/80 flex flex-wrap gap-2">
-                <span className="px-2.5 py-1 rounded-full bg-slate-100 text-[10px] font-mono font-bold text-slate-700">INBODY 770</span>
-                <span className="px-2.5 py-1 rounded-full bg-slate-100 text-[10px] font-mono font-bold text-slate-700">TELEMETRY METRICS</span>
+              
+              <div className="space-y-2">
+                <h3 className="font-display font-black text-xl uppercase tracking-tight text-white">
+                  ZERO WAITING. ZERO EGOS.
+                </h3>
+                <p className="text-xs sm:text-sm font-sans text-slate-300 leading-relaxed">
+                  Tired of waiting twenty minutes for a bench or feeling intimidated? We cap capacity and keep helpful coaches on the floor to check your form whenever you want.
+                </p>
+                <div className="pt-2 flex items-center justify-between text-[11px] font-mono text-[#FF5500] font-bold">
+                  <span>RESIDENT COACHES</span>
+                  <span className="text-slate-400">NO OVERCROWDING</span>
+                </div>
               </div>
             </div>
 
@@ -259,895 +341,620 @@ export default function HomePage({ onNavigate, onOpenBooking, selectedFaculty, o
       </section>
 
       {/* =========================================================================
-          SECTION 03: FIND YOUR TRAINING (4 Protocol Cards)
-          Photography with Light Film Overlay and High-Contrast Dark Slate Typography
+          SECTION 03: TARGETED WORKOUT PATHS (PLAIN EDITORIAL ROWS, NO CARDS)
+          - Plain horizontal editorial rows with authentic contextual photography
+          - Short, magnetic hooks that spark curiosity
+          - Zero card boxes, zero navy blue colors
       ========================================================================= */}
-      <section className="py-24 border-b border-slate-200/80">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      <section className="py-20 border-b border-white/[0.08] bg-[#07080A]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-left space-y-10">
           
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-            <div className="space-y-2">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-stone-200 shadow-2xs font-mono text-xs font-bold text-slate-900 uppercase tracking-wider">
-                <span>02 PROTOCOLS</span>
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-6 border-b border-white/[0.08]">
+            <div className="space-y-1">
+              <div className="inline-flex items-center gap-2 text-xs font-mono font-bold text-slate-400 uppercase tracking-widest">
+                <span className="text-[#FF5500] font-bold">02</span>
+                <span>•</span>
+                <span>TARGETED WORKOUT PATHS</span>
               </div>
-              <h2 className="font-display font-black text-3xl sm:text-4xl lg:text-5xl uppercase tracking-tight text-slate-950">
-                FIND YOUR TRAINING.
+              <h2 className="font-display font-black text-3xl sm:text-4xl lg:text-5xl uppercase tracking-tight text-white leading-tight">
+                WHAT IS YOUR MAIN GOAL?
               </h2>
-              <p className="text-sm sm:text-base font-sans text-slate-600">
-                Different goals. Same result — a stronger, more resilient you.
-              </p>
             </div>
 
             <button
               onClick={() => onNavigate('programs')}
-              className="text-xs font-mono font-bold uppercase tracking-wider text-slate-900 hover:text-black transition-colors self-start sm:self-auto cursor-pointer inline-flex items-center gap-1.5 group"
+              className="bg-white hover:bg-[#FF5500] hover:text-black text-black px-6 py-2.5 rounded-full text-xs font-mono font-bold uppercase tracking-wider transition-all inline-flex items-center gap-2 cursor-pointer self-start sm:self-auto shadow-md"
             >
-              <span>View Full Catalog</span>
-              <ArrowRight className="w-3.5 h-3.5 stroke-[2.5] group-hover:translate-x-0.5 transition-transform" />
+              <span>EXPLORE ALL 6 PROGRAMS</span>
+              <ArrowRight className="w-3.5 h-3.5 stroke-[2.5]" />
             </button>
           </div>
 
-          {/* 2x2 Grid of Protocol Cards */}
-          <div className="grid sm:grid-cols-2 gap-8">
-            
-            {/* Card 1: Strength */}
-            <div 
-              onClick={() => onNavigate('programs')}
-              className="group relative h-72 sm:h-80 rounded-3xl overflow-hidden cursor-pointer shadow-md hover:shadow-xl transition-all duration-300 border border-slate-200/80 p-6 sm:p-8 flex flex-col justify-end"
-            >
-              <img
-                src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1000&auto=format&fit=crop"
-                alt="Clothed athlete training barbell squat"
-                className="absolute inset-0 w-full h-full object-cover filter brightness-105 contrast-95 group-hover:scale-105 transition-all duration-500"
-              />
-              
-              {/* LIGHT FILM COVERING OVER IMAGE */}
-              <div className="film-overlay-light" />
-              <div className="absolute inset-0 bg-gradient-to-t from-white/95 via-white/70 to-white/30" />
+          {/* Plain Editorial Program Rows (No Cards, No Navy Blue) */}
+          <div className="divide-y divide-white/[0.08]">
+            {[
+              {
+                id: '01',
+                title: 'BARBELL & POWER',
+                badge: '12 WEEKS • STRENGTH',
+                image: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=800&auto=format&fit=crop',
+                curiousHook: 'How strong could you get with proper form?',
+                teaser: 'Master the squat, bench, and deadlift with calibrated bars and zero wasted reps.',
+                highlight: '+20% STRONGER ON LIFTS'
+              },
+              {
+                id: '02',
+                title: 'SCULPT & LEAN MUSCLE',
+                badge: '10 WEEKS • PHYSIQUE',
+                image: 'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?q=80&w=800&auto=format&fit=crop',
+                curiousHook: 'What if every rep actually built definition?',
+                teaser: 'Joint-friendly cable and dumbbell circuits that sculpt noticeable muscle week after week.',
+                highlight: 'HIGH-IMPACT DEFINITION'
+              },
+              {
+                id: '03',
+                title: 'TURF SLED & HYROX',
+                badge: '8 WEEKS • STAMINA',
+                image: 'https://images.unsplash.com/photo-1517963879433-6ad2b056d712?q=80&w=800&auto=format&fit=crop',
+                curiousHook: 'What if you never ran out of breath?',
+                teaser: 'Heavy sled pushes, Concept2 rowers, and SkiErgs to build relentless energy and stamina.',
+                highlight: 'ALL-DAY ENGINE'
+              },
+              {
+                id: '04',
+                title: 'ICE PLUNGE & SAUNA',
+                badge: 'WEEKLY • RECOVERY',
+                image: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=800&auto=format&fit=crop',
+                curiousHook: 'Why live with sore, stiff muscles?',
+                teaser: 'Plunge into 38°F cold water, then recharge in cedar heat. Flush fatigue in twenty minutes.',
+                highlight: 'INSTANT RECHARGE'
+              }
+            ].map((p) => (
+              <div
+                key={p.id}
+                className="py-6 sm:py-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-5 sm:gap-6 hover:bg-white/[0.02] transition-colors"
+              >
+                {/* Plain Contextual Image Frame */}
+                <div className="relative w-full md:w-56 h-48 sm:h-40 md:h-36 rounded-2xl overflow-hidden shrink-0 border border-white/[0.08]">
+                  <img
+                    src={p.image}
+                    alt={p.title}
+                    className="w-full h-full object-cover filter brightness-[0.8] contrast-105"
+                  />
+                  <div className="absolute top-2.5 left-2.5 bg-black/80 px-2 py-0.5 rounded text-[10px] font-mono font-bold text-[#FF5500]">
+                    {p.id}
+                  </div>
+                </div>
 
-              <div className="relative z-10 space-y-2">
-                <span className="inline-block px-3 py-1 rounded-full bg-slate-950 text-white font-mono text-[10px] font-bold tracking-wider uppercase">
-                  RAW POWERLIFTING
-                </span>
-                <h3 className="font-display font-black text-2xl sm:text-3xl uppercase tracking-tight text-slate-950">
-                  STRENGTH
-                </h3>
-                <p className="text-xs sm:text-sm font-sans font-medium text-slate-700 max-w-sm">
-                  Build unbreakable raw power and structural joint durability on competition racks.
-                </p>
-                <div className="pt-2 flex items-center gap-2 text-xs font-mono font-bold text-slate-950 group-hover:translate-x-1 transition-transform">
-                  <span>VIEW PROTOCOL</span>
-                  <ArrowRight className="w-3.5 h-3.5 stroke-[2.5]" />
+                {/* Plain Text Body */}
+                <div className="flex-1 space-y-1.5 w-full">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="text-[10px] font-mono font-bold text-white bg-white/[0.06] px-2 py-0.5 rounded-full border border-white/10 uppercase">
+                      {p.badge}
+                    </span>
+                    <span className="text-[10px] font-mono font-bold text-[#FF5500]">
+                      {p.highlight}
+                    </span>
+                  </div>
+                  <h3 className="font-display font-black text-xl uppercase tracking-tight text-white">
+                    {p.title}
+                  </h3>
+                  <p className="text-xs font-bold font-sans text-[#FF5500]">
+                    {p.curiousHook}
+                  </p>
+                  <p className="text-xs font-sans text-slate-300 leading-relaxed max-w-xl">
+                    {p.teaser}
+                  </p>
+                </div>
+
+                {/* Plain CTA */}
+                <div className="shrink-0 w-full sm:w-auto self-stretch md:self-center">
+                  <button
+                    onClick={() => onOpenBooking ? onOpenBooking({ program: p.title }) : null}
+                    className="w-full sm:w-auto px-6 py-3 rounded-full bg-white hover:bg-[#FF5500] hover:text-black text-black text-xs font-mono font-bold uppercase tracking-wider inline-flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-sm active:scale-[0.98] min-h-[44px]"
+                  >
+                    <span>EXPLORE PATH</span>
+                    <ArrowRight className="w-3.5 h-3.5 stroke-[2.5]" />
+                  </button>
                 </div>
               </div>
-            </div>
-
-            {/* Card 2: Muscle Build */}
-            <div 
-              onClick={() => onNavigate('programs')}
-              className="group relative h-72 sm:h-80 rounded-3xl overflow-hidden cursor-pointer shadow-md hover:shadow-xl transition-all duration-300 border border-slate-200/80 p-6 sm:p-8 flex flex-col justify-end"
-            >
-              <img
-                src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=1000&auto=format&fit=crop"
-                alt="Clothed athlete performing heavy incline press"
-                className="absolute inset-0 w-full h-full object-cover filter brightness-105 contrast-95 group-hover:scale-105 transition-all duration-500"
-              />
-              
-              {/* LIGHT FILM COVERING OVER IMAGE */}
-              <div className="film-overlay-light" />
-              <div className="absolute inset-0 bg-gradient-to-t from-white/95 via-white/70 to-white/30" />
-
-              <div className="relative z-10 space-y-2">
-                <span className="inline-block px-3 py-1 rounded-full bg-slate-950 text-white font-mono text-[10px] font-bold tracking-wider uppercase">
-                  HYPERTROPHY
-                </span>
-                <h3 className="font-display font-black text-2xl sm:text-3xl uppercase tracking-tight text-slate-950">
-                  MUSCLE BUILD
-                </h3>
-                <p className="text-xs sm:text-sm font-sans font-medium text-slate-700 max-w-sm">
-                  High-tension mechanical overload engineered for dense, functional muscular recruitment.
-                </p>
-                <div className="pt-2 flex items-center gap-2 text-xs font-mono font-bold text-slate-950 group-hover:translate-x-1 transition-transform">
-                  <span>VIEW PROTOCOL</span>
-                  <ArrowRight className="w-3.5 h-3.5 stroke-[2.5]" />
-                </div>
-              </div>
-            </div>
-
-            {/* Card 3: Fat Loss */}
-            <div 
-              onClick={() => onNavigate('programs')}
-              className="group relative h-72 sm:h-80 rounded-3xl overflow-hidden cursor-pointer shadow-md hover:shadow-xl transition-all duration-300 border border-slate-200/80 p-6 sm:p-8 flex flex-col justify-end"
-            >
-              <img
-                src="https://images.unsplash.com/photo-1549060279-7e168fcee0c2?q=80&w=1000&auto=format&fit=crop"
-                alt="Clothed athlete in training gym session"
-                className="absolute inset-0 w-full h-full object-cover filter brightness-105 contrast-95 group-hover:scale-105 transition-all duration-500"
-              />
-              
-              {/* LIGHT FILM COVERING OVER IMAGE */}
-              <div className="film-overlay-light" />
-              <div className="absolute inset-0 bg-gradient-to-t from-white/95 via-white/70 to-white/30" />
-
-              <div className="relative z-10 space-y-2">
-                <span className="inline-block px-3 py-1 rounded-full bg-slate-950 text-white font-mono text-[10px] font-bold tracking-wider uppercase">
-                  METABOLIC RECOMP
-                </span>
-                <h3 className="font-display font-black text-2xl sm:text-3xl uppercase tracking-tight text-slate-950">
-                  FAT LOSS
-                </h3>
-                <p className="text-xs sm:text-sm font-sans font-medium text-slate-700 max-w-sm">
-                  High-density anaerobic intervals paired with strength work to strip fat and shield lean tissue.
-                </p>
-                <div className="pt-2 flex items-center gap-2 text-xs font-mono font-bold text-slate-950 group-hover:translate-x-1 transition-transform">
-                  <span>VIEW PROTOCOL</span>
-                  <ArrowRight className="w-3.5 h-3.5 stroke-[2.5]" />
-                </div>
-              </div>
-            </div>
-
-            {/* Card 4: Athletic Performance */}
-            <div 
-              onClick={() => onNavigate('programs')}
-              className="group relative h-72 sm:h-80 rounded-3xl overflow-hidden cursor-pointer shadow-md hover:shadow-xl transition-all duration-300 border border-slate-200/80 p-6 sm:p-8 flex flex-col justify-end"
-            >
-              <img
-                src="https://images.unsplash.com/photo-1517963879433-6ad2b056d712?q=80&w=1000&auto=format&fit=crop"
-                alt="Clothed athlete with sled push sprint"
-                className="absolute inset-0 w-full h-full object-cover filter brightness-105 contrast-95 group-hover:scale-105 transition-all duration-500"
-              />
-              
-              {/* LIGHT FILM COVERING OVER IMAGE */}
-              <div className="film-overlay-light" />
-              <div className="absolute inset-0 bg-gradient-to-t from-white/95 via-white/70 to-white/30" />
-
-              <div className="relative z-10 space-y-2">
-                <span className="inline-block px-3 py-1 rounded-full bg-slate-950 text-white font-mono text-[10px] font-bold tracking-wider uppercase">
-                  EXPLOSIVE SPEED
-                </span>
-                <h3 className="font-display font-black text-2xl sm:text-3xl uppercase tracking-tight text-slate-950">
-                  ATHLETIC PERFORMANCE
-                </h3>
-                <p className="text-xs sm:text-sm font-sans font-medium text-slate-700 max-w-sm">
-                  Ballistic jumps, reactive sprinting mechanics, and Olympic derivatives for sport agility.
-                </p>
-                <div className="pt-2 flex items-center gap-2 text-xs font-mono font-bold text-slate-950 group-hover:translate-x-1 transition-transform">
-                  <span>VIEW PROTOCOL</span>
-                  <ArrowRight className="w-3.5 h-3.5 stroke-[2.5]" />
-                </div>
-              </div>
-            </div>
-
+            ))}
           </div>
 
         </div>
       </section>
 
       {/* =========================================================================
-          SECTION 04: EQUIPMENT KNOWLEDGE
-          Free education on major gym equipment and machines
+          SECTION 04: OUR EQUIPMENT (PLAIN EDITORIAL ROWS, SHORT, CURIOUS & VISUAL)
+          - Plain horizontal divider rows directly on the canvas (NO CARDS)
+          - Contextual photography for every piece of gear
+          - Short, curious hooks (zero boring technical syllabi)
+          - Zero navy blue colors
       ========================================================================= */}
-      <section className="py-24 border-b border-slate-200/80 bg-white/60">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-
-          <div className="space-y-2 max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-stone-200 shadow-2xs font-mono text-xs font-bold text-slate-900 uppercase tracking-wider">
-              <span>03 EQUIPMENT GUIDE</span>
+      <section className="py-16 sm:py-20 border-b border-white/[0.08] bg-[#07080A]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-left space-y-8 sm:space-y-10">
+          
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-6 border-b border-white/[0.08]">
+            <div className="space-y-1">
+              <div className="inline-flex items-center gap-2 text-xs font-mono font-bold text-slate-400 uppercase tracking-widest">
+                <span className="text-[#FF5500] font-bold">03</span>
+                <span>•</span>
+                <span>OUR EQUIPMENT</span>
+              </div>
+              <h2 className="font-display font-black text-2xl sm:text-4xl lg:text-5xl uppercase tracking-tight text-white leading-tight">
+                TRAIN WITH THE BEST GEAR.
+              </h2>
             </div>
-            <h2 className="font-display font-black text-3xl sm:text-4xl lg:text-5xl uppercase tracking-tight text-slate-950">
-              KNOW YOUR MACHINES.
-            </h2>
-            <p className="text-sm sm:text-base font-sans text-slate-600 max-w-xl">
-              Free knowledge on the equipment inside our facility — what it does, how it targets your body, and why it works.
-            </p>
+
+            {/* Filter Pills with Horizontal Touch Scrolling on Mobile */}
+            <div className="flex overflow-x-auto no-scrollbar py-1 gap-2 -mx-4 px-4 sm:mx-0 sm:px-0 sm:flex-wrap">
+              {hardwareCategories.map(cat => (
+                <button
+                  key={cat}
+                  onClick={() => setActiveHardwareFilter(cat)}
+                  className={`px-3.5 py-2 rounded-full text-xs font-mono font-bold transition-all cursor-pointer whitespace-nowrap min-h-[38px] ${
+                    activeHardwareFilter === cat
+                      ? 'bg-[#FF5500] text-black shadow-[0_0_12px_rgba(255,85,0,0.35)]'
+                      : 'text-slate-400 hover:text-white border border-white/10 hover:border-white/20 active:bg-white/[0.05]'
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {/* Plain Editorial Equipment Rows (No Cards, With Contextual Images) */}
+          <div className="divide-y divide-white/[0.08]">
+            {filteredHardware.map((item, idx) => (
+              <div 
+                key={idx}
+                className="py-6 sm:py-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-5 sm:gap-6 hover:bg-white/[0.02] transition-colors"
+              >
+                {/* Contextual Equipment Photo */}
+                <div className="relative w-full md:w-56 h-48 sm:h-40 md:h-36 rounded-2xl overflow-hidden shrink-0 border border-white/[0.08]">
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="w-full h-full object-cover filter brightness-[0.8] contrast-105"
+                  />
+                  <div className="absolute top-2.5 left-2.5 bg-black/80 px-2 py-0.5 rounded text-[10px] font-mono font-bold text-[#FF5500]">
+                    {item.category}
+                  </div>
+                </div>
 
+                {/* Plain Content Body */}
+                <div className="flex-1 space-y-1.5 w-full">
+                  <div className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider">
+                    {item.spec}
+                  </div>
+                  <h3 className="font-display font-black text-xl uppercase tracking-tight text-white">
+                    {item.name}
+                  </h3>
+                  <p className="text-xs font-bold font-sans text-[#FF5500]">
+                    {item.curiousHook}
+                  </p>
+                  <p className="text-xs font-sans text-slate-300 leading-relaxed max-w-xl">
+                    {item.desc}
+                  </p>
+                </div>
+
+                {/* Feature Pill Badge */}
+                <div className="shrink-0 self-start md:self-center">
+                  <span className="px-3.5 py-1.5 rounded-full bg-white/[0.05] border border-white/10 text-white font-mono text-[10px] font-bold tracking-wider inline-block">
+                    {item.feature}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+
+        </div>
+      </section>
+
+      {/* =========================================================================
+          SECTION 05: MEET YOUR COACHES & SIMPLE TOUR INTAKE
+      ========================================================================= */}
+      <section id="membership-initiation-section" className="py-20 border-b border-white/[0.08] bg-[#07080A]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-left space-y-12">
+          
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-6 border-b border-white/[0.08]">
+            <div className="space-y-1">
+              <div className="inline-flex items-center gap-2 text-xs font-mono font-bold text-slate-400 uppercase tracking-widest">
+                <span className="text-[#FF5500] font-bold">04</span>
+                <span>•</span>
+                <span>MEET YOUR COACHES</span>
+              </div>
+              <h2 className="font-display font-black text-3xl sm:text-4xl uppercase tracking-tight text-white">
+                FRIENDLY COACHES. REAL RESULTS.
+              </h2>
+            </div>
+
+            <button
+              onClick={() => onNavigate('trainers')}
+              className="text-xs font-mono font-bold uppercase tracking-wider text-slate-300 hover:text-white transition-colors cursor-pointer inline-flex items-center gap-1.5 group self-start sm:self-auto"
+            >
+              <span>MEET ALL COACHES</span>
+              <ArrowRight className="w-3.5 h-3.5 stroke-[2.5] text-[#FF5500]" />
+            </button>
+          </div>
+
+          {/* 4 Senior Coaches (Friendly, approachable copy) */}
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               {
-                tag: 'FREE WEIGHTS',
-                name: 'Olympic Barbell',
-                desc: 'The cornerstone of strength training. A 20kg steel bar rated for 680kg+ loads. Used for squat, deadlift, bench, overhead press and Olympic lifts. Develops full-body neural drive and compound strength no machine can replicate.',
-                stat: '680 KG LOAD RATING',
-                img: 'https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?q=80&w=800&auto=format&fit=crop',
+                name: 'ALEX MORGAN',
+                role: 'HEAD STRENGTH COACH',
+                creds: 'CSCS • 12 YEARS COACHING',
+                image: 'https://images.unsplash.com/photo-1567013127542-490d757e51fc?q=80&w=800&auto=format&fit=crop',
+                bio: 'Helps lifters of all levels master proper form and build lasting strength safely.'
               },
               {
-                tag: 'FREE WEIGHTS',
-                name: 'Hex / Trap Bar',
-                desc: 'A hexagonal frame you stand inside. Shifts the centre of gravity over your base, reducing lumbar shear vs. straight bar deadlifts. Ideal for athletes needing high-force output with lower spinal stress.',
-                stat: 'NEUTRAL SPINE PULL',
-                img: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=800&auto=format&fit=crop',
+                name: 'SARAH LEE',
+                role: 'CARDIO & STAMINA DIRECTOR',
+                creds: 'EXERCISE PHYSIOLOGY • HYROX COACH',
+                image: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=800&auto=format&fit=crop',
+                bio: 'Specialist in building all-day energy, heart health, and athletic endurance.'
               },
               {
-                tag: 'FREE WEIGHTS',
-                name: 'Dumbbells',
-                desc: 'Unilateral loading tools that force each limb to work independently, correcting left-right imbalances. Essential for shoulder presses, lateral raises, rows, lunges and accessory hypertrophy work.',
-                stat: '2 – 60 KG RANGE',
-                img: 'https://images.unsplash.com/photo-1638805981949-260170425660?q=80&w=800&auto=format&fit=crop',
+                name: 'MIKE JOHNSON',
+                role: 'MUSCLE & NUTRITION LEAD',
+                creds: 'NUTRITION COACH • KINESIOLOGY',
+                image: 'https://images.unsplash.com/photo-1534367507873-d2d7e24c797f?q=80&w=800&auto=format&fit=crop',
+                bio: 'Helps you eat well and lift smart so you see real body changes without burnout.'
               },
               {
-                tag: 'CABLE MACHINES',
-                name: 'Functional Trainer',
-                desc: 'Dual adjustable cable columns with 180° pivot. Applies constant tension through the full range of motion — something free weights cannot do. Critical for chest flies, cable rows, rotational core and rehab work.',
-                stat: 'CONSTANT TENSION ARC',
-                img: 'https://images.unsplash.com/photo-1540497077202-7c8a3999166f?q=80&w=800&auto=format&fit=crop',
-              },
-              {
-                tag: 'CABLE MACHINES',
-                name: 'Lat Pulldown / Seated Row',
-                desc: 'A weight-stack cable station that isolates the latissimus dorsi (back width) and mid-traps (back thickness). Pull patterns are fundamental to posture correction and upper-body pulling strength.',
-                stat: 'VERTICAL PULL AXIS',
-                img: 'https://images.unsplash.com/photo-1590487988256-9ed24133863e?q=80&w=800&auto=format&fit=crop',
-              },
-              {
-                tag: 'CARDIO',
-                name: 'Assault Bike',
-                desc: 'Air-resistance fan bike with moving arms. Resistance scales with your output — the harder you push, the harder it gets. Delivers brutal anaerobic conditioning in short intervals. Zero joint impact.',
-                stat: 'INFINITE RESISTANCE',
-                img: 'https://images.unsplash.com/photo-1538805060514-97d9cc17730c?q=80&w=800&auto=format&fit=crop',
-              },
-              {
-                tag: 'CARDIO',
-                name: 'Concept2 RowErg',
-                desc: 'The gold standard rowing machine used by Olympic athletes. Engages complete muscle mass per stroke — legs, core and upper body in one movement. Builds aerobic base and posterior chain strength simultaneously.',
-                stat: 'FULL BODY ENGAGEMENT',
-                img: 'https://images.unsplash.com/photo-1517963879433-6ad2b056d712?q=80&w=800&auto=format&fit=crop',
-              },
-              {
-                tag: 'PLATFORMS',
-                name: 'IPF Power Rack',
-                desc: 'A four-post cage with adjustable safety bars, J-hooks and pull-up stations. Lets you squat, bench and overhead press to full failure safely without a spotter. Every serious strength training session starts here.',
-                stat: 'IPF / IWF CERTIFIED',
-                img: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=800&auto=format&fit=crop',
-              },
-              {
-                tag: 'RECOVERY',
-                name: 'Cold Plunge & Contrast Lab',
-                desc: 'Medical-grade 38°F chilled immersion baths and contrast Finnish cedar thermal suites for accelerated inflammation reduction, nervous system recovery, and hormonal replenishment.',
-                stat: '38°F CHILLED WATER',
-                img: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=800&auto=format&fit=crop',
-              },
-            ].map((item, i) => (
-              <div key={i} className="rounded-2xl sm:rounded-3xl overflow-hidden shadow-sm">
-                
-                {/* MOBILE ONLY (sm:hidden): Image in background + hero frost lavender film + info over card */}
-                <div className="relative sm:hidden min-h-[175px] p-4 flex flex-col justify-between bg-slate-900 border border-[#BFC9E2]/60 rounded-2xl overflow-hidden group shadow-sm">
-                  {/* Equipment Background Image */}
-                  <img
-                    src={item.img}
-                    alt={item.name}
-                    className="absolute inset-0 w-full h-full object-cover filter brightness-[0.8] contrast-105"
+                name: 'EMMA DAVIS',
+                role: 'MOBILITY & RECOVERY SPECIALIST',
+                creds: 'DOCTOR OF PHYSICAL THERAPY (DPT)',
+                image: 'https://images.unsplash.com/photo-1594381898411-846e7d193883?q=80&w=800&auto=format&fit=crop',
+                bio: 'Focuses on posture, joint mobility, and helping your body stay pain-free.'
+              }
+            ].map((c, i) => (
+              <div key={i} className="space-y-3">
+                <div className="relative h-64 rounded-2xl overflow-hidden bg-neutral-900 border border-white/10">
+                  <img 
+                    src={c.image} 
+                    alt={c.name} 
+                    className="w-full h-full object-cover filter brightness-[0.8] contrast-105"
                   />
-                  {/* Exact Hero Frost Lavender (#BFC9E2 / #CADDEE) Film Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-[#CADDEE]/50 via-[#BFC9E2]/65 to-[#ABCAE6]/45 mix-blend-multiply pointer-events-none" />
-                  <div className="absolute inset-0 bg-[#BFC9E2]/40 mix-blend-color pointer-events-none" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/45 to-transparent pointer-events-none" />
-                  
-                  {/* Top Bar: Tag & Stat */}
-                  <div className="relative z-10 flex items-center justify-between gap-2">
-                    <span className="text-[8px] font-mono font-bold tracking-[0.16em] uppercase bg-white/95 text-slate-900 px-2.5 py-0.5 rounded-full border border-white/80 shadow-2xs">
-                      {item.tag}
-                    </span>
-                    <span className="text-[8px] font-mono font-bold tracking-widest uppercase text-white bg-white/20 backdrop-blur-xs border border-white/25 px-2.5 py-0.5 rounded-full">
-                      {item.stat}
-                    </span>
+                  <div className="absolute bottom-2.5 left-2.5 right-2.5 bg-[#07080A]/90 backdrop-blur-md px-2.5 py-1 rounded-xl text-[9px] font-mono font-bold text-white text-center border border-white/15">
+                    {c.creds}
+                  </div>
+                </div>
+
+                <div className="space-y-0.5">
+                  <h3 className="font-display font-black text-lg uppercase text-white truncate">{c.name}</h3>
+                  <div className="text-[11px] font-mono text-[#FF5500] font-bold uppercase tracking-wider">{c.role}</div>
+                  <p className="text-xs font-sans text-slate-300 leading-relaxed">{c.bio}</p>
+                </div>
+
+                <div className="pt-1">
+                  <button
+                    onClick={() => onOpenBooking ? onOpenBooking({ faculty: c.name }) : null}
+                    className="w-full py-2 px-3 rounded-full bg-white hover:bg-[#FF5500] hover:text-black text-black text-xs font-mono font-bold uppercase tracking-wider inline-flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-sm active:scale-[0.98]"
+                  >
+                    <span>TALK WITH {c.name.split(' ')[0]}</span>
+                    <ArrowRight className="w-3.5 h-3.5 stroke-[2.5]" />
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* =========================================================================
+              INTERACTIVE TOUR & FACILITY ENQUIRY DESK (NO CARDS, NO NAVY BLUE)
+              - 12-Col split: Left is Walkthrough Guarantees & Hours, Right is Interactive Form
+              - Interactive Goal Chips, Visit Windows & Coach Selector
+              - Seamless inline validation (zero browser alerts)
+          ========================================================================= */}
+          <div className="border-t border-white/[0.08] pt-16">
+            <div className="grid lg:grid-cols-12 gap-12 items-start">
+              
+              {/* Left 5 Columns: Walkthrough Guarantees & Operational Telemetry */}
+              <div className="lg:col-span-5 space-y-6">
+                <div className="space-y-2">
+                  <div className="inline-flex items-center gap-2 text-xs font-mono font-bold text-slate-400 uppercase tracking-widest">
+                    <ShieldCheck className="w-3.5 h-3.5 text-[#FF5500]" />
+                    <span>05 • SCHEDULE A VISIT</span>
+                  </div>
+                  <h3 className="font-display font-black text-3xl sm:text-4xl uppercase tracking-tight text-white leading-tight">
+                    SEE THE FACILITY. TEST THE BARS.
+                  </h3>
+                  <p className="text-xs sm:text-sm font-sans text-slate-300 leading-relaxed">
+                    Take a relaxed 15-minute walkthrough with an experienced coach. Inspect our calibrated Eleiko stations, explore the contrast recovery lab, and get your questions answered.
+                  </p>
+                </div>
+
+                {/* 3 Walkthrough Guarantees */}
+                <div className="space-y-4 pt-2">
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2 text-xs font-mono font-bold text-[#FF5500]">
+                      <span>01</span>
+                      <span>•</span>
+                      <span>ZERO SALES PRESSURE</span>
+                    </div>
+                    <p className="text-xs font-sans text-slate-300 leading-relaxed">
+                      Strictly an honest walkthrough. We let the equipment and atmosphere speak for themselves.
+                    </p>
                   </div>
 
-                  {/* Body Content: Title & Description all over card */}
-                  <div className="relative z-10 pt-2 space-y-1">
-                    <h3 className="font-display font-black text-base text-white uppercase tracking-tight">
-                      {item.name}
-                    </h3>
-                    <p className="text-[11px] font-sans text-slate-200 leading-snug line-clamp-3">
-                      {item.desc}
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2 text-xs font-mono font-bold text-[#FF5500]">
+                      <span>02</span>
+                      <span>•</span>
+                      <span>FREE FORM &amp; GOAL CHECK</span>
+                    </div>
+                    <p className="text-xs font-sans text-slate-300 leading-relaxed">
+                      Ask any lifting, programming, or nutrition questions with a certified coach on duty.
+                    </p>
+                  </div>
+
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2 text-xs font-mono font-bold text-[#FF5500]">
+                      <span>03</span>
+                      <span>•</span>
+                      <span>IMMEDIATE KEYCARD SETUP</span>
+                    </div>
+                    <p className="text-xs font-sans text-slate-300 leading-relaxed">
+                      If you decide to join, your digital keycard access can be activated right at the reception desk.
                     </p>
                   </div>
                 </div>
 
-                {/* PC / DESKTOP (hidden sm:flex): Unchanged Original Card Layout */}
-                <div className="hidden sm:flex frost-card frost-card-hover rounded-3xl overflow-hidden shadow-sm flex-col h-full">
-                  {/* Equipment image */}
-                  <div className="relative h-48 overflow-hidden bg-slate-100">
-                    <img
-                      src={item.img}
-                      alt={item.name}
-                      className="w-full h-full object-cover filter brightness-90 contrast-105 transition-transform duration-500 hover:scale-105"
-                    />
-                    {/* Category tag overlay */}
-                    <span className="absolute top-3 left-3 text-[8px] font-mono font-bold tracking-[0.18em] uppercase bg-white/90 text-slate-800 px-2.5 py-1 rounded-full border border-white/80">
-                      {item.tag}
-                    </span>
+                {/* Physical Location & Hours Notice */}
+                <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/[0.08] space-y-2.5 text-xs font-mono">
+                  <div className="flex items-start gap-2.5">
+                    <MapPin className="w-4 h-4 text-[#FF5500] shrink-0 mt-0.5" />
+                    <div>
+                      <div className="text-white font-bold">Civil Lines, Wardha Road</div>
+                      <div className="text-slate-400 text-[11px]">Nagpur, Maharashtra 440001</div>
+                    </div>
                   </div>
-                  {/* Card body */}
-                  <div className="p-6 space-y-3 flex flex-col flex-1">
-                    <div className="flex items-start justify-between gap-2">
-                      <h3 className="font-display font-black text-lg text-slate-950 leading-tight">{item.name}</h3>
-                      <span className="shrink-0 text-[8px] font-mono font-bold tracking-widest uppercase text-slate-950 bg-slate-100 border border-slate-200 px-2 py-1 rounded-full text-center leading-tight">
-                        {item.stat}
+
+                  <div className="flex items-start gap-2.5 pt-2 border-t border-white/[0.06]">
+                    <Clock className="w-4 h-4 text-[#FF5500] shrink-0 mt-0.5" />
+                    <div>
+                      <div className="text-white font-bold">STAFFED TOURS: 08:00 – 20:00 DAILY</div>
+                      <div className="text-slate-400 text-[11px]">Keycard Access: 05:00 – 23:00 (Monday to Sunday)</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right 7 Columns: Interactive Walkthrough Enquiry Console */}
+              <div className="lg:col-span-7">
+                {initiationSubmitted ? (
+                  /* Confirmation State: Digital Walkthrough Pass */
+                  <div className="p-6 sm:p-8 rounded-3xl bg-white/[0.03] border border-[#FF5500]/40 space-y-5 text-center animate-in fade-in duration-300">
+                    <div className="w-14 h-14 bg-[#FF5500] text-black rounded-2xl mx-auto flex items-center justify-center shadow-[0_0_20px_rgba(255,85,0,0.4)]">
+                      <Check className="w-8 h-8 stroke-[3]" />
+                    </div>
+
+                    <div className="space-y-1">
+                      <span className="text-[10px] font-mono font-bold text-[#FF5500] uppercase tracking-wider block">
+                        TOUR CONFIRMED • PASS ACTIVE
                       </span>
+                      <h4 className="font-display font-black text-2xl sm:text-3xl uppercase tracking-tight text-white">
+                        WELCOME, {initiationData.name.split(' ')[0].toUpperCase()}.
+                      </h4>
+                      <p className="text-xs sm:text-sm font-sans text-slate-300 max-w-md mx-auto leading-relaxed">
+                        Your facility visit has been scheduled. Our coaching desk has sent confirmation details to <strong className="text-white">{initiationData.email}</strong>.
+                      </p>
                     </div>
-                    <p className="text-xs sm:text-sm font-sans text-slate-600 leading-relaxed flex-1">{item.desc}</p>
-                  </div>
-                </div>
 
-              </div>
-            ))}
-
-          </div>
-
-        </div>
-      </section>
-
-
-
-
-      {/* =========================================================================
-          SECTION 05: MEET OUR TRAINERS
-          Frosted Coach Cards with Light Film Overlays and Dark Slate Typography
-      ========================================================================= */}
-      <section className="py-24 border-b border-slate-200/80">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-          
-          <div className="flex items-center justify-between">
-            <div className="space-y-1">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-stone-200 shadow-2xs font-mono text-xs font-bold text-slate-900 uppercase tracking-wider">
-                <span>04 FACULTY</span>
-              </div>
-              <h2 className="font-display font-black text-3xl sm:text-4xl lg:text-5xl uppercase tracking-tight text-slate-950">
-                MEET OUR TRAINERS.
-              </h2>
-            </div>
-            
-            <button
-              onClick={() => onNavigate('trainers')}
-              className="text-xs font-mono font-bold uppercase tracking-wider text-slate-900 hover:text-black transition-colors cursor-pointer inline-flex items-center gap-1.5 group"
-            >
-              <span>VIEW ALL</span>
-              <ArrowRight className="w-3.5 h-3.5 stroke-[2.5] group-hover:translate-x-0.5 transition-transform" />
-            </button>
-          </div>
-
-          {/* 3 Trainer Cards */}
-          <div className="grid md:grid-cols-3 gap-8">
-            
-            <div className="frost-card frost-card-hover rounded-3xl overflow-hidden p-5 sm:p-6 space-y-4 shadow-sm transition-all">
-              <div className="relative h-64 rounded-2xl overflow-hidden bg-slate-100">
-                <img 
-                  src="https://images.unsplash.com/photo-1567013127542-490d757e51fc?q=80&w=800&auto=format&fit=crop" 
-                  alt="Alex Morgan - Strength Coach" 
-                  className="w-full h-full object-cover filter brightness-105 contrast-95" 
-                />
-                <div className="film-overlay-light" />
-              </div>
-              <div className="space-y-1">
-                <h3 className="font-display font-black text-xl uppercase text-slate-950">ALEX MORGAN</h3>
-                <div className="text-xs font-sans font-semibold text-slate-600 uppercase tracking-wide min-h-[24px] flex items-center">Head Strength Coach • CSCS</div>
-                <p className="text-xs font-sans text-slate-600 pt-1">
-                  12 years coaching national powerlifters on IPF calibrated steel and CNS periodization.
-                </p>
-              </div>
-            </div>
-
-            <div className="frost-card frost-card-hover rounded-3xl overflow-hidden p-5 sm:p-6 space-y-4 shadow-sm transition-all">
-              <div className="relative h-64 rounded-2xl overflow-hidden bg-slate-100">
-                <img 
-                  src="https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=800&auto=format&fit=crop" 
-                  alt="Sarah Lee - Conditioning Coach" 
-                  className="w-full h-full object-cover filter brightness-105 contrast-95" 
-                />
-                <div className="film-overlay-light" />
-              </div>
-              <div className="space-y-1">
-                <h3 className="font-display font-black text-xl uppercase text-slate-950">SARAH LEE</h3>
-                <div className="text-xs font-sans font-semibold text-slate-600 uppercase tracking-wide min-h-[24px] flex items-center">Conditioning &amp; Hyrox Director</div>
-                <p className="text-xs font-sans text-slate-600 pt-1">
-                  Specialist in lactate clearance kinetics and aerobic threshold endurance programming.
-                </p>
-              </div>
-            </div>
-
-            <div className="frost-card frost-card-hover rounded-3xl overflow-hidden p-5 sm:p-6 space-y-4 shadow-sm transition-all">
-              <div className="relative h-64 rounded-2xl overflow-hidden bg-slate-100">
-                <img 
-                  src="https://images.unsplash.com/photo-1534367507873-d2d7e24c797f?q=80&w=800&auto=format&fit=crop" 
-                  alt="Mike Johnson - Nutrition Coach" 
-                  className="w-full h-full object-cover filter brightness-105 contrast-95" 
-                />
-                <div className="film-overlay-light" />
-              </div>
-              <div className="space-y-1">
-                <h3 className="font-display font-black text-xl uppercase text-slate-950">MIKE JOHNSON</h3>
-                <div className="text-xs font-sans font-semibold text-slate-600 uppercase tracking-wide min-h-[24px] flex items-center">Nutrition &amp; Hypertrophy Head</div>
-                <p className="text-xs font-sans text-slate-600 pt-1">
-                  M.Sc. Kinesiology combining motor recruitment with rigorous macronutrient periodization.
-                </p>
-              </div>
-            </div>
-
-          </div>
-
-          {/* Callout Banner & Complete Membership Initiation Form */}
-          <div 
-            id="membership-initiation-section" 
-            className="relative overflow-hidden rounded-[24px] sm:rounded-[32px] lg:rounded-[36px] bg-gradient-to-br from-[#CADDEE] via-[#DCE3F4] to-[#BFC9E2] p-3.5 sm:p-6 md:p-10 lg:p-14 xl:p-16 border border-white shadow-2xl"
-          >
-            {/* Female Athlete Workout Background in Full Original Color with Light Film Overlay */}
-            <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-              <img 
-                src="https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=1600&auto=format&fit=crop" 
-                alt="Female athlete workout atmosphere in original color" 
-                className="w-full h-full object-cover object-top sm:object-center opacity-70 sm:opacity-80 filter saturate-110 contrast-105"
-              />
-              {/* Adaptive Film Overlay: Top-to-Bottom on Mobile, Left-to-Right on Desktop */}
-              <div className="absolute inset-0 bg-gradient-to-b from-[#CADDEE]/50 via-[#DCE3F4]/35 to-[#BFC9E2]/60 sm:bg-gradient-to-r sm:from-[#CADDEE]/35 sm:via-[#DCE3F4]/20 sm:to-transparent" />
-            </div>
-
-            <div className="film-grain absolute inset-0 opacity-20 pointer-events-none" />
-
-            {/* Master 2-Column Grid with Adaptive Spacing */}
-            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-10 lg:gap-14 xl:gap-16 items-start">
-              
-              {/* Left Column: Authority Narrative & Ethos (5 cols) */}
-              <div className="lg:col-span-5 space-y-4 sm:space-y-6 text-center sm:text-left">
-                <div className="space-y-2 sm:space-y-3">
-                  <span className="inline-block px-3 py-1 rounded-full bg-white/85 text-slate-900 font-mono text-[9px] sm:text-[10px] font-bold tracking-wider uppercase shadow-xs">
-                    MEMBERSHIP INITIATION
-                  </span>
-                  <h3 className="font-display font-black text-2xl sm:text-4xl lg:text-5xl uppercase tracking-tight text-slate-950 leading-tight">
-                    YOUR NEXT LEVEL <br className="hidden sm:inline" />
-                    STARTS HERE.
-                  </h3>
-                  <p className="text-xs sm:text-sm md:text-base font-sans text-slate-700 leading-relaxed max-w-md mx-auto sm:mx-0">
-                    Stop waiting. Apply for membership or schedule your personal facility walkthrough.
-                  </p>
-                </div>
-
-                {/* Key Facility Assurance Badges (Compact & Touch Friendly) */}
-                <div className="space-y-2 sm:space-y-3 text-left max-w-md mx-auto sm:mx-0">
-                  <div className="flex items-center gap-3 p-3 sm:p-3.5 rounded-xl sm:rounded-2xl bg-white/80 backdrop-blur-sm border border-white/70 shadow-xs">
-                    <ShieldCheck className="w-4 h-4 sm:w-5 sm:h-5 text-slate-900 shrink-0" />
-                    <div className="text-xs">
-                      <div className="font-bold text-slate-950 uppercase font-mono tracking-wider text-[10px] sm:text-xs">ELEIKO IPF COMPETITION RIGS</div>
-                      <div className="text-slate-600 mt-0.5 text-[10px] sm:text-xs">Calibrated steel discs, drop pads, and competition bars.</div>
+                    {/* Digital Admission Ticket */}
+                    <div className="bg-black/60 border border-white/10 rounded-2xl p-4 sm:p-5 max-w-md mx-auto space-y-2 text-left text-xs font-mono">
+                      <div className="flex justify-between border-b border-white/10 pb-2">
+                        <span className="text-slate-500 uppercase text-[10px]">BOOKING CODE:</span>
+                        <span className="font-black text-[#FF5500] tracking-wider">FORGE-TOUR-9241</span>
+                      </div>
+                      <div className="flex justify-between border-b border-white/10 pb-1.5 text-[11px]">
+                        <span className="text-slate-500">MEMBER:</span>
+                        <span className="font-bold text-white">{initiationData.name}</span>
+                      </div>
+                      <div className="flex justify-between border-b border-white/10 pb-1.5 text-[11px]">
+                        <span className="text-slate-500">FOCUS:</span>
+                        <span className="font-bold text-white truncate max-w-[200px]">{initiationData.discipline}</span>
+                      </div>
+                      <div className="flex justify-between border-b border-white/10 pb-1.5 text-[11px]">
+                        <span className="text-slate-500">COACH:</span>
+                        <span className="font-bold text-white truncate max-w-[200px]">{initiationData.faculty}</span>
+                      </div>
+                      <div className="flex justify-between text-[11px]">
+                        <span className="text-slate-500">WINDOW:</span>
+                        <span className="font-bold text-white">{initiationData.timeSlot}</span>
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="flex items-center gap-3 p-3 sm:p-3.5 rounded-xl sm:rounded-2xl bg-white/80 backdrop-blur-sm border border-white/70 shadow-xs">
-                    <Activity className="w-4 h-4 sm:w-5 sm:h-5 text-slate-900 shrink-0" />
-                    <div className="text-xs">
-                      <div className="font-bold text-slate-950 uppercase font-mono tracking-wider text-[10px] sm:text-xs">1:1 COACHING ORIENTATION</div>
-                      <div className="text-slate-600 mt-0.5 text-[10px] sm:text-xs">Movement screen with certified CSCS &amp; USAW faculty.</div>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-3 p-3 sm:p-3.5 rounded-xl sm:rounded-2xl bg-white/80 backdrop-blur-sm border border-white/70 shadow-xs">
-                    <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-slate-900 shrink-0" />
-                    <div className="text-xs">
-                      <div className="font-bold text-slate-950 uppercase font-mono tracking-wider text-[10px] sm:text-xs">5:00 AM – 11:00 PM DAILY ACCESS</div>
-                      <div className="text-slate-600 mt-0.5 text-[10px] sm:text-xs">Keycard access for active cohort members.</div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Location Micro-Card */}
-                <div className="p-3 sm:p-3.5 rounded-xl sm:rounded-2xl bg-white/70 border border-white/60 text-xs font-mono text-slate-700 flex items-center justify-between max-w-md mx-auto sm:mx-0">
-                  <div className="flex items-center gap-2">
-                    <MapPin className="w-3.5 h-3.5 text-slate-900 shrink-0" />
-                    <span className="font-bold text-[10px] sm:text-xs">CIVIL LINES, NAGPUR</span>
-                  </div>
-                  <span className="text-slate-500 font-bold tracking-wider text-[9px] sm:text-[10px]">MAHARASHTRA</span>
-                </div>
-              </div>
-
-              {/* Right Column: Complete Interactive Form Card (7 cols) */}
-              <div className="lg:col-span-7 w-full">
-                <div className="bg-white/95 backdrop-blur-xl border border-white/90 rounded-2xl sm:rounded-3xl p-4 sm:p-7 md:p-9 lg:p-10 shadow-2xl text-slate-900">
-                  
-                  {!initiationSubmitted ? (
-                    <form onSubmit={handleInitiationSubmit} className="space-y-4 sm:space-y-5">
-                      
-                      {/* Form Header with Step Indicator & Progress Pills */}
-                      <div className="space-y-2 pb-3 border-b border-slate-200/80">
-                        <div className="flex items-center justify-between gap-2">
-                          <span className="font-display font-black text-sm sm:text-lg uppercase text-slate-950 tracking-tight leading-tight">
-                            FACILITY WALKTHROUGH &amp; ROSTER ADMISSION
-                          </span>
-                          <span className="text-[9px] sm:text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 uppercase shrink-0">
-                            STEP 0{formStep}/02
-                          </span>
-                        </div>
-                        <p className="text-[11px] sm:text-xs text-slate-600 font-sans">
-                          {formStep === 1 
-                            ? 'Part 1: Athletic profile & discipline. You can submit immediately.' 
-                            : 'Part 2: Select faculty mentor and preferred walkthrough window.'}
-                        </p>
-
-                        {/* Interactive Step Switcher Tabs */}
-                        <div className="grid grid-cols-2 gap-2 pt-1">
-                          <button
-                            type="button"
-                            onClick={() => setFormStep(1)}
-                            className={`py-2 px-3 rounded-xl font-mono text-[10px] sm:text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer border ${
-                              formStep === 1
-                                ? 'bg-[#0F172A] text-white border-[#0F172A] shadow-xs'
-                                : 'bg-slate-50/90 text-slate-600 border-slate-200 hover:bg-slate-100'
-                            }`}
-                          >
-                            <span className={`w-3.5 h-3.5 rounded-full text-[8px] flex items-center justify-center font-bold ${
-                              formStep === 1 ? 'bg-white text-slate-950' : 'bg-slate-300 text-slate-700'
-                            }`}>1</span>
-                            <span className="truncate">CORE INTAKE</span>
-                          </button>
-
-                          <button
-                            type="button"
-                            onClick={() => setFormStep(2)}
-                            className={`py-2 px-3 rounded-xl font-mono text-[10px] sm:text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer border ${
-                              formStep === 2
-                                ? 'bg-[#0F172A] text-white border-[#0F172A] shadow-xs'
-                                : 'bg-slate-50/90 text-slate-600 border-slate-200 hover:bg-slate-100'
-                            }`}
-                          >
-                            <span className={`w-3.5 h-3.5 rounded-full text-[8px] flex items-center justify-center font-bold ${
-                              formStep === 2 ? 'bg-white text-slate-950' : 'bg-slate-300 text-slate-700'
-                            }`}>2</span>
-                            <span className="truncate">PREFERENCES</span>
-                          </button>
-                        </div>
-                      </div>
-
-                      {/* ================= STEP 1: CORE INTAKE (UP TO PRIMARY TRAINING DISCIPLINE) ================= */}
-                      {formStep === 1 && (
-                        <div className="space-y-4 sm:space-y-4.5 animate-in fade-in duration-200">
-                          {/* Field 1: Full Athlete Name */}
-                          <div className="space-y-1.5">
-                            <label className="flex items-center gap-1.5 text-[11px] sm:text-xs font-mono font-bold uppercase text-slate-800 tracking-wider">
-                              <User className="w-3.5 h-3.5 text-slate-950" />
-                              <span>FULL ATHLETE NAME *</span>
-                            </label>
-                            <input
-                              type="text"
-                              required
-                              value={initiationData.name}
-                              onChange={(e) => setInitiationData({ ...initiationData, name: e.target.value })}
-                              placeholder="e.g. Alex Morgan"
-                              className="w-full bg-slate-50/90 border border-slate-200 rounded-xl sm:rounded-2xl px-3.5 py-3 text-base sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-slate-950 focus:ring-2 focus:ring-slate-950/10 transition-all font-sans font-medium"
-                            />
-                          </div>
-
-                          {/* Field 2 & 3: Dual Contact Details with Comfortable Mobile Spacing */}
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
-                            <div className="space-y-1.5">
-                              <label className="flex items-center gap-1.5 text-[11px] sm:text-xs font-mono font-bold uppercase text-slate-800 tracking-wider">
-                                <Mail className="w-3.5 h-3.5 text-slate-950" />
-                                <span>EMAIL ADDRESS *</span>
-                              </label>
-                              <input
-                                type="email"
-                                required
-                                value={initiationData.email}
-                                onChange={(e) => setInitiationData({ ...initiationData, email: e.target.value })}
-                                placeholder="alex@athlete.com"
-                                className="w-full bg-slate-50/90 border border-slate-200 rounded-xl sm:rounded-2xl px-3.5 py-3 text-base sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-slate-950 focus:ring-2 focus:ring-slate-950/10 transition-all font-sans font-medium"
-                              />
-                            </div>
-
-                            <div className="space-y-1.5">
-                              <label className="flex items-center gap-1.5 text-[11px] sm:text-xs font-mono font-bold uppercase text-slate-800 tracking-wider">
-                                <Phone className="w-3.5 h-3.5 text-slate-950" />
-                                <span>PHONE / WHATSAPP *</span>
-                              </label>
-                              <input
-                                type="tel"
-                                required
-                                value={initiationData.phone}
-                                onChange={(e) => setInitiationData({ ...initiationData, phone: e.target.value })}
-                                placeholder="+91 98765 43210"
-                                className="w-full bg-slate-50/90 border border-slate-200 rounded-xl sm:rounded-2xl px-3.5 py-3 text-base sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-slate-950 focus:ring-2 focus:ring-slate-950/10 transition-all font-sans font-medium"
-                              />
-                            </div>
-                          </div>
-
-                          {/* Field 4: Training Discipline (2-Column Grid on Both Mobile & Desktop) */}
-                          <div className="space-y-1.5">
-                            <label className="flex items-center justify-between text-[11px] sm:text-xs font-mono font-bold uppercase text-slate-800 tracking-wider">
-                              <span className="flex items-center gap-1.5">
-                                <Dumbbell className="w-3.5 h-3.5 text-slate-950" />
-                                <span>PRIMARY TRAINING DISCIPLINE</span>
-                              </span>
-                              <span className="text-[9px] sm:text-[10px] text-slate-500 font-normal">TAP TO SELECT</span>
-                            </label>
-                            <div className="grid grid-cols-2 gap-2 sm:gap-2.5">
-                              {[
-                                { 
-                                  id: 'FUNCTIONAL VITALITY (General Fitness)', 
-                                  fancy: 'FUNCTIONAL VITALITY', 
-                                  casual: 'Everyday Energy',
-                                  tag: 'FITNESS' 
-                                },
-                                { 
-                                  id: 'CARDIOVASCULAR KINETICS (Cardio & Stamina)', 
-                                  fancy: 'CARDIO KINETICS', 
-                                  casual: 'Aerobic Engine',
-                                  tag: 'CARDIO' 
-                                },
-                                { 
-                                  id: 'PHYSIQUE ARCHITECTURE (Body Recomp & Toning)', 
-                                  fancy: 'PHYSIQUE ARCH.', 
-                                  casual: 'Recomp & Muscle',
-                                  tag: 'TONING' 
-                                },
-                                { 
-                                  id: 'BARBELL CALIBRATION (Maximal Strength)', 
-                                  fancy: 'BARBELL CALIB.', 
-                                  casual: 'Calibrated Steel',
-                                  tag: 'STRENGTH' 
-                                },
-                                { 
-                                  id: 'OLYMPIC BALLISTICS (Weightlifting)', 
-                                  fancy: 'OLYMPIC BALL.', 
-                                  casual: 'Snatch & Clean',
-                                  tag: 'OLYMPIC' 
-                                },
-                                { 
-                                  id: 'THERMAL & CNS RESTORE (Recovery & Longevity)', 
-                                  fancy: 'THERMAL & CNS', 
-                                  casual: 'Plunge & Sauna',
-                                  tag: 'WELLNESS' 
-                                }
-                              ].map((item) => {
-                                const isSelected = initiationData.discipline === item.id;
-                                return (
-                                  <button
-                                    key={item.id}
-                                    type="button"
-                                    onClick={() => setInitiationData({ ...initiationData, discipline: item.id })}
-                                    className={`p-2.5 sm:p-3 rounded-xl sm:rounded-2xl text-left transition-all duration-150 cursor-pointer border ${
-                                      isSelected 
-                                        ? 'bg-[#0F172A] text-white border-[#0F172A] shadow-sm' 
-                                        : 'bg-slate-50/90 text-slate-800 border-slate-200/90 hover:bg-slate-100'
-                                    }`}
-                                  >
-                                    <div className="flex items-center justify-between gap-1 mb-1">
-                                      <span className={`text-[8px] sm:text-[9px] font-mono font-bold px-1.5 py-0.5 rounded ${
-                                        isSelected ? 'bg-white/20 text-[#CADDEE]' : 'bg-slate-200 text-slate-700'
-                                      }`}>
-                                        {item.tag}
-                                      </span>
-                                      {isSelected && (
-                                        <span className="w-1.5 h-1.5 rounded-full bg-[#CADDEE]"></span>
-                                      )}
-                                    </div>
-                                    <div className="font-mono text-[11px] sm:text-xs font-bold tracking-tight leading-tight">
-                                      {item.fancy}
-                                    </div>
-                                    <div className={`text-[10px] font-sans mt-0.5 line-clamp-1 ${
-                                      isSelected ? 'text-slate-300' : 'text-slate-500'
-                                    }`}>
-                                      {item.casual}
-                                    </div>
-                                  </button>
-                                );
-                              })}
-                            </div>
-                          </div>
-
-                          {/* Step 1 Actions: Primary Submit directly active + Option to refine with Step 2 */}
-                          <div className="pt-2 space-y-2.5">
-                            <button
-                              type="submit"
-                              className="w-full py-3.5 sm:py-4 rounded-xl sm:rounded-2xl bg-[#0F172A] hover:bg-black text-white font-display font-black text-xs sm:text-sm uppercase tracking-wide sm:tracking-wider transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl active:scale-[0.99] flex items-center justify-center gap-2 cursor-pointer shadow-md"
-                            >
-                              <span>APPLY FOR MEMBERSHIP NOW</span>
-                              <ArrowRight className="w-4 h-4" />
-                            </button>
-
-                            <button
-                              type="button"
-                              onClick={() => {
-                                if (!initiationData.name.trim() || !initiationData.email.trim() || !initiationData.phone.trim()) {
-                                  const formEl = document.querySelector('form');
-                                  if (formEl && formEl.reportValidity) {
-                                    formEl.reportValidity();
-                                    return;
-                                  }
-                                }
-                                setFormStep(2);
-                              }}
-                              className="w-full py-2.5 sm:py-3 rounded-xl sm:rounded-2xl bg-white hover:bg-slate-50 text-slate-800 border border-slate-200/90 font-mono text-[10px] sm:text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-2xs hover:border-slate-300"
-                            >
-                              <span>OR ADD PREFERENCES (STEP 2)</span>
-                              <ChevronRight className="w-3.5 h-3.5 text-slate-600" />
-                            </button>
-
-                            <div className="flex items-center justify-center gap-1.5 text-[10px] sm:text-[11px] font-sans text-slate-600 text-center px-1">
-                              <ShieldCheck className="w-3.5 h-3.5 text-slate-900 shrink-0" />
-                              <span>Strictly technical walkthrough. Zero sales pressure.</span>
-                            </div>
-                          </div>
-                        </div>
-                      )}
-
-                      {/* ================= STEP 2: REMAINING PREFERENCES ================= */}
-                      {formStep === 2 && (
-                        <div className="space-y-4 sm:space-y-4.5 animate-in fade-in duration-200">
-                          {/* Field 5: Faculty Coach Consultation */}
-                          <div className="space-y-1.5">
-                            <label className="flex items-center justify-between text-[11px] sm:text-xs font-mono font-bold uppercase text-slate-800 tracking-wider">
-                              <span className="flex items-center gap-1.5">
-                                <UserCheck className="w-3.5 h-3.5 text-slate-950" />
-                                <span>FACULTY COACH CONSULTATION</span>
-                              </span>
-                              <span className="text-[9px] sm:text-[10px] text-slate-500 font-normal">1:1 MENTOR</span>
-                            </label>
-                            <select
-                              value={initiationData.faculty}
-                              onChange={(e) => {
-                                setInitiationData({ ...initiationData, faculty: e.target.value });
-                                if (onSelectFaculty) onSelectFaculty(e.target.value);
-                              }}
-                              className="w-full bg-slate-50/90 border border-slate-200 rounded-xl sm:rounded-2xl px-3.5 py-3 text-base sm:text-sm text-slate-900 font-mono focus:outline-none focus:border-slate-950 focus:ring-2 focus:ring-slate-950/10 transition-all cursor-pointer font-semibold"
-                            >
-                              <option value="ANY SENIOR FACULTY COACH">⚡ FIRST AVAILABLE SENIOR FACULTY COACH</option>
-                              <option value="ALEX MORGAN">ALEX MORGAN (Head of Strength &amp; Power • CSCS)</option>
-                              <option value="SARAH LEE">SARAH LEE (Conditioning &amp; Hyrox Director)</option>
-                              <option value="MIKE JOHNSON">MIKE JOHNSON (Head of Nutrition &amp; Hypertrophy)</option>
-                              <option value="EMMA DAVIS">EMMA DAVIS (Biomechanics &amp; Recovery Protocol)</option>
-                            </select>
-                          </div>
-
-                          {/* Field 6: Preferred Walkthrough Window (Compact 3-Column Grid on Mobile) */}
-                          <div className="space-y-1.5">
-                            <label className="flex items-center justify-between text-[11px] sm:text-xs font-mono font-bold uppercase text-slate-800 tracking-wider">
-                              <span className="flex items-center gap-1.5">
-                                <Clock className="w-3.5 h-3.5 text-slate-950" />
-                                <span>PREFERRED WALKTHROUGH WINDOW</span>
-                              </span>
-                              <span className="text-[9px] sm:text-[10px] text-slate-500 font-normal">STAFFED HOURS</span>
-                            </label>
-                            <div className="grid grid-cols-3 gap-2 sm:gap-2.5">
-                              {[
-                                { id: 'MORNING (8:00 AM - 12:00 PM)', label: 'MORNING', sub: '8AM – 12PM' },
-                                { id: 'AFTERNOON (12:00 PM - 5:00 PM)', label: 'AFTERNOON', sub: '12PM – 5PM' },
-                                { id: 'EVENING (5:00 PM - 8:00 PM)', label: 'EVENING', sub: '5PM – 8PM' }
-                              ].map((item) => {
-                                const isSelected = initiationData.timeSlot === item.id;
-                                return (
-                                  <button
-                                    key={item.id}
-                                    type="button"
-                                    onClick={() => setInitiationData({ ...initiationData, timeSlot: item.id })}
-                                    className={`py-2.5 px-2 rounded-xl sm:rounded-2xl text-center transition-all duration-150 cursor-pointer border ${
-                                      isSelected 
-                                        ? 'bg-[#0F172A] text-white border-[#0F172A] shadow-sm' 
-                                        : 'bg-slate-50/90 text-slate-700 border-slate-200 hover:bg-slate-100'
-                                    }`}
-                                  >
-                                    <div className="font-mono text-[11px] sm:text-xs font-bold leading-tight">{item.label}</div>
-                                    <div className={`text-[9px] sm:text-[10px] font-sans mt-0.5 ${isSelected ? 'text-slate-300' : 'text-slate-500'}`}>{item.sub}</div>
-                                  </button>
-                                );
-                              })}
-                            </div>
-                          </div>
-
-                          {/* Field 7: Athletic Background & Goals (Optional) */}
-                          <div className="space-y-1.5">
-                            <label className="flex items-center gap-1.5 text-[11px] sm:text-xs font-mono font-bold uppercase text-slate-800 tracking-wider">
-                              <FileText className="w-3.5 h-3.5 text-slate-950" />
-                              <span>ATHLETIC BACKGROUND &amp; GOALS (OPTIONAL)</span>
-                            </label>
-                            <textarea
-                              rows={2}
-                              value={initiationData.experience}
-                              onChange={(e) => setInitiationData({ ...initiationData, experience: e.target.value })}
-                              placeholder="Tell us about your barbell background or goals..."
-                              className="w-full bg-slate-50/90 border border-slate-200 rounded-xl sm:rounded-2xl px-3.5 py-2.5 text-base sm:text-xs text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-slate-950 focus:ring-2 focus:ring-slate-950/10 transition-all font-sans font-medium resize-none"
-                            />
-                          </div>
-
-                          {/* Step 2 Actions */}
-                          <div className="pt-2 space-y-2.5">
-                            <button
-                              type="submit"
-                              className="w-full py-3.5 sm:py-4 rounded-xl sm:rounded-2xl bg-[#0F172A] hover:bg-black text-white font-display font-black text-xs sm:text-sm uppercase tracking-wide sm:tracking-wider transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl active:scale-[0.99] flex items-center justify-center gap-2 cursor-pointer shadow-md"
-                            >
-                              <span>CONFIRM APPLICATION &amp; SCHEDULE TOUR</span>
-                              <ArrowRight className="w-4 h-4" />
-                            </button>
-
-                            <button
-                              type="button"
-                              onClick={() => setFormStep(1)}
-                              className="w-full py-2.5 sm:py-3 rounded-xl sm:rounded-2xl bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 font-mono text-[10px] sm:text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-2xs hover:border-slate-300"
-                            >
-                              <ArrowLeft className="w-3.5 h-3.5" />
-                              <span>BACK TO CORE INTAKE (STEP 1)</span>
-                            </button>
-
-                            <div className="flex items-center justify-center gap-1.5 text-[10px] sm:text-[11px] font-sans text-slate-600 text-center px-1">
-                              <ShieldCheck className="w-3.5 h-3.5 text-slate-900 shrink-0" />
-                              <span>Strictly technical walkthrough. Zero sales pressure.</span>
-                            </div>
-                          </div>
-
-                        </div>
-                      )}
-
-                    </form>
-                  ) : (
-                    /* Submission Confirmation View with Generous Spacing */
-                    <div className="py-6 sm:py-8 px-2 text-center space-y-4 sm:space-y-6 animate-in fade-in duration-300">
-                      <div className="w-14 h-14 sm:w-16 sm:h-16 mx-auto rounded-2xl bg-[#0F172A] text-white flex items-center justify-center shadow-lg">
-                        <Check className="w-7 h-7 sm:w-8 sm:h-8 text-white" />
-                      </div>
-
-                      <div className="space-y-1.5">
-                        <span className="inline-block px-3 py-0.5 rounded-full bg-slate-100 text-slate-800 font-mono text-[9px] sm:text-[10px] font-bold uppercase tracking-wider">
-                          APPLICATION TRANSMITTED • ROSTER PENDING
-                        </span>
-                        <h4 className="font-display font-black text-xl sm:text-3xl uppercase tracking-tight text-slate-950">
-                          WALKTHROUGH SCHEDULED
-                        </h4>
-                        <p className="text-xs sm:text-sm text-slate-600 font-sans max-w-sm mx-auto leading-relaxed">
-                          Your profile has been logged into our coaching intake system.
-                        </p>
-                      </div>
-
-                      {/* Admission Summary Card */}
-                      <div className="p-3.5 sm:p-5 rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-200 text-left space-y-2 text-[11px] sm:text-xs font-mono">
-                        <div className="flex justify-between border-b border-slate-200/80 pb-1.5">
-                          <span className="text-slate-500 uppercase">ATHLETE:</span>
-                          <span className="text-slate-950 font-bold">{initiationData.name}</span>
-                        </div>
-                        <div className="flex justify-between border-b border-slate-200/80 pb-1.5">
-                          <span className="text-slate-500 uppercase">FACULTY MENTOR:</span>
-                          <span className="text-slate-950 font-bold truncate max-w-[180px]">{initiationData.faculty}</span>
-                        </div>
-                        <div className="flex justify-between border-b border-slate-200/80 pb-1.5">
-                          <span className="text-slate-500 uppercase">DISCIPLINE:</span>
-                          <span className="text-slate-950 font-bold truncate max-w-[180px]">{initiationData.discipline}</span>
-                        </div>
-                        <div className="flex justify-between border-b border-slate-200/80 pb-1.5">
-                          <span className="text-slate-500 uppercase">WINDOW:</span>
-                          <span className="text-slate-950 font-bold">{initiationData.timeSlot}</span>
-                        </div>
-                        <div className="flex justify-between pt-0.5 text-[10px] sm:text-[11px]">
-                          <span className="text-slate-500 uppercase">LOCATION:</span>
-                          <span className="text-slate-950 font-bold">Civil Lines, Nagpur, Maharashtra</span>
-                        </div>
-                      </div>
-
-                      <div className="text-[11px] sm:text-xs text-slate-600 font-sans leading-relaxed">
-                        Our Head Strength Coach will review your athletic profile and confirm your entry slot via WhatsApp within 2 hours.
-                      </div>
-
+                    <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
                       <button
-                        type="button"
-                        onClick={() => {
-                          setInitiationSubmitted(false);
-                          setFormStep(1);
-                          setInitiationData({
-                            name: '',
-                            email: '',
-                            phone: '',
-                            discipline: 'FUNCTIONAL VITALITY (General Fitness)',
-                            faculty: selectedFaculty || 'ANY SENIOR FACULTY COACH',
-                            timeSlot: 'MORNING (8:00 AM - 12:00 PM)',
-                            objective: '',
-                            experience: ''
-                          });
-                        }}
-                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-900 font-mono text-[11px] sm:text-xs font-bold transition-all cursor-pointer shadow-xs"
+                        onClick={() => setInitiationSubmitted(false)}
+                        className="px-6 py-3 rounded-full bg-white/[0.08] hover:bg-white hover:text-black text-white text-xs font-mono font-bold uppercase tracking-wider transition-all cursor-pointer"
                       >
-                        <RotateCcw className="w-3.5 h-3.5" />
-                        <span>SUBMIT ANOTHER REQUEST</span>
+                        BOOK ANOTHER VISIT
                       </button>
                     </div>
-                  )}
+                  </div>
+                ) : (
+                  /* Interactive Form View */
+                  <form onSubmit={handleInitiationSubmit} className="space-y-6 text-left">
+                    
+                    {/* Control 01: Interactive Goal Selector Chips */}
+                    <div className="space-y-2">
+                      <label className="text-xs font-mono font-bold uppercase tracking-wider text-slate-300 block">
+                        01 • WHAT IS YOUR PRIMARY FITNESS GOAL?
+                      </label>
+                      <div className="flex flex-wrap gap-2">
+                        {[
+                          'BARBELL & STRENGTH',
+                          'LEAN MUSCLE & SHAPE',
+                          'FAT LOSS & TONING',
+                          'HYROX & STAMINA',
+                          'COLD PLUNGE & SAUNA'
+                        ].map((goal) => {
+                          const isSelected = initiationData.discipline === goal;
+                          return (
+                            <button
+                              key={goal}
+                              type="button"
+                              onClick={() => setInitiationData({ ...initiationData, discipline: goal })}
+                              className={`px-3.5 py-2 rounded-full text-xs font-mono font-bold transition-all cursor-pointer min-h-[38px] ${
+                                isSelected
+                                  ? 'bg-[#FF5500] text-black shadow-[0_0_12px_rgba(255,85,0,0.35)]'
+                                  : 'bg-white/[0.04] text-slate-300 hover:text-white border border-white/10 hover:border-white/20 active:bg-white/[0.08]'
+                              }`}
+                            >
+                              {goal}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
 
-                </div>
+                    {/* Control 02: Interactive Time Window Chips */}
+                    <div className="space-y-2">
+                      <label className="text-xs font-mono font-bold uppercase tracking-wider text-slate-300 block">
+                        02 • WHEN WOULD YOU LIKE TO VISIT?
+                      </label>
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                        {[
+                          { id: 'MORNING (08:00 – 12:00)', label: 'MORNING', time: '08:00 – 12:00' },
+                          { id: 'AFTERNOON (12:00 – 17:00)', label: 'AFTERNOON', time: '12:00 – 17:00' },
+                          { id: 'EVENING (17:00 – 20:00)', label: 'EVENING', time: '17:00 – 20:00' }
+                        ].map((slot) => {
+                          const isSelected = initiationData.timeSlot === slot.id;
+                          return (
+                            <button
+                              key={slot.id}
+                              type="button"
+                              onClick={() => setInitiationData({ ...initiationData, timeSlot: slot.id })}
+                              className={`p-3 rounded-2xl border text-left transition-all cursor-pointer font-mono min-h-[46px] ${
+                                isSelected
+                                  ? 'bg-[#FF5500] text-black border-[#FF5500] shadow-[0_0_14px_rgba(255,85,0,0.35)]'
+                                  : 'bg-white/[0.04] text-slate-300 border-white/10 hover:border-white/20 active:bg-white/[0.08]'
+                              }`}
+                            >
+                              <div className="text-xs font-bold">{slot.label}</div>
+                              <div className={`text-[10px] ${isSelected ? 'text-black/80 font-bold' : 'text-slate-400'}`}>
+                                {slot.time}
+                              </div>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    {/* Control 03: Contact Details (Clean Large Inputs - 16px on mobile prevents zoom) */}
+                    <div className="space-y-3 pt-1">
+                      <label className="text-xs font-mono font-bold uppercase tracking-wider text-slate-300 block">
+                        03 • YOUR CONTACT DETAILS
+                      </label>
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        <div className="space-y-1">
+                          <input
+                            type="text"
+                            required
+                            autoComplete="name"
+                            placeholder="Your full name *"
+                            value={initiationData.name}
+                            onChange={(e) => {
+                              setFormError('');
+                              setInitiationData({ ...initiationData, name: e.target.value });
+                            }}
+                            className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-3.5 py-3 text-base sm:text-xs font-mono text-white placeholder:text-slate-500 focus:outline-none focus:border-[#FF5500] transition-colors min-h-[46px]"
+                          />
+                        </div>
+
+                        <div className="space-y-1">
+                          <input
+                            type="tel"
+                            inputMode="tel"
+                            autoComplete="tel"
+                            required
+                            placeholder="Phone or WhatsApp *"
+                            value={initiationData.phone}
+                            onChange={(e) => {
+                              setFormError('');
+                              setInitiationData({ ...initiationData, phone: e.target.value });
+                            }}
+                            className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-3.5 py-3 text-base sm:text-xs font-mono text-white placeholder:text-slate-500 focus:outline-none focus:border-[#FF5500] transition-colors min-h-[46px]"
+                          />
+                        </div>
+
+                        <div className="space-y-1">
+                          <input
+                            type="email"
+                            inputMode="email"
+                            autoComplete="email"
+                            autoCapitalize="none"
+                            autoCorrect="off"
+                            required
+                            placeholder="Email address *"
+                            value={initiationData.email}
+                            onChange={(e) => {
+                              setFormError('');
+                              setInitiationData({ ...initiationData, email: e.target.value });
+                            }}
+                            className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-3.5 py-3 text-base sm:text-xs font-mono text-white placeholder:text-slate-500 focus:outline-none focus:border-[#FF5500] transition-colors min-h-[46px]"
+                          />
+                        </div>
+                      </div>
+
+                      {/* Coach Preference Selector */}
+                      <div className="space-y-1 pt-1">
+                        <label className="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-400 block">
+                          CHOOSE YOUR PREFERRED COACH (OPTIONAL)
+                        </label>
+                        <select
+                          value={initiationData.faculty}
+                          onChange={(e) => setInitiationData({ ...initiationData, faculty: e.target.value })}
+                          className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-3.5 py-3 text-base sm:text-xs font-mono text-white focus:outline-none focus:border-[#FF5500] transition-colors min-h-[46px]"
+                        >
+                          <option className="bg-[#07080A]">ANY COACH (BEST MATCH)</option>
+                          <option className="bg-[#07080A]">ALEX MORGAN (Barbells &amp; Form)</option>
+                          <option className="bg-[#07080A]">SARAH LEE (Cardio &amp; Stamina)</option>
+                          <option className="bg-[#07080A]">MIKE JOHNSON (Muscle &amp; Nutrition)</option>
+                          <option className="bg-[#07080A]">EMMA DAVIS (Mobility &amp; Recovery)</option>
+                        </select>
+                      </div>
+
+                      {/* Optional Notes */}
+                      <div className="space-y-1">
+                        <textarea
+                          rows={2}
+                          placeholder="Tell us about your fitness goals or any past injuries (optional)..."
+                          value={initiationData.objective}
+                          onChange={(e) => setInitiationData({ ...initiationData, objective: e.target.value })}
+                          className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-3.5 py-2.5 text-base sm:text-xs font-mono text-white placeholder:text-slate-500 focus:outline-none focus:border-[#FF5500] transition-colors"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Inline Error Notice (No browser alerts) */}
+                    {formError && (
+                      <div className="p-3 rounded-xl bg-[#FF5500]/10 border border-[#FF5500]/30 text-xs font-mono font-bold text-[#FF5500] animate-in fade-in">
+                        {formError}
+                      </div>
+                    )}
+
+                    {/* Submit Action */}
+                    <div className="pt-2">
+                      <button
+                        type="submit"
+                        className="w-full py-4 rounded-full bg-[#FF5500] hover:bg-[#FF6A1A] text-black font-display font-black text-xs uppercase tracking-wider cursor-pointer inline-flex items-center justify-center gap-2 shadow-[0_0_24px_rgba(255,85,0,0.35)] transition-all min-h-[50px] active:scale-[0.98]"
+                      >
+                        <span>CONFIRM FACILITY WALKTHROUGH</span>
+                        <ArrowRight className="w-4 h-4 stroke-[2.5]" />
+                      </button>
+                    </div>
+
+                    <div className="text-[11px] font-sans text-slate-400 text-center">
+                      Zero sales pressure. Free 15-minute facility inspection with a coach.
+                    </div>
+                  </form>
+                )}
               </div>
 
             </div>

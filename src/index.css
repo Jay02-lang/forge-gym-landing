@@ -1,23 +1,25 @@
 @import "tailwindcss";
 
 @theme {
-  --color-frost-bg: #F8FAFC;
-  --color-frost-surface: #F1F5F9;
-  --color-frost-card: #FFFFFF;
-  --color-frost-border: #E2E8F0;
-  
-  --color-frost-lavender: #BFC9E2;
-  --color-frost-ice: #CADDEE;
-  --color-frost-blue: #ABCAE6;
-  
-  --color-slate-dark: #0F172A;
-  --color-slate-body: #334155;
-  --color-slate-muted: #64748B;
-  --color-slate-accent: #1E293B;
+  --color-canvas: #07080A;
+  --color-canvas-subtle: #0C0C0E;
+  --color-surface: #121214;
+  --color-surface-hover: #18181B;
+  --color-surface-card: #111113;
+  --color-border-subtle: rgba(255, 255, 255, 0.07);
+  --color-border-medium: rgba(255, 255, 255, 0.14);
+  --color-border-focus: rgba(255, 255, 255, 0.35);
 
+  --color-text-primary: #F8FAFC;
+  --color-text-secondary: #94A3B8;
+  --color-text-muted: #64748B;
+  
+  --color-accent: #FF5500;
+  --color-accent-hover: #FF6A1A;
+  
   --font-display: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-  --font-mono: 'Teko', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
 * {
@@ -26,298 +28,287 @@
 
 html {
   scroll-behavior: smooth;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  background-color: #07080A;
+  color: #F8FAFC;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
   font-family: var(--font-sans);
-  background-color: #F8FAFC;
-  color: #0F172A;
+  background-color: #07080A;
+  color: #F8FAFC;
   overflow-x: hidden;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Option 3 Frost Palette Gradients */
-.bg-frost-palette {
-  background: linear-gradient(135deg, #bfc9e2 0%, #d5dcf2 25%, #caddee 60%, #abcae6 100%);
+/* Mobile & Tablet Input Standards: Never allow iOS auto-zoom below 16px */
+@media (pointer: coarse), (max-width: 768px) {
+  input, textarea, select {
+    font-size: 16px !important;
+  }
 }
 
-/* Reverted Crisp Frost Blue Slate Background (#F8FAFC) */
-.frost-page-bg {
-  background-color: #F8FAFC;
+/* Instantaneous touch manipulation & control text selection protection */
+button, a, [role="button"], input, select, textarea {
+  touch-action: manipulation;
+}
+
+button, a, [role="button"], .tab, .chip, .drag-handle {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+/* Safe Area Inset Helpers for Notches, Dynamic Islands & Home Indicators */
+.pt-safe {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+.pl-safe {
+  padding-left: env(safe-area-inset-left, 0px);
+}
+.pr-safe {
+  padding-right: env(safe-area-inset-right, 0px);
+}
+
+/* Mobile Horizontal Scroll Utilities */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Atmospheric Obsidian & Matte Iron Substrate */
+.dark-page-bg {
+  background-color: #07080A;
   background-image: 
-    linear-gradient(to bottom, #F8FAFC 0%, #F1F5F9 50%, #E2E8F0 100%);
-  background-size: 100% 100%;
+    radial-gradient(at 100% 0%, rgba(255, 85, 0, 0.025) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, rgba(255, 255, 255, 0.015) 0px, transparent 50%),
+    linear-gradient(to bottom, #07080A 0%, #090A0D 50%, #07080A 100%);
+  background-attachment: fixed;
 }
 
-/* Light Frost Cards with Dark Font Contrast */
-.frost-card {
-  background: rgba(255, 255, 255, 0.92);
+/* Tactile Cast Iron / Matte Powder-Coat Grain */
+.cast-iron-grain {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 35;
+  opacity: 0.026;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  mix-blend-mode: screen;
+}
+
+/* Luxury Obsidian Surface Card */
+.frost-card,
+.dark-card {
+  background: rgba(18, 18, 20, 0.95);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(226, 232, 240, 0.95);
-  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04), 0 2px 6px -1px rgba(15, 23, 42, 0.02);
-  color: #0F172A;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 24px -2px rgba(0, 0, 0, 0.5), 0 1px 2px rgba(0, 0, 0, 0.3);
+  color: #F8FAFC;
 }
 
-.frost-card-hover {
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.frost-card-hover:hover {
-  background: #FFFFFF;
-  border-color: #CBD5E1;
-  box-shadow: 0 14px 35px -4px rgba(15, 23, 42, 0.08), 0 4px 10px -2px rgba(15, 23, 42, 0.04);
-  transform: translateY(-2px);
+.frost-card-hover,
+.dark-card-hover {
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* FILM COVERING OVER ALL IMAGES — stripped, hero blur handled by hero-blur-panel */
-.film-overlay-light {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
+@media (hover: hover) and (pointer: fine) {
+  .frost-card-hover:hover,
+  .dark-card-hover:hover {
+    background: rgba(24, 24, 27, 0.98);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 16px 36px -4px rgba(0, 0, 0, 0.7), 0 4px 12px -2px rgba(0, 0, 0, 0.5);
+    transform: translateY(-2px);
+  }
 }
 
+/* Subtle Film Grain Texture */
 .film-grain {
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.06'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E");
 }
 
-/* Sports Hero Diagonal Frost Stripe & Cutout Shadow */
-.diagonal-stripe-frost {
-  position: absolute;
-  width: 280px;
-  height: 280%;
-  top: -85%;
-  left: 38%;
-  transform: rotate(38deg);
-  background: linear-gradient(135deg, #caddee 0%, #bfc9e2 45%, #abcae6 100%);
-  opacity: 0.92;
-  pointer-events: none;
-  box-shadow: 0 0 70px rgba(171, 202, 230, 0.45);
-}
-
-.diagonal-stripe-frost-flipped {
-  position: absolute;
-  width: 280px;
-  height: 280%;
-  top: -85%;
-  left: 18%;
-  transform: rotate(-38deg);
-  background: linear-gradient(135deg, #caddee 0%, #bfc9e2 45%, #abcae6 100%);
-  opacity: 0.92;
-  pointer-events: none;
-  box-shadow: 0 0 70px rgba(171, 202, 230, 0.45);
-}
-
-@media (max-width: 1024px) {
-  .diagonal-stripe-frost {
-    width: 220px;
-    opacity: 0.65;
-  }
-  .diagonal-stripe-frost-flipped {
-    width: 220px;
-    opacity: 0.65;
-  }
-}
-
-@media (max-width: 640px) {
-  .diagonal-stripe-frost {
-    width: 150px;
-    left: 45%;
-    opacity: 0.45;
-  }
-  .diagonal-stripe-frost-flipped {
-    width: 150px;
-    left: 10%;
-    opacity: 0.45;
-  }
-}
-
-.athlete-cutout-shadow {
-  filter: drop-shadow(0 20px 35px rgba(15, 23, 42, 0.22));
-}
-
-/* Hero left blur panel — frosted left half, right half stays completely clear */
-.hero-blur-panel {
-  position: absolute;
-  top: 0; bottom: 0; left: 0;
-  width: 52%;
-  backdrop-filter: blur(16px) brightness(1.8);
-  -webkit-backdrop-filter: blur(16px) brightness(1.8);
-  background: rgba(248, 250, 252, 0.35);
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* ── SPLIT HEADLINE ─────────────────────────────────────────────────────────
-   Both text copies sized to 100% of the hero card width.
-   Each is inside an overflow:hidden container clipped to its half.
-   Split = 52% left / 48% right. No clip-path on text — no letter artifacts.
-
-   Left h1:  width = 100/52 * 100% = 192.3% of its container
-   Right h1: left  = -(52/48)*100% = -108.33% of its container
-             width = 100/48 * 100% = 208.33% of its container
-────────────────────────────────────────────────────────────────────────── */
-.hl-stage {
-  position: relative;
-  word-break: break-word;
-}
-.hl-spacer {
-  visibility: hidden;
-  pointer-events: none;
-  display: block;
-  white-space: nowrap;
-}
-.hl-region-left {
-  position: absolute;
-  top: 0; left: 0;
-  width: 52%;
-  height: 100%;
-  overflow: hidden;
-}
-.hl-region-left .hl-inner {
-  position: absolute;
-  top: 0; left: 0;
-  width: 192.3%;
-  white-space: nowrap;
-  /* Image punched through letterforms */
-  background-size: cover;
-  background-position: center 30%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  filter: brightness(1.5) saturate(1.1) contrast(1.15);
-}
-.hl-region-right {
-  position: absolute;
-  top: 0; left: 52%; right: 0;
-  height: 100%;
-  overflow: hidden;
-}
-.hl-region-right .hl-inner {
-  position: absolute;
-  top: 0;
-  left: -108.33%;
-  width: 208.33%;
-  white-space: nowrap;
-  color: #ffffff;
-}
-
-/* Mobile viewport adjustments for split headline */
-@media (max-width: 640px) {
-  .hero-blur-panel {
-    width: 60%;
-  }
-  .hl-region-left {
-    width: 60%;
-  }
-  .hl-region-left .hl-inner {
-    width: 166.67%;
-  }
-  .hl-region-right {
-    left: 60%;
-  }
-  .hl-region-right .hl-inner {
-    left: -150%;
-    width: 250%;
-  }
-}
-
-/* Seamless silhouette blend for centered hero athletes */
-.seamless-blend {
-  -webkit-mask-image: radial-gradient(ellipse 75% 80% at 50% 40%, black 55%, transparent 95%),
-                      linear-gradient(to top, transparent 0%, black 20%);
-  -webkit-mask-composite: source-in;
-  mask-image: radial-gradient(ellipse 75% 80% at 50% 40%, black 55%, transparent 95%),
-              linear-gradient(to top, transparent 0%, black 20%);
-  mask-composite: intersect;
-}
-
-/* High-Contrast Pill & Universal Buttons (User Directive: Black default, hover up, clicked white with black text) */
+/* High-Contrast Focal Action Buttons */
 .dark-pill-btn,
 .action-btn,
-.pill-btn-black {
-  background-color: #0F172A;
-  color: #FFFFFF;
-  border: 1px solid #0F172A;
+.pill-btn-primary {
+  background-color: #F8FAFC;
+  color: #07080A;
+  border: 1px solid #F8FAFC;
   border-radius: 9999px;
   font-weight: 800;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.2);
+  box-shadow: 0 2px 10px rgba(248, 250, 252, 0.15);
 }
 
-.dark-pill-btn:hover,
-.action-btn:hover,
-.pill-btn-black:hover {
-  background-color: #000000;
-  color: #FFFFFF;
-  box-shadow: 0 10px 25px -4px rgba(15, 23, 42, 0.35);
-  transform: translateY(-3px);
+@media (hover: hover) and (pointer: fine) {
+  .dark-pill-btn:hover,
+  .action-btn:hover,
+  .pill-btn-primary:hover {
+    background-color: #FFFFFF;
+    color: #000000;
+    box-shadow: 0 8px 24px -2px rgba(255, 255, 255, 0.25);
+    transform: translateY(-2px);
+  }
 }
 
 .dark-pill-btn:active,
 .action-btn:active,
-.pill-btn-black:active,
-.btn-clicked-white {
-  background-color: #FFFFFF !important;
-  color: #0F172A !important;
-  border: 1px solid #0F172A !important;
+.pill-btn-primary:active {
+  background-color: #07080A !important;
+  color: #F8FAFC !important;
+  border-color: rgba(255, 255, 255, 0.4) !important;
   transform: translateY(0px) scale(0.98);
-  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.15) !important;
 }
 
-.light-pill-btn {
-  background-color: #0F172A;
-  color: #FFFFFF;
-  border: 1px solid #0F172A;
+.light-pill-btn,
+.pill-btn-secondary {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #F8FAFC;
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 9999px;
-  font-weight: 800;
+  font-weight: 700;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.2);
 }
-.light-pill-btn:hover {
-  background-color: #000000;
-  color: #FFFFFF;
-  border-color: #000000;
-  transform: translateY(-3px);
-  box-shadow: 0 10px 25px -4px rgba(15, 23, 42, 0.35);
+
+@media (hover: hover) and (pointer: fine) {
+  .light-pill-btn:hover,
+  .pill-btn-secondary:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.35);
+    color: #FFFFFF;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+  }
 }
-.light-pill-btn:active {
-  background-color: #FFFFFF !important;
-  color: #0F172A !important;
-  border: 1px solid #0F172A !important;
+
+.light-pill-btn:active,
+.pill-btn-secondary:active {
+  background-color: #F8FAFC !important;
+  color: #07080A !important;
+  border-color: #F8FAFC !important;
   transform: translateY(0px) scale(0.98);
-  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.15) !important;
 }
 
-/* Comparison Slider */
-.comparison-slider::-webkit-slider-thumb {
-  appearance: none;
-  width: 32px;
-  height: 32px;
-  background-color: #0F172A;
-  cursor: ew-resize;
-  border: 2px solid #FFFFFF;
-  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.3);
-  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-}
-
-/* Clean Slate Scrollbar */
+/* Precision Obsidian Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #F1F5F9;
+  background: #07080A;
 }
 ::-webkit-scrollbar-thumb {
-  background: #CBD5E1;
+  background: #1E293B;
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #94A3B8;
+  background: #334155;
 }
 
+/* Industrial Swiss Ticker & Typography Effects */
+@keyframes ticker {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-ticker {
+  display: flex;
+  width: max-content;
+  animation: ticker 32s linear infinite;
+  will-change: transform;
+}
+
+.animate-ticker:hover {
+  animation-play-state: paused;
+}
+
+.text-stroke-white {
+  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.4);
+  color: transparent;
+}
+
+.text-stroke-subtle {
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.2);
+  color: transparent;
+}
+
+/* Fluid Monumental Typography Clamps (Hero Mastery) */
+.hero-monument-title {
+  font-size: clamp(2.1rem, 7.2vw, 7.5rem);
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+  font-weight: 900;
+  text-transform: uppercase;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+@media (min-width: 640px) {
+  .hero-monument-title {
+    font-size: clamp(2.75rem, 7.2vw, 7.5rem);
+    line-height: 0.88;
+    letter-spacing: -0.045em;
+  }
+}
+
+.hero-monument-sub {
+  font-size: clamp(1.15rem, 3vw, 3rem);
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.hero-editorial-lead {
+  font-size: clamp(0.95rem, 1.4vw, 1.25rem);
+  line-height: 1.6;
+}
+
+/* Swiss Architectural Wireframe Dividers */
+.swiss-rule {
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.swiss-crosshair {
+  position: relative;
+}
+.swiss-crosshair::before {
+  content: "+";
+  position: absolute;
+  top: -7px;
+  left: -4px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.3);
+  pointer-events: none;
+}
+
+/* Reduced Motion Safeguard */
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {
     scroll-behavior: auto !important;
     transition-duration: 0.001ms !important;
     animation-duration: 0.001ms !important;
+  }
+  .animate-ticker {
+    animation: none !important;
   }
 }
